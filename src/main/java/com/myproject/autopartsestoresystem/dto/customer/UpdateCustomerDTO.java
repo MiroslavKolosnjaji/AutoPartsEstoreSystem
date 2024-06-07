@@ -11,9 +11,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateCustomerDTO {
+public class UpdateCustomerDTO{
 
-    @Null
+    @NotNull
     private Long id;
 
     @NotNull
@@ -40,5 +40,4 @@ public class CreateCustomerDTO {
 
     @NotNull(message = "City cannot be null")
     private City city;
-
 }

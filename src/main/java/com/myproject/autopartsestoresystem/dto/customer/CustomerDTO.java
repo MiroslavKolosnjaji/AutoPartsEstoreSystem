@@ -1,6 +1,6 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.dto.customer;
 
-import jakarta.persistence.*;
+import com.myproject.autopartsestoresystem.model.City;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,25 +13,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "customer")
-public class Customer {
+public class CustomerDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id")
     private Long id;
-
     private String firstName;
     private String lastName;
     private String address;
     private String email;
     private String phone;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "city_id")
     private City city;
-
-
-
 }

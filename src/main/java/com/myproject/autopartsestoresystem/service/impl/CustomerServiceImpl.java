@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -63,16 +64,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO getCustomer(Long id){
+    public Optional<CustomerDTO> getCustomer(Long id){
         Customer customer = customerRepository.findById(id).orElseThrow(CustomerDoesntExistsException::new);
-        return customerMapper.customerToCustomerDTO(customer);
+        return Optional.of(customerMapper.customerToCustomerDTO(customer));
     }
 
     @Override
     public void deleteCustomer(Long id){
 
         if(!customerRepository.existsById(id))
-            throw new CustomerDoesntExistsException();
+            throw new CustomerDoesntExistsException("Invalid Customer ID");
 
 
         customerRepository.deleteById(id);

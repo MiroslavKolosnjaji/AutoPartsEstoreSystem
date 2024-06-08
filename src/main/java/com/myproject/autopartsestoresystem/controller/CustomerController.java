@@ -4,6 +4,7 @@ import com.myproject.autopartsestoresystem.dto.customer.CreateCustomerDTO;
 
 import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
 import com.myproject.autopartsestoresystem.dto.customer.UpdateCustomerDTO;
+import com.myproject.autopartsestoresystem.model.Customer;
 import com.myproject.autopartsestoresystem.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Miroslav Kološnjaji
@@ -46,13 +48,25 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<CustomerDTO> getAllCustomers() {
-        return customerService.getCustomers();
+    public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
+
+        List<CustomerDTO> customers = customerService.getCustomers();
+
+        if(customers.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        return ResponseEntity.ok(customers);
+
     }
 
     @GetMapping(CUSTOMER_ID)
-    public CustomerDTO getCustomerById(@PathVariable("customer_id") Long customerId) {
-        return customerService.getCustomer(customerId);
+    public ResponseEntity<Optional<CustomerDTO>> getCustomerById(@PathVariable("customer_id") Long customerId) {
+        Optional<CustomerDTO> customerDTO = customerService.getCustomer(customerId);
+
+        if(customerDTO.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return ResponseEntity.ok(customerDTO);
     }
 
     @DeleteMapping(CUSTOMER_ID)

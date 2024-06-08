@@ -4,7 +4,6 @@ import com.myproject.autopartsestoresystem.dto.customer.CreateCustomerDTO;
 
 import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
 import com.myproject.autopartsestoresystem.dto.customer.UpdateCustomerDTO;
-import com.myproject.autopartsestoresystem.model.Customer;
 import com.myproject.autopartsestoresystem.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -20,11 +19,13 @@ import java.util.Optional;
  * @author Miroslav Kološnjaji
  */
 @RestController
-@RequestMapping("api/customer")
+@RequestMapping("/api/customer")
 @RequiredArgsConstructor
 public class CustomerController {
 
+    public static final String CUSTOMER_URI = "/api/customer";
     public static final String CUSTOMER_ID = "/{customer_id}";
+    public static final String CUSTOMER_URI_WITH_ID = CUSTOMER_URI + CUSTOMER_ID;
 
     private final CustomerService customerService;
 
@@ -34,7 +35,7 @@ public class CustomerController {
         CreateCustomerDTO saved = customerService.saveCustomer(createCustomerDTO);
 
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Location", "/customer/" + saved.getId());
+        responseHeaders.add("Location", CUSTOMER_URI + "/" + saved.getId());
 
         return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
     }
@@ -47,7 +48,7 @@ public class CustomerController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
 
         List<CustomerDTO> customers = customerService.getCustomers();

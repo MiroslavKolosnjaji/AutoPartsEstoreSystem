@@ -22,6 +22,15 @@ jobs:
           key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
           paths:
             - ~/.m2/repository
+      - run:
+          name: Install Codecov
+          command: curl -s https://codecov.io/bash > codecov
+      - run:
+           name: Upload coverage to Codecov
+           command: bash codecov
+     - store_artifacts:
+           path: target/site/jacoco
+           destination: coverage-report
   deploy:
     # This is an example deploy job, not actually used by the workflow
     docker:

@@ -35,6 +35,14 @@ jobs:
             fi
       - run:
           name: Check Codecov token
+          command: |
+            if [ -z "$CODECOV_TOKEN" ]; then
+              echo "CODECOV_TOKEN is not set!"
+              exit 1
+            fi
+            echo "CODECOV_TOKEN is set"      
+      - run:
+          name: Check Codecov token
           command: echo $CODECOV_TOKEN
       - codecov/upload:
            file: target/site/jacoco/jacoco.xml

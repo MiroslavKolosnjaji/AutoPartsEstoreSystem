@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.dto.customer.CreateCustomerDTO;
+import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
 import com.myproject.autopartsestoresystem.model.City;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,23 +33,23 @@ class CustomerControllerIT {
     @Order(3)
     void testCreateCustomer_whenValidDetailsProvided_returns201StatusCode() throws Exception {
 
-        CreateCustomerDTO createCustomerDTO = getTestCustomerDTO();
+        CustomerDTO customerDTO = getTestCustomerDTO();
 
 
         mockMvc.perform(post(CustomerController.CUSTOMER_URI)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(createCustomerDTO)))
+                        .content(objectMapper.writeValueAsString(customerDTO)))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", CustomerController.CUSTOMER_URI + "/4"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.firstName").value(createCustomerDTO.getFirstName()))
-                .andExpect(jsonPath("$.lastName").value(createCustomerDTO.getLastName()))
-                .andExpect(jsonPath("$.address").value(createCustomerDTO.getAddress()))
-                .andExpect(jsonPath("$.email").value(createCustomerDTO.getEmail()))
-                .andExpect(jsonPath("$.phone").value(createCustomerDTO.getPhone()))
-                .andExpect(jsonPath("$.city.id").value(createCustomerDTO.getCity().getId()))
-                .andExpect(jsonPath("$.city.name").value(createCustomerDTO.getCity().getName()))
-                .andExpect(jsonPath("$.city.zipCode").value(createCustomerDTO.getCity().getZipCode()));
+                .andExpect(jsonPath("$.firstName").value(customerDTO.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(customerDTO.getLastName()))
+                .andExpect(jsonPath("$.address").value(customerDTO.getAddress()))
+                .andExpect(jsonPath("$.email").value(customerDTO.getEmail()))
+                .andExpect(jsonPath("$.phone").value(customerDTO.getPhone()))
+                .andExpect(jsonPath("$.city.id").value(customerDTO.getCity().getId()))
+                .andExpect(jsonPath("$.city.name").value(customerDTO.getCity().getName()))
+                .andExpect(jsonPath("$.city.zipCode").value(customerDTO.getCity().getZipCode()));
 
     }
 
@@ -57,12 +57,12 @@ class CustomerControllerIT {
     @Test
     @Order(99)
     void testCreateCustomer_whenInvalidDetailsProvided_returns400StatusCode() throws Exception {
-        CreateCustomerDTO createCustomerDTO = getTestCustomerDTO();
-        createCustomerDTO.setAddress("");
+        CustomerDTO customerDTO = getTestCustomerDTO();
+        customerDTO.setAddress("");
 
         mockMvc.perform(post(CustomerController.CUSTOMER_URI)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(createCustomerDTO)))
+                        .content(objectMapper.writeValueAsString(customerDTO)))
                 .andExpect(status().isBadRequest());
 
     }
@@ -71,13 +71,20 @@ class CustomerControllerIT {
     @Test
     @Order(4)
     void testUpdateCustomer_whenValidDetailsProvided_returns204StatusCode() throws Exception {
-        CreateCustomerDTO createCustomerDTO = getTestCustomerDTO();
-        createCustomerDTO.setId(4L);
-        createCustomerDTO.setAddress("1019 Thunder Road");
+        CustomerDTO customerDTO = CustomerDTO.builder()
+                .id(4L)
+                .firstName("John")
+                .lastName("Doe")
+                .address("1019 Thunder Road")
+                .email("john@doe.com")
+                .phone("+381324123565")
+                .city(new City(1L, "Palo Alto", "94306"))
+                .build();
 
-        mockMvc.perform(put(CustomerController.CUSTOMER_URI_WITH_ID, createCustomerDTO.getId())
+
+        mockMvc.perform(put(CustomerController.CUSTOMER_URI_WITH_ID, customerDTO.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(createCustomerDTO)))
+                        .content(objectMapper.writeValueAsString(customerDTO)))
                 .andExpect(status().isNoContent());
     }
 
@@ -130,8 +137,8 @@ class CustomerControllerIT {
                 .andExpect(status().isNotFound());
     }
 
-    private CreateCustomerDTO getTestCustomerDTO() {
-        return   CreateCustomerDTO.builder()
+    private CustomerDTO getTestCustomerDTO() {
+        return   CustomerDTO.builder()
                 .firstName("John")
                 .lastName("Doe")
                 .address("1017 Thunder Road")

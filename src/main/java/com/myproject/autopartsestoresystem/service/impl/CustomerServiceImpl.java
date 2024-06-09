@@ -1,8 +1,6 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
-import com.myproject.autopartsestoresystem.dto.customer.CreateCustomerDTO;
 import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
-import com.myproject.autopartsestoresystem.dto.customer.UpdateCustomerDTO;
 import com.myproject.autopartsestoresystem.exception.CustomerDoesntExistsException;
 import com.myproject.autopartsestoresystem.exception.EmailAddressAlreadyExistsException;
 import com.myproject.autopartsestoresystem.mapper.CustomerMapper;
@@ -28,31 +26,32 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public CreateCustomerDTO saveCustomer(CreateCustomerDTO createCustomerDTO) {
+    public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
 
-        if (customerRepository.findByEmail(createCustomerDTO.getEmail()).isPresent())
+        if (customerRepository.findByEmail(customerDTO.getEmail()).isPresent())
             throw new EmailAddressAlreadyExistsException();
 
-        Customer saved = customerRepository.save(customerMapper.createCustomerDTOToCustomer(createCustomerDTO));
+        Customer saved = customerRepository.save(customerMapper.customerDTOToCustomer(customerDTO));
+        System.out.println("SAVED ID: " + saved.getId());
 
-        return customerMapper.customerToCreateCustomerDTO(saved);
+        return customerMapper.customerToCustomerDTO(saved);
     }
 
     @Override
-    public UpdateCustomerDTO updateCustomer(Long customer_id, UpdateCustomerDTO updateCustomerDTO) {
+    public CustomerDTO updateCustomer(Long customer_id, CustomerDTO customerDTO) {
         Customer customer = customerRepository.findById(customer_id)
                 .orElseThrow(CustomerDoesntExistsException::new);
 
-        customer.setFirstName(updateCustomerDTO.getFirstName());
-        customer.setLastName(updateCustomerDTO.getLastName());
-        customer.setAddress(updateCustomerDTO.getAddress());
-        customer.setEmail(updateCustomerDTO.getEmail());
-        customer.setPhone(updateCustomerDTO.getPhone());
-        customer.setCity(updateCustomerDTO.getCity());
+        customer.setFirstName(customerDTO.getFirstName());
+        customer.setLastName(customerDTO.getLastName());
+        customer.setAddress(customerDTO.getAddress());
+        customer.setEmail(customerDTO.getEmail());
+        customer.setPhone(customerDTO.getPhone());
+        customer.setCity(customerDTO.getCity());
 
         customerRepository.save(customer);
 
-        return customerMapper.customerToUpdateCustomerDTO(customer);
+        return customerMapper.customerToCustomerDTO(customer);
 
     }
 

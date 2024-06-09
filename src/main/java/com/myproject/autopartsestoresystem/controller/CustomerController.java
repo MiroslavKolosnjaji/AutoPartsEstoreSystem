@@ -1,9 +1,6 @@
 package com.myproject.autopartsestoresystem.controller;
 
-import com.myproject.autopartsestoresystem.dto.customer.CreateCustomerDTO;
-
 import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
-import com.myproject.autopartsestoresystem.dto.customer.UpdateCustomerDTO;
 import com.myproject.autopartsestoresystem.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -30,9 +27,9 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping()
-    public ResponseEntity<CreateCustomerDTO> createCustomer(@Validated @RequestBody CreateCustomerDTO createCustomerDTO) {
+    public ResponseEntity<CustomerDTO> createCustomer(@Validated @RequestBody CustomerDTO customerDTO) {
 
-        CreateCustomerDTO saved = customerService.saveCustomer(createCustomerDTO);
+        CustomerDTO saved = customerService.saveCustomer(customerDTO);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add("Location", CUSTOMER_URI + "/" + saved.getId());
@@ -41,7 +38,7 @@ public class CustomerController {
     }
 
     @PutMapping(CUSTOMER_ID)
-    public ResponseEntity<Void> updateCustomer(@PathVariable("customer_id") Long customerId, @Validated @RequestBody UpdateCustomerDTO updateCustomerDTO) {
+    public ResponseEntity<Void> updateCustomer(@PathVariable("customer_id") Long customerId, @Validated @RequestBody CustomerDTO updateCustomerDTO) {
 
         customerService.updateCustomer(customerId, updateCustomerDTO);
 

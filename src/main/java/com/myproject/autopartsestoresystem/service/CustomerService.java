@@ -1,8 +1,6 @@
 package com.myproject.autopartsestoresystem.service;
 
-import com.myproject.autopartsestoresystem.dto.customer.CreateCustomerDTO;
 import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
-import com.myproject.autopartsestoresystem.dto.customer.UpdateCustomerDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,8 +10,8 @@ import java.util.Optional;
  */
 public interface CustomerService {
 
-    CreateCustomerDTO saveCustomer(CreateCustomerDTO createCustomerDTO);
-    UpdateCustomerDTO updateCustomer(Long customerId, UpdateCustomerDTO updateCustomerDTO);
+    CustomerDTO saveCustomer(CustomerDTO customerDTO);
+    CustomerDTO updateCustomer(Long customerId, CustomerDTO customerDTO);
     List<CustomerDTO> getCustomers();
     Optional<CustomerDTO> getCustomer(Long id);
     void deleteCustomer(Long id);

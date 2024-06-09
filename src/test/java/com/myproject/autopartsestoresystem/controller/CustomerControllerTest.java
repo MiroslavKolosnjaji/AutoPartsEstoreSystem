@@ -1,9 +1,7 @@
 package com.myproject.autopartsestoresystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.dto.customer.CreateCustomerDTO;
 import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
-import com.myproject.autopartsestoresystem.dto.customer.UpdateCustomerDTO;
 import com.myproject.autopartsestoresystem.exception.CustomerDoesntExistsException;
 import com.myproject.autopartsestoresystem.model.City;
 import com.myproject.autopartsestoresystem.service.CustomerService;
@@ -41,9 +39,9 @@ class CustomerControllerTest {
 
     ObjectMapper objectMapper;
 
-    CreateCustomerDTO createCustomerDTO;
+    CustomerDTO customerDTOExpected;
 
-    UpdateCustomerDTO updateCustomerDTO;
+    CustomerDTO customerDTO;
 
     @BeforeEach
     void setUp() {
@@ -51,7 +49,7 @@ class CustomerControllerTest {
         objectMapper = new ObjectMapper();
 
 
-        createCustomerDTO = CreateCustomerDTO.builder()
+        customerDTO = CustomerDTO.builder()
                 .firstName("John")
                 .lastName("Doe")
                 .address("1017 Thunder Road")
@@ -60,7 +58,7 @@ class CustomerControllerTest {
                 .city(new City(1L, "Palo Alto", "94306"))
                 .build();
 
-        updateCustomerDTO = UpdateCustomerDTO.builder()
+        customerDTOExpected = CustomerDTO.builder()
                 .firstName("John")
                 .lastName("Doe")
                 .address("1017 Thunder Road")
@@ -75,30 +73,28 @@ class CustomerControllerTest {
     void testCreateCustomer_whenValidCustomerDetailsProvided_returnsCreatedCustomerDTO() throws Exception {
 
         // given
-        when(customerService.saveCustomer(any(CreateCustomerDTO.class))).thenReturn(createCustomerDTO);
+        when(customerService.saveCustomer(any(CustomerDTO.class))).thenReturn(customerDTO);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/customer")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createCustomerDTO));
+                .content(objectMapper.writeValueAsString(customerDTO));
 
         //when
-
-
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         String response = result.getResponse().getContentAsString();
-        CreateCustomerDTO savedDTO = objectMapper.readValue(response, CreateCustomerDTO.class);
+        CustomerDTO savedDTO = objectMapper.readValue(response, CustomerDTO.class);
 
 
         assertAll("Saved Customer validation",
-                () -> assertEquals(createCustomerDTO.getFirstName(), savedDTO.getFirstName(), "First name doesn't match"),
-                () -> assertEquals(createCustomerDTO.getLastName(), savedDTO.getLastName(), "Last name doesn't match"),
-                () -> assertEquals(createCustomerDTO.getAddress(), savedDTO.getAddress(), "Address doesn't match"),
-                () -> assertEquals(createCustomerDTO.getEmail(), savedDTO.getEmail(), "Email address doesn't match"),
-                () -> assertEquals(createCustomerDTO.getPhone(), savedDTO.getPhone(), "Phone number doesn't match"),
-                () -> assertEquals(createCustomerDTO.getCity(), savedDTO.getCity(), "City doesn't match"));
+                () -> assertEquals(customerDTO.getFirstName(), savedDTO.getFirstName(), "First name doesn't match"),
+                () -> assertEquals(customerDTO.getLastName(), savedDTO.getLastName(), "Last name doesn't match"),
+                () -> assertEquals(customerDTO.getAddress(), savedDTO.getAddress(), "Address doesn't match"),
+                () -> assertEquals(customerDTO.getEmail(), savedDTO.getEmail(), "Email address doesn't match"),
+                () -> assertEquals(customerDTO.getPhone(), savedDTO.getPhone(), "Phone number doesn't match"),
+                () -> assertEquals(customerDTO.getCity(), savedDTO.getCity(), "City doesn't match"));
 
-        verify(customerService).saveCustomer(any(CreateCustomerDTO.class));
+        verify(customerService).saveCustomer(any(CustomerDTO.class));
 
 
     }
@@ -108,10 +104,10 @@ class CustomerControllerTest {
     void testCreateCustomer_whenFirstNameIsNotProvided_returns400StatusCode() throws Exception {
 
         //given
-        createCustomerDTO.setFirstName("");
+        customerDTO.setFirstName("");
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/customer")
-                .content(objectMapper.writeValueAsString(createCustomerDTO))
+                .content(objectMapper.writeValueAsString(customerDTO))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
 
@@ -127,21 +123,21 @@ class CustomerControllerTest {
     void testUpdateCustomer_whenValidCustomerDetailsProvided_returns204StatusCode() throws Exception {
 
         //given
-        updateCustomerDTO.setId(1L);
-        updateCustomerDTO.setAddress("1029 Thunder Road");
-        when(customerService.updateCustomer(any(Long.class), any(UpdateCustomerDTO.class))).thenReturn(updateCustomerDTO);
+        customerDTO.setId(1L);
+        customerDTO.setAddress("1029 Thunder Road");
+        when(customerService.updateCustomer(any(Long.class), any(CustomerDTO.class))).thenReturn(customerDTO);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/customer/{customer_id}", updateCustomerDTO.getId())
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/customer/{customer_id}", customerDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updateCustomerDTO));
+                .content(objectMapper.writeValueAsString(customerDTO));
 
         //when
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
         //then
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 204 expected");
-        verify(customerService).updateCustomer(any(Long.class), any(UpdateCustomerDTO.class));
+        verify(customerService).updateCustomer(any(Long.class), any(CustomerDTO.class));
 
     }
 
@@ -150,13 +146,13 @@ class CustomerControllerTest {
     void testUpdateCustomer_whenInvalidCustomerDetailsProvided_returns400StatusCode() throws Exception {
 
         //given
-        updateCustomerDTO.setId(1L);
-        updateCustomerDTO.setAddress("");
+        customerDTO.setId(1L);
+        customerDTO.setAddress("");
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/customer/{customer_id}", updateCustomerDTO.getId())
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/customer/{customer_id}", customerDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updateCustomerDTO));
+                .content(objectMapper.writeValueAsString(customerDTO));
 
         //when
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -205,7 +201,7 @@ class CustomerControllerTest {
         //when
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         String response = result.getResponse().getContentAsString();
-        CreateCustomerDTO getCustomer = objectMapper.readValue(response, CreateCustomerDTO.class);
+        CustomerDTO getCustomer = objectMapper.readValue(response, CustomerDTO.class);
 
 
         assertAll("Get Customer by id validation",

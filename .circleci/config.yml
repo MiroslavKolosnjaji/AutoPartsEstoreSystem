@@ -1,6 +1,10 @@
 # This config was automatically generated from your source code
 # Stacks detected: deps:java:.
 version: 2.1
+
+orbs:
+  codecov: codecov/codecov@4.0.1
+
 jobs:
   test-java:
     docker:
@@ -22,6 +26,15 @@ jobs:
           key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
           paths:
             - ~/.m2/repository
+      - run:
+          name: Check if Jacoco report exists
+          command: |
+            if [ ! -f target/site/jacoco.xml ]; then
+            echo "Jacoco report not found!"
+            exit 1
+            fi
+      - codecov/upload:
+           file: target/site/jacoco.xml
   deploy:
     # This is an example deploy job, not actually used by the workflow
     docker:

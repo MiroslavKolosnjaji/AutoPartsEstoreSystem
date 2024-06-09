@@ -6,7 +6,7 @@ orbs:
   codecov: codecov/codecov@4.0.1
 
 jobs:
-  test-java:
+  build:
     docker:
       - image: cimg/openjdk:17.0
     steps:
@@ -19,37 +19,18 @@ jobs:
       - restore_cache:
           key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
       - run:
-          command: mvn verify
+          name: Install dependencies
+          command: mvn install
+      - run:
+          name: Run tests and collect coverage
+          command: mvn -B test
+      - codecov/upload
       - store_test_results:
           path: target/surefire-reports
       - save_cache:
           key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
           paths:
             - ~/.m2/repository
-      - run:
-          name: Check if Jacoco report exists
-          command: |
-            if [ ! -f target/site/jacoco/jacoco.xml ]; then
-            echo "Jacoco report not found!"
-            exit 1
-            fi
-      - run:
-          name: Check Codecov token
-          command: |
-            if [ -z "$CODECOV_TOKEN" ]; then
-              echo "CODECOV_TOKEN is not set!"
-              exit 1
-            fi
-            echo "CODECOV_TOKEN is set"
-      - run:
-          name: Check Codecov token
-          command: echo $CODECOV_TOKEN
-      - run:
-          name: Upload coverage to Codecov
-          command: bash <(curl -s https://codecov.io/bash)
-      - codecov/upload:
-          file: target/site/jacoco/jacoco.xml
-          token: CODECOV_TOKEN
   deploy:
     # This is an example deploy job, not actually used by the workflow
     docker:
@@ -62,7 +43,7 @@ jobs:
 workflows:
   build-and-test:
     jobs:
-      - test-java
+      - build
     # - deploy:
     #     requires:
     #       - test-java

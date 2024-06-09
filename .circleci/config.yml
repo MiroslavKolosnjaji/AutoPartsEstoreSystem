@@ -46,6 +46,7 @@ jobs:
           command: echo $CODECOV_TOKEN
       - codecov/upload:
            file: target/site/jacoco/jacoco.xml
+           token: $CODECOV_TOKEN
       - run:
           name: Upload coverage to Codecov
           command: bash <(curl -s https://codecov.io/bash)

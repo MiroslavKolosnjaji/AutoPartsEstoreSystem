@@ -40,12 +40,15 @@ jobs:
               echo "CODECOV_TOKEN is not set!"
               exit 1
             fi
-            echo "CODECOV_TOKEN is set"      
+            echo "CODECOV_TOKEN is set"
       - run:
           name: Check Codecov token
           command: echo $CODECOV_TOKEN
       - codecov/upload:
            file: target/site/jacoco/jacoco.xml
+      -run:
+        - name: Upload coverage to Codecov
+        - command: bash <(curl -s https://codecov.io/bash)
   deploy:
     # This is an example deploy job, not actually used by the workflow
     docker:

@@ -34,7 +34,7 @@ jobs:
             exit 1
             fi
       - codecov/upload:
-           file: target/site/jacoco.xml
+           file: target/site/jacoco/jacoco.xml
   deploy:
     # This is an example deploy job, not actually used by the workflow
     docker:

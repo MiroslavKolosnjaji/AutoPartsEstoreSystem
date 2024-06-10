@@ -22,8 +22,10 @@ jobs:
           name: Install dependencies
           command: mvn install
       - run:
-          name: Run tests and collect coverage
-          command: mvn -B test
+          name: Run tests and generate coverage report
+          command: |
+            mvn -B test
+            mvn jacoco:report
       - codecov/upload
       - store_test_results:
           path: target/surefire-reports

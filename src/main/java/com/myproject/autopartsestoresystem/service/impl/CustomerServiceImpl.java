@@ -32,7 +32,6 @@ public class CustomerServiceImpl implements CustomerService {
             throw new EmailAddressAlreadyExistsException();
 
         Customer saved = customerRepository.save(customerMapper.customerDTOToCustomer(customerDTO));
-        System.out.println("SAVED ID: " + saved.getId());
 
         return customerMapper.customerToCustomerDTO(saved);
     }

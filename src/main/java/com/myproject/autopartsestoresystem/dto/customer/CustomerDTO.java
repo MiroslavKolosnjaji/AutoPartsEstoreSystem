@@ -21,25 +21,22 @@ public class CustomerDTO {
     @NotNull(groups = Update.class)
     private Long id;
 
-    @NotNull
+    @NotNull(message = "First name cannot be null")
     @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters")
     private String firstName;
 
-    @NotNull
+    @NotNull(message = "Last name cannot be null")
     @Size(min = 2, message = "Last name must have minimum 2 characters")
     private String lastName;
 
-    @NotNull(message = "Address cannot be null")
     @NotBlank(message = "Address cannot be blank")
     private String address;
 
-    @NotNull(message = "Email cannot be null")
     @NotBlank(message = "Email cannot be blank")
     @Email(message = "Invalid email format")
     private String email;
 
     @NotNull(message = "Phone number cannot be null")
-    @NotBlank(message = "Phone number cannot be blank")
     @Pattern(regexp = "\\+?[0-9]+", message = "Invalid phone number format")
     private String phone;
 

@@ -2,13 +2,10 @@ package com.myproject.autopartsestoresystem.service.impl;
 
 
 import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
-import com.myproject.autopartsestoresystem.exception.CustomerDoesntExistsException;
+import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.model.City;
-import com.myproject.autopartsestoresystem.model.Customer;
 import com.myproject.autopartsestoresystem.repository.CityRepository;
-import com.myproject.autopartsestoresystem.repository.CustomerRepository;
 import com.myproject.autopartsestoresystem.service.CustomerService;
-import lombok.Data;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -65,13 +62,13 @@ class CustomerServiceImplTestIT {
 
     @DisplayName("Save Customer With Valid Details")
     @Test
-    void testSaveCustomer_whenValidDetailsProvided() {
+    void testSave_whenValidDetailsProvided() {
 
         //given
 
 
         //when
-        CustomerDTO savedDTO = customerService.saveCustomer(customerDTO);
+        CustomerDTO savedDTO = customerService.save(customerDTO);
 
         //then
         assertNotNull(savedDTO);
@@ -87,14 +84,14 @@ class CustomerServiceImplTestIT {
 
     @DisplayName("Update Customer")
     @Test
-    void testUpdateCustomer_whenCustomerNameChanged_returnsUpdatedCustomer() {
+    void testUpdateCustomer_whenCustomerNameChanged_returnsUpdated() {
 
         //given
-        CustomerDTO savedDTO = customerService.saveCustomer(customerDTO);
+        CustomerDTO savedDTO = customerService.save(customerDTO);
         savedDTO.setFirstName("Matthew");
 
         //when
-        CustomerDTO updatedDTO = customerService.updateCustomer(savedDTO.getId(), savedDTO);
+        CustomerDTO updatedDTO = customerService.update(savedDTO.getId(), savedDTO);
 
         //then
         assertNotNull(updatedDTO, "Updated Customer should not be null");
@@ -106,10 +103,10 @@ class CustomerServiceImplTestIT {
     void testGetAllCustomers_whenListIsNotEmpty_returnsTwoCustomers() {
 
         //given (there are already 3 customers saved because of bootstrap data)
-        customerService.saveCustomer(customerDTO);
+        customerService.save(customerDTO);
 
         //when
-        List<CustomerDTO> customers = customerService.getCustomers();
+        List<CustomerDTO> customers = customerService.getAll();
 
         //then
         assertNotNull(customers, "Customer list should not be null");
@@ -118,13 +115,13 @@ class CustomerServiceImplTestIT {
 
     @DisplayName("Get Customer")
     @Test
-    void testGetCustomer_whenValidIdProvided_returnsCustomer() {
+    void testGetCustomer_whenValidIdProvided_returnsById() {
 
         //given
-        CustomerDTO savedDTO = customerService.saveCustomer(customerDTO);
+        CustomerDTO savedDTO = customerService.save(customerDTO);
 
         //when
-        CustomerDTO foundCustomer = customerService.getCustomer(savedDTO.getId());
+        CustomerDTO foundCustomer = customerService.getById(savedDTO.getId());
 
         assertNotNull(foundCustomer);
         assertEquals(savedDTO.getId(), foundCustomer.getId(), "Id does not match");
@@ -133,16 +130,16 @@ class CustomerServiceImplTestIT {
 
     @DisplayName("Delete Customer")
     @Test
-    void testDeleteCustomer_whenValidIdProvided_thenCorrect() {
+    void testDelete_whenValidIdProvided_thenCorrect() {
 
         //given
-        CustomerDTO savedCustomer = customerService.saveCustomer(customerDTO);
+        CustomerDTO savedCustomer = customerService.save(customerDTO);
 
         //when
-        customerService.deleteCustomer(savedCustomer.getId());
-        Executable executable = () -> customerService.getCustomer(savedCustomer.getId());
+        customerService.delete(savedCustomer.getId());
+        Executable executable = () -> customerService.getById(savedCustomer.getId());
 
         //then
-        assertThrows(CustomerDoesntExistsException.class, executable);
+        assertThrows(CustomerNotFoundException.class, executable);
     }
 }

@@ -1,8 +1,8 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
-import com.myproject.autopartsestoresystem.exception.CustomerDoesntExistsException;
-import com.myproject.autopartsestoresystem.exception.EmailAddressAlreadyExistsException;
+import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
+import com.myproject.autopartsestoresystem.exception.service.EmailAddressAlreadyExistsException;
 import com.myproject.autopartsestoresystem.mapper.CustomerMapper;
 import com.myproject.autopartsestoresystem.model.City;
 import com.myproject.autopartsestoresystem.model.Customer;
@@ -67,7 +67,7 @@ class CustomerServiceImplTest {
 
     @DisplayName("Save customer - successful")
     @Test
-    void testSaveCustomer_whenValidDetailsProvided_returnsCreatedCustomerDTO() {
+    void testSaveCustomer_whenValidDetailsProvided_returnsCreatedDTO() {
 
         //given
         Customer customer = mock(Customer.class);
@@ -78,7 +78,7 @@ class CustomerServiceImplTest {
         when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
         //when
-        CustomerDTO savedDTO = customerService.saveCustomer(customerDTO);
+        CustomerDTO savedDTO = customerService.save(customerDTO);
 
         //then
         assertNotNull(savedDTO, "Saved customer should not be null");
@@ -91,13 +91,13 @@ class CustomerServiceImplTest {
 
     @DisplayName("Save customer - failed (email already exists)")
     @Test
-    void testSaveCustomer_whenEmailAddressAlreadyExistsInSystem_throwsEmailAddressAlreadyExists() {
+    void testSave_whenEmailAddressAlreadyExistsInSystem_throwsEmailAddressAlreadyExists() {
 
         //given
         when(customerRepository.findByEmail(anyString())).thenReturn(Optional.of(mock(Customer.class)));
 
         //when
-        Executable executable = () -> customerService.saveCustomer(customerDTO);
+        Executable executable = () -> customerService.save(customerDTO);
 
         //then
         assertThrows(EmailAddressAlreadyExistsException.class, executable);
@@ -107,7 +107,7 @@ class CustomerServiceImplTest {
 
     @DisplayName("Update Customer - successful")
     @Test
-    void testUpdateCustomer_whenValidDetailsProvided_returnsUpdateCustomerDTO() {
+    void testUpdateCustomer_whenValidDetailsProvided_returnsUpdateDTO() {
         //given
         Customer customer = mock(Customer.class);
 
@@ -117,7 +117,7 @@ class CustomerServiceImplTest {
         when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
         //when
-        CustomerDTO updatedDTO = customerService.updateCustomer(any(Long.class), customerDTO);
+        CustomerDTO updatedDTO = customerService.update(any(Long.class), customerDTO);
 
         //then
         assertNotNull(updatedDTO, "Updated customer should not be null");
@@ -129,30 +129,30 @@ class CustomerServiceImplTest {
 
     @DisplayName("Update Customer - failed (invalid ID)")
     @Test
-    void testUpdateCustomer_whenInvalidIdIsProvided_throwsCustomerDoesntExistException() {
+    void testUpdateCustomer_whenInvalidIdIsProvided_throwsDoesntExistException() {
 
         //given
         when(customerRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         //when
-        Executable executable = () -> customerService.updateCustomer(anyLong(), customerDTO);
+        Executable executable = () -> customerService.update(anyLong(), customerDTO);
 
         //then
-        assertThrows(CustomerDoesntExistsException.class, executable);
+        assertThrows(CustomerNotFoundException.class, executable);
 
         verify(customerRepository).findById(anyLong());
     }
 
     @DisplayName("Get Customers - with populated list")
     @Test
-    void testGetCustomers_whenListIsNotEmpty_returnsListOfCustomerDTO() {
+    void testGetAll_whenListIsNotEmpty_returnsListOfCustomerDTO() {
 
         //given
         List<Customer> customers = Arrays.asList(mock(Customer.class), mock(Customer.class), mock(Customer.class));
         when(customerRepository.findAll()).thenReturn(customers);
 
         //when
-        List<CustomerDTO> customerDTOList = customerService.getCustomers();
+        List<CustomerDTO> customerDTOList = customerService.getAll();
 
         //then
         assertNotNull(customerDTOList, "List of Customers should not be null");
@@ -165,14 +165,14 @@ class CustomerServiceImplTest {
 
     @DisplayName("Get Customers - with no customers")
     @Test
-    void testGetCustomers_whenListIsEmpty_returnsEmptyList() {
+    void testGetAll_whenListIsEmpty_returnsEmptyList() {
 
         //given
         List<Customer> customers = new ArrayList<>();
         when(customerRepository.findAll()).thenReturn(customers);
 
         //when
-        List<CustomerDTO> customerDTOList = customerService.getCustomers();
+        List<CustomerDTO> customerDTOList = customerService.getAll();
 
         //then
         assertNotNull(customerDTOList, "List of Customers should not be null");
@@ -183,7 +183,7 @@ class CustomerServiceImplTest {
 
     @DisplayName("Get Customer - successful")
     @Test
-    void testGetCustomer_whenValidIdIsProvided_returnsCustomerDTO() {
+    void testGetCustomer_whenValidIdIsProvided_returnsByIdDTO() {
 
         //given
         Customer customer = Customer.builder().firstName(customerDTO.getFirstName())
@@ -207,7 +207,7 @@ class CustomerServiceImplTest {
         when(customerMapper.customerToCustomerDTO(any(Customer.class))).thenReturn(customerDTO);
 
         //when
-        CustomerDTO foundCustomerDTO = customerService.getCustomer(anyLong());
+        CustomerDTO foundCustomerDTO = customerService.getById(anyLong());
 
         //then
         assertNotNull(foundCustomerDTO, "CustomerDTO cannot be empty");
@@ -225,27 +225,27 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void testGetCustomer_whenInvalidIdProvided_throwsCustomerNotFoundException() {
+    void testGetCustomer_whenInvalidIdProvided_throwsByIdNotFoundException() {
 
         //given
         when(customerRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         //when
-        Executable executable = () -> customerService.getCustomer(anyLong());
+        Executable executable = () -> customerService.getById(anyLong());
 
         //then
-        assertThrows(CustomerDoesntExistsException.class, executable);
+        assertThrows(CustomerNotFoundException.class, executable);
         verify(customerRepository).findById(anyLong());
     }
 
     @DisplayName("Delete Customer - successful")
     @Test
-    void testDeleteCustomer_whenValidIdProvided_nothingReturns() {
+    void testDelete_whenValidIdProvided_nothingReturns() {
 
         when(customerRepository.existsById(anyLong())).thenReturn(true);
         doNothing().when(customerRepository).deleteById(anyLong());
 
-        customerService.deleteCustomer(anyLong());
+        customerService.delete(anyLong());
 
         verify(customerRepository).existsById(anyLong());
         verify(customerRepository).deleteById(anyLong());
@@ -253,15 +253,15 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void testDeleteCustomer_whenInvalidIdProvided_throwsCustomerNotFoundException() {
+    void testDeleteCustomer_whenInvalidIdProvided_throwsNotFoundException() {
         //given
         when(customerRepository.existsById(anyLong())).thenReturn(false);
 
         //when
-        Executable executable = () -> customerService.deleteCustomer(anyLong());
+        Executable executable = () -> customerService.delete(anyLong());
 
         //then
-        CustomerDoesntExistsException exception = assertThrows(CustomerDoesntExistsException.class, executable);
+        CustomerNotFoundException exception = assertThrows(CustomerNotFoundException.class, executable);
         assertEquals("Customer with id 0 does not exist", exception.getMessage());
 
         verify(customerRepository).existsById(anyLong());

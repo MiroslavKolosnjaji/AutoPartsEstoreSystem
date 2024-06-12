@@ -1,6 +1,10 @@
 package com.myproject.autopartsestoresystem.controller;
 
 import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
+import com.myproject.autopartsestoresystem.exception.service.EmailAddressAlreadyExistsException;
 import com.myproject.autopartsestoresystem.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -10,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Miroslav Kološnjaji
@@ -29,47 +32,66 @@ public class CustomerController {
     @PostMapping()
     public ResponseEntity<CustomerDTO> createCustomer(@Validated @RequestBody CustomerDTO customerDTO) {
 
-        CustomerDTO saved = customerService.saveCustomer(customerDTO);
+        try {
+            CustomerDTO saved = customerService.save(customerDTO);
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Location", CUSTOMER_URI + "/" + saved.getId());
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.add("Location", CUSTOMER_URI + "/" + saved.getId());
 
-        return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
+            return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
+        } catch (EmailAddressAlreadyExistsException e) {
+            throw new EntityAlreadyExistsException(e.getMessage());
+        }
     }
 
     @PutMapping(CUSTOMER_ID)
     public ResponseEntity<Void> updateCustomer(@PathVariable("customer_id") Long customerId, @Validated @RequestBody CustomerDTO updateCustomerDTO) {
 
-        customerService.updateCustomer(customerId, updateCustomerDTO);
+        try {
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            customerService.update(customerId, updateCustomerDTO);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        } catch (CustomerNotFoundException e) {
+            throw new EntityNotFoundException(e.getMessage());
+        }
     }
 
     @GetMapping()
     public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
 
-        List<CustomerDTO> customers = customerService.getCustomers();
+        List<CustomerDTO> customers = customerService.getAll();
 
-        if(customers.isEmpty())
+        if (customers.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-        return ResponseEntity.ok(customers);
+        return new ResponseEntity<>(customers, HttpStatus.OK);
 
     }
 
     @GetMapping(CUSTOMER_ID)
     public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable("customer_id") Long customerId) {
 
-        CustomerDTO customerDTO = customerService.getCustomer(customerId);
+        try {
 
-        return ResponseEntity.ok(customerDTO);
+            CustomerDTO customerDTO = customerService.getById(customerId);
+            return ResponseEntity.ok(customerDTO);
+
+        } catch (CustomerNotFoundException e) {
+            throw new EntityNotFoundException(e.getMessage());
+        }
     }
 
     @DeleteMapping(CUSTOMER_ID)
     public ResponseEntity<Void> deleteCustomer(@PathVariable("customer_id") Long customerId) {
 
-        customerService.deleteCustomer(customerId);
+        try {
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            customerService.delete(customerId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        } catch (CustomerNotFoundException e) {
+            throw new EntityNotFoundException(e.getMessage());
+        }
     }
 }

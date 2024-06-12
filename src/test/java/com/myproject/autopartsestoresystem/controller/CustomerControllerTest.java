@@ -2,7 +2,7 @@ package com.myproject.autopartsestoresystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
-import com.myproject.autopartsestoresystem.exception.CustomerDoesntExistsException;
+import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.model.City;
 import com.myproject.autopartsestoresystem.service.CustomerService;
 import org.junit.jupiter.api.*;
@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -73,7 +72,7 @@ class CustomerControllerTest {
     void testCreateCustomer_whenValidCustomerDetailsProvided_returnsCreatedCustomerDTO() throws Exception {
 
         // given
-        when(customerService.saveCustomer(any(CustomerDTO.class))).thenReturn(customerDTO);
+        when(customerService.save(any(CustomerDTO.class))).thenReturn(customerDTO);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/customer")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -94,7 +93,7 @@ class CustomerControllerTest {
                 () -> assertEquals(customerDTO.getPhone(), savedDTO.getPhone(), "Phone number doesn't match"),
                 () -> assertEquals(customerDTO.getCity(), savedDTO.getCity(), "City doesn't match"));
 
-        verify(customerService).saveCustomer(any(CustomerDTO.class));
+        verify(customerService).save(any(CustomerDTO.class));
 
 
     }
@@ -125,7 +124,7 @@ class CustomerControllerTest {
         //given
         customerDTO.setId(1L);
         customerDTO.setAddress("1029 Thunder Road");
-        when(customerService.updateCustomer(any(Long.class), any(CustomerDTO.class))).thenReturn(customerDTO);
+        when(customerService.update(any(Long.class), any(CustomerDTO.class))).thenReturn(customerDTO);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/customer/{customer_id}", customerDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -137,7 +136,7 @@ class CustomerControllerTest {
 
         //then
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 204 expected");
-        verify(customerService).updateCustomer(any(Long.class), any(CustomerDTO.class));
+        verify(customerService).update(any(Long.class), any(CustomerDTO.class));
 
     }
 
@@ -168,7 +167,7 @@ class CustomerControllerTest {
 
         //given
         List<CustomerDTO> customerDTOList = getCustomers();
-        when(customerService.getCustomers()).thenReturn(customerDTOList);
+        when(customerService.getAll()).thenReturn(customerDTOList);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/customer")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -180,7 +179,7 @@ class CustomerControllerTest {
         
         //then
         assertEquals(2, objectMapper.readValue(result.getResponse().getContentAsString(), List.class).size());
-        verify(customerService).getCustomers();
+        verify(customerService).getAll();
 
     }
 
@@ -191,7 +190,7 @@ class CustomerControllerTest {
         //given
         CustomerDTO customerDTO = getCustomers().get(0);
 
-        when(customerService.getCustomer(any(Long.class))).thenReturn(customerDTO);
+        when(customerService.getById(any(Long.class))).thenReturn(customerDTO);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/customer/{customerId}", customerDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -213,7 +212,7 @@ class CustomerControllerTest {
                 () -> assertEquals(customerDTO.getPhone(), getCustomer.getPhone(), "Phone number doesn't match"),
                 () -> assertEquals(customerDTO.getCity(), getCustomer.getCity(), "City doesn't match"));
 
-        verify(customerService).getCustomer(customerDTO.getId());
+        verify(customerService).getById(customerDTO.getId());
 
     }
 
@@ -224,7 +223,7 @@ class CustomerControllerTest {
         //given
         Long id = 100L;
 
-        when(customerService.getCustomer(any(Long.class))).thenThrow(CustomerDoesntExistsException.class);
+        when(customerService.getById(any(Long.class))).thenThrow(CustomerNotFoundException.class);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/customer/{customerId}", id)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -235,7 +234,7 @@ class CustomerControllerTest {
 
         //then
         assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 404 expected");
-        verify(customerService).getCustomer(any(Long.class));
+        verify(customerService).getById(any(Long.class));
 
     }
     @DisplayName("Delete customer")
@@ -244,7 +243,7 @@ class CustomerControllerTest {
 
         //given
         Long id = 1L;
-        doNothing().when(customerService).deleteCustomer(id);
+        doNothing().when(customerService).delete(id);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/customer/{customerId}", id)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -255,7 +254,7 @@ class CustomerControllerTest {
 
         //then
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 204 expected");
-        verify(customerService).deleteCustomer(id);
+        verify(customerService).delete(id);
     }
 
     @DisplayName("Delete customer with invalid Id - throws CustomerDoesntExists")
@@ -265,7 +264,7 @@ class CustomerControllerTest {
         //given
         final String MESSAGE = "Customer doesn't exists";
         Long invalidId = 100L;
-        doThrow(new CustomerDoesntExistsException(MESSAGE)).when(customerService).deleteCustomer(invalidId);
+        doThrow(new CustomerNotFoundException(MESSAGE)).when(customerService).delete(invalidId);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/customer/{customerId}", invalidId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -277,8 +276,8 @@ class CustomerControllerTest {
 
         //then
         assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 404 expected");
-        assertEquals(responseBody, MESSAGE, "Error message doesn't match");
-        verify(customerService).deleteCustomer(invalidId);
+        assertTrue(responseBody.contains(MESSAGE), "Error message doesn't match");
+        verify(customerService).delete(invalidId);
 
     }
 

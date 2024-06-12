@@ -1,8 +1,8 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
-import com.myproject.autopartsestoresystem.exception.CustomerDoesntExistsException;
-import com.myproject.autopartsestoresystem.exception.EmailAddressAlreadyExistsException;
+import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
+import com.myproject.autopartsestoresystem.exception.service.EmailAddressAlreadyExistsException;
 import com.myproject.autopartsestoresystem.mapper.CustomerMapper;
 import com.myproject.autopartsestoresystem.model.Customer;
 import com.myproject.autopartsestoresystem.repository.CustomerRepository;
@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -26,10 +25,10 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
+    public CustomerDTO save(CustomerDTO customerDTO) {
 
         if (customerRepository.findByEmail(customerDTO.getEmail()).isPresent())
-            throw new EmailAddressAlreadyExistsException();
+            throw new EmailAddressAlreadyExistsException("Email address already exists");
 
         Customer saved = customerRepository.save(customerMapper.customerDTOToCustomer(customerDTO));
 
@@ -37,9 +36,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO updateCustomer(Long customer_id, CustomerDTO customerDTO) {
+    public CustomerDTO update(Long customer_id, CustomerDTO customerDTO) {
         Customer customer = customerRepository.findById(customer_id)
-                .orElseThrow(CustomerDoesntExistsException::new);
+                .orElseThrow(()-> new CustomerNotFoundException("Customer not found"));
 
         customer.setFirstName(customerDTO.getFirstName());
         customer.setLastName(customerDTO.getLastName());
@@ -55,23 +54,23 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerDTO> getCustomers() {
+    public List<CustomerDTO> getAll() {
         return customerRepository.findAll().stream()
                 .map(customerMapper::customerToCustomerDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public CustomerDTO getCustomer(Long id){
-        Customer customer = customerRepository.findById(id).orElseThrow( () -> new CustomerDoesntExistsException(id));
+    public CustomerDTO getById(Long id){
+        Customer customer = customerRepository.findById(id).orElseThrow( () -> new CustomerNotFoundException(id));
         return customerMapper.customerToCustomerDTO(customer);
     }
 
     @Override
-    public void deleteCustomer(Long id){
+    public void delete(Long id){
 
         if(!customerRepository.existsById(id))
-            throw new CustomerDoesntExistsException(id);
+            throw new CustomerNotFoundException(id);
 
 
         customerRepository.deleteById(id);

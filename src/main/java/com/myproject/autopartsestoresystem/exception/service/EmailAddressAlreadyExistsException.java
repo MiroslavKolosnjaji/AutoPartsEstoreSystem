@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.exception;
+package com.myproject.autopartsestoresystem.exception.service;
 
 /**
  * @author Miroslav Kološnjaji

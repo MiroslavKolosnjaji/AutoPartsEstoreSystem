@@ -1,11 +1,18 @@
 package com.myproject.autopartsestoresystem.controller.global;
 
-import com.myproject.autopartsestoresystem.exception.CustomerDoesntExistsException;
-import com.myproject.autopartsestoresystem.exception.EmailAddressAlreadyExistsException;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.exception.service.CustomerAlreadyExistsException;
+import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
+import com.myproject.autopartsestoresystem.exception.service.EmailAddressAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Miroslav Kološnjaji
@@ -13,13 +20,23 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(EmailAddressAlreadyExistsException.class)
-    public ResponseEntity<String> handlEmailAddressAlreadyExistsException(EmailAddressAlreadyExistsException e) {
-        return new ResponseEntity<>("Email address already exists", HttpStatus.CONFLICT);
+    @ExceptionHandler(EntityAlreadyExistsException.class)
+    public ResponseEntity<Object> handlEmailAddressAlreadyExistsException(EntityAlreadyExistsException e) {
+        return new ResponseEntity<>(createErrorBody(e.getMessage()), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(CustomerDoesntExistsException.class)
-    public ResponseEntity<String> handlCustomerDoesntExistsException(CustomerDoesntExistsException e) {
-        return new ResponseEntity<>("Customer doesn't exists", HttpStatus.NOT_FOUND);
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Object> handlCustomerDoesntExistsException(EntityNotFoundException e) {
+        return new ResponseEntity<>(createErrorBody(e.getMessage()), HttpStatus.NOT_FOUND);
     }
+
+    private Map<String, Object> createErrorBody(String message) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", message);
+        return body;
+    }
+
 }
+
+

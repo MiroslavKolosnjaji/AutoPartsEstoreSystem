@@ -58,11 +58,9 @@ public class CustomerController {
     }
 
     @GetMapping(CUSTOMER_ID)
-    public ResponseEntity<Optional<CustomerDTO>> getCustomerById(@PathVariable("customer_id") Long customerId) {
-        Optional<CustomerDTO> customerDTO = customerService.getCustomer(customerId);
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable("customer_id") Long customerId) {
 
-        if(customerDTO.isEmpty())
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        CustomerDTO customerDTO = customerService.getCustomer(customerId);
 
         return ResponseEntity.ok(customerDTO);
     }

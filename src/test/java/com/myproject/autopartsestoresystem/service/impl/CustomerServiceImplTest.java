@@ -207,18 +207,18 @@ class CustomerServiceImplTest {
         when(customerMapper.customerToCustomerDTO(any(Customer.class))).thenReturn(customerDTO);
 
         //when
-        Optional<CustomerDTO> foundCustomerDTO = customerService.getCustomer(anyLong());
+        CustomerDTO foundCustomerDTO = customerService.getCustomer(anyLong());
 
         //then
-        assertTrue(foundCustomerDTO.isPresent(), "CustomerDTO cannot be empty");
+        assertNotNull(foundCustomerDTO, "CustomerDTO cannot be empty");
         assertAll("Validate found customer details",
-                () -> assertEquals(customerDTO.getId(), foundCustomerDTO.get().getId(), "Id doesn't match"),
-                () -> assertEquals(customerDTO.getFirstName(), foundCustomerDTO.get().getFirstName(), "First name doesn't match"),
-                () -> assertEquals(customerDTO.getLastName(), foundCustomerDTO.get().getLastName(), "Last name doesn't match"),
-                () -> assertEquals(customerDTO.getAddress(), foundCustomerDTO.get().getAddress(), "Address doesn't match"),
-                () -> assertEquals(customerDTO.getEmail(), foundCustomerDTO.get().getEmail(), "Email doesn't match"),
-                () -> assertEquals(customerDTO.getPhone(), foundCustomerDTO.get().getPhone(), "Phone doesn't match"),
-                () -> assertEquals(customerDTO.getCity(), foundCustomerDTO.get().getCity(), "City doesn't match"));
+                () -> assertEquals(customerDTO.getId(), foundCustomerDTO.getId(), "Id doesn't match"),
+                () -> assertEquals(customerDTO.getFirstName(), foundCustomerDTO.getFirstName(), "First name doesn't match"),
+                () -> assertEquals(customerDTO.getLastName(), foundCustomerDTO.getLastName(), "Last name doesn't match"),
+                () -> assertEquals(customerDTO.getAddress(), foundCustomerDTO.getAddress(), "Address doesn't match"),
+                () -> assertEquals(customerDTO.getEmail(), foundCustomerDTO.getEmail(), "Email doesn't match"),
+                () -> assertEquals(customerDTO.getPhone(), foundCustomerDTO.getPhone(), "Phone doesn't match"),
+                () -> assertEquals(customerDTO.getCity(), foundCustomerDTO.getCity(), "City doesn't match"));
 
         verify(customerRepository).findById(anyLong());
         verify(customerMapper).customerToCustomerDTO(any(Customer.class));
@@ -262,7 +262,7 @@ class CustomerServiceImplTest {
 
         //then
         CustomerDoesntExistsException exception = assertThrows(CustomerDoesntExistsException.class, executable);
-        assertEquals("Invalid Customer ID", exception.getMessage());
+        assertEquals("Customer with id 0 does not exist", exception.getMessage());
 
         verify(customerRepository).existsById(anyLong());
     }

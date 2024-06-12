@@ -191,7 +191,7 @@ class CustomerControllerTest {
         //given
         CustomerDTO customerDTO = getCustomers().get(0);
 
-        when(customerService.getCustomer(any(Long.class))).thenReturn(Optional.of(customerDTO));
+        when(customerService.getCustomer(any(Long.class))).thenReturn(customerDTO);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/customer/{customerId}", customerDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -224,7 +224,7 @@ class CustomerControllerTest {
         //given
         Long id = 100L;
 
-        when(customerService.getCustomer(any(Long.class))).thenReturn(Optional.empty());
+        when(customerService.getCustomer(any(Long.class))).thenThrow(CustomerDoesntExistsException.class);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/customer/{customerId}", id)
                 .contentType(MediaType.APPLICATION_JSON)

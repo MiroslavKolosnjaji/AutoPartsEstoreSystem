@@ -62,16 +62,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Optional<CustomerDTO> getCustomer(Long id){
-        Customer customer = customerRepository.findById(id).orElseThrow(CustomerDoesntExistsException::new);
-        return Optional.of(customerMapper.customerToCustomerDTO(customer));
+    public CustomerDTO getCustomer(Long id){
+        Customer customer = customerRepository.findById(id).orElseThrow( () -> new CustomerDoesntExistsException(id));
+        return customerMapper.customerToCustomerDTO(customer);
     }
 
     @Override
     public void deleteCustomer(Long id){
 
         if(!customerRepository.existsById(id))
-            throw new CustomerDoesntExistsException("Invalid Customer ID");
+            throw new CustomerDoesntExistsException(id);
 
 
         customerRepository.deleteById(id);

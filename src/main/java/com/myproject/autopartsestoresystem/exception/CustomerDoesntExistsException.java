@@ -12,6 +12,10 @@ public class CustomerDoesntExistsException extends RuntimeException {
         super(message);
     }
 
+    public CustomerDoesntExistsException(Long id){
+        super("Customer with id " + id + " does not exist");
+    }
+
     public CustomerDoesntExistsException(String message, Throwable cause) {
         super(message, cause);
     }

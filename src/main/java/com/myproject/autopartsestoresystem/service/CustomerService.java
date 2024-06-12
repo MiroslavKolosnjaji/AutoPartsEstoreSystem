@@ -13,6 +13,6 @@ public interface CustomerService {
     CustomerDTO saveCustomer(CustomerDTO customerDTO);
     CustomerDTO updateCustomer(Long customerId, CustomerDTO customerDTO);
     List<CustomerDTO> getCustomers();
-    Optional<CustomerDTO> getCustomer(Long id);
+    CustomerDTO getCustomer(Long id);
     void deleteCustomer(Long id);
 }

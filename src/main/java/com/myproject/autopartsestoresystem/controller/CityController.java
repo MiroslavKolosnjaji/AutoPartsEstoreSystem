@@ -24,7 +24,7 @@ import java.util.List;
 public class CityController {
 
     public static final String CITY_URI = "/api/city";
-    public static final String CITY_ID = "/{customerId}";
+    public static final String CITY_ID = "/{city_id}";
     public static final String CITY_URI_WITH_ID = CITY_URI + CITY_ID;
 
     private final CityService cityService;
@@ -52,7 +52,7 @@ public class CityController {
         try {
 
             cityService.update(cityId, cityDTO);
-            return new ResponseEntity<>(cityDTO, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
         } catch (CityNotFoundException e) {
             throw new EntityNotFoundException(e.getMessage());

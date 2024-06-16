@@ -186,6 +186,7 @@ class CityControllerTest {
                 () -> assertEquals(cityDTO.getZipCode(), getCityDTO.getZipCode(), "ZipCode doesn't match"));
     }
 
+    @DisplayName("Get City When Invalid ID Provided - Tell me. Returns 404 Status Code")
     @Test
     void testGetCity_whenInvalidIdProvided_returns404StatusCode() throws Exception {
 
@@ -206,6 +207,7 @@ class CityControllerTest {
 
     }
 
+    @DisplayName("Delete City -Successful")
     @Test
     void testDeleteCity_whenValidIdProvided_returns204StatusCode() throws Exception {
         //given
@@ -222,6 +224,8 @@ class CityControllerTest {
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 204 expected");
     }
 
+
+    @DisplayName("Delete City Invalid ID provided - Returns 404 Status Code")
     @Test
     void testDeleteCity_whenInvalidIdProvided_throwsCityDoesntExistsAndReturns404StatusCode() throws Exception {
 

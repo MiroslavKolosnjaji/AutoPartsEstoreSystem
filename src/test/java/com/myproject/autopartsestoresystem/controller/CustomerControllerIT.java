@@ -28,9 +28,9 @@ class CustomerControllerIT {
     @Autowired
     ObjectMapper objectMapper;
 
-    @DisplayName("Create user")
-    @Test
+    @DisplayName("Create Customer")
     @Order(3)
+    @Test
     void testCreateCustomer_whenValidDetailsProvided_returns201StatusCode() throws Exception {
 
         CustomerDTO customerDTO = getTestCustomerDTO();
@@ -53,9 +53,9 @@ class CustomerControllerIT {
 
     }
 
-    @DisplayName("Create customer failed - invalid detail provided - returns code 400")
-    @Test
+    @DisplayName("Create Customer Failed - Invalid Details Provided - Returns Code 400")
     @Order(99)
+    @Test
     void testCreateCustomer_whenInvalidDetailsProvided_returns400StatusCode() throws Exception {
         CustomerDTO customerDTO = getTestCustomerDTO();
         customerDTO.setAddress("");
@@ -68,8 +68,8 @@ class CustomerControllerIT {
     }
 
     @DisplayName("Update Customer")
-    @Test
     @Order(4)
+    @Test
     void testUpdateCustomer_whenValidDetailsProvided_returns204StatusCode() throws Exception {
         CustomerDTO customerDTO = CustomerDTO.builder()
                 .id(4L)
@@ -88,9 +88,9 @@ class CustomerControllerIT {
                 .andExpect(status().isNoContent());
     }
 
-    @DisplayName("Get Customer by ID")
-    @Test
+    @DisplayName("Get Customer By ID")
     @Order(1)
+    @Test
     void testGetCustomerById_whenValidIdProvided_returnsCustomerDTO() throws Exception {
         mockMvc.perform(get(CustomerController.CUSTOMER_URI_WITH_ID, 1)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -100,7 +100,7 @@ class CustomerControllerIT {
                 .andExpect(jsonPath("$.id").value(1));
     }
 
-    @DisplayName("Get Customer failed - invalid ID provided - returns code 404")
+    @DisplayName("Get Customer By ID Failed - Invalid ID Provided - Returns Code 404")
     @Test
     void testGetCustomerById_whenInvalidIdProvided_returns404StatusCode() throws Exception {
         mockMvc.perform(get(CustomerController.CUSTOMER_URI_WITH_ID, 99)
@@ -109,8 +109,8 @@ class CustomerControllerIT {
     }
 
     @DisplayName("Get All Customers")
-    @Test
     @Order(2)
+    @Test
     void testGetCustomers_whenListIsPopulated_returnsListOfCustomerDTO() throws Exception {
         mockMvc.perform(get(CustomerController.CUSTOMER_URI)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -119,9 +119,9 @@ class CustomerControllerIT {
                 .andExpect(jsonPath("$.length()").value(3));
     }
 
-    @DisplayName("Delete customer")
-    @Test
+    @DisplayName("Delete Customer")
     @Order(5)
+    @Test
     void testDeleteCustomer_whenValidIdProvided_returns204StatusCode() throws Exception {
 
         mockMvc.perform(delete(CustomerController.CUSTOMER_URI_WITH_ID, 4)
@@ -129,7 +129,7 @@ class CustomerControllerIT {
                 .andExpect(status().isNoContent());
     }
 
-    @DisplayName("Delete Customer failed - invalid id provided - returns 404 status code")
+    @DisplayName("Delete Customer Failed - Invalid ID Provided - Returns 404 Status Code")
     @Test
     void testDeleteCustomer_whenInvalidIdProvided_returns404StatusCode() throws Exception {
         mockMvc.perform(delete(CustomerController.CUSTOMER_URI_WITH_ID, 99)

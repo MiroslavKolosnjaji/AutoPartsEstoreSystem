@@ -140,7 +140,7 @@ class CustomerControllerTest {
 
     }
 
-    @DisplayName("Update customer with invalid customer details provided - return status 400")
+    @DisplayName("Update Customer With Invalid Customer Details Provided - Return Status 400")
     @Test
     void testUpdateCustomer_whenInvalidCustomerDetailsProvided_returns400StatusCode() throws Exception {
 
@@ -161,7 +161,7 @@ class CustomerControllerTest {
     }
 
 
-    @DisplayName("Get all customers")
+    @DisplayName("Get All Customers")
     @Test
     void testGetCustomers_whenListIsPopulated_returnsTwoCustomers() throws Exception {
 
@@ -178,12 +178,12 @@ class CustomerControllerTest {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         
         //then
-        assertEquals(2, objectMapper.readValue(result.getResponse().getContentAsString(), List.class).size());
+        assertEquals(2, objectMapper.readValue(result.getResponse().getContentAsString(), List.class).size(), "Expected 2 Customers returned");
         verify(customerService).getAll();
 
     }
 
-    @DisplayName("Get customer with valid id")
+    @DisplayName("Get Customer When Valid ID provided")
     @Test
     void testGetCustomer_whenValidIdProvided_returnsCustomerWithId1() throws Exception {
 
@@ -259,7 +259,7 @@ class CustomerControllerTest {
 
     @DisplayName("Delete customer with invalid Id - throws CustomerDoesntExists")
     @Test
-    void testDeleteCustomer_whenInvalidIdProvided_throwsCustomerDoesntExistsAndreturns404StatusCode() throws Exception {
+    void testDeleteCustomer_whenInvalidIdProvided_throwsCustomerDoesntExistsAndReturns404StatusCode() throws Exception {
 
         //given
         final String MESSAGE = "Customer doesn't exists";

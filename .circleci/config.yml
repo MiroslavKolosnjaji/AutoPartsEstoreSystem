@@ -27,6 +27,10 @@ jobs:
             mvn -B test
             mvn jacoco:report
       - codecov/upload
+      - run:
+          name: Upload Coverage to Codecov
+          command: |
+            bash <(curl -s https://codecov.io/bash) -t ${CODECOV_TOKEN} -f target/site/jacoco/jacoco.xml
       - store_test_results:
           path: target/surefire-reports
       - save_cache:

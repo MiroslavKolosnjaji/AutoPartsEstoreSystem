@@ -3,3 +3,6 @@ coverage:
     project:
       default:
         target: 78%
+
+ignore:
+  - "src/main/java/com/project/autopartsestoresystem/test"

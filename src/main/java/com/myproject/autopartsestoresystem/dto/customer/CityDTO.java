@@ -1,6 +1,5 @@
 package com.myproject.autopartsestoresystem.dto.customer;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,8 +26,8 @@ public class CityDTO {
     @Size(max = 120, message = "City name cannot be longer than 120 characters")
     private String name;
 
-    @NotBlank(message = "ZipCode cannot be blank")
-    @Size(min = 5, max = 5)
-    @Digits(integer = 5, fraction = 0)
+
+    @Size(min = 5, max = 5, message = "Zip code must contain 5 digits")
+    @Digits(integer = 5, fraction = 0, message = "Zip code must contain 5 digits")
     private String zipCode;
 }

@@ -65,9 +65,9 @@ class CustomerServiceImplTest {
                 .build();
     }
 
-    @DisplayName("Save customer - successful")
+    @DisplayName("Save customer")
     @Test
-    void testSaveCustomer_whenValidDetailsProvided_returnsCreatedDTO() {
+    void testSaveCustomer_whenValidDetailsProvided_returnsCustomerDTO() {
 
         //given
         Customer customer = mock(Customer.class);
@@ -105,7 +105,7 @@ class CustomerServiceImplTest {
         verify(customerRepository).findByEmail(anyString());
     }
 
-    @DisplayName("Update Customer - successful")
+    @DisplayName("Update Customer")
     @Test
     void testUpdateCustomer_whenValidDetailsProvided_returnsUpdateDTO() {
         //given
@@ -143,7 +143,7 @@ class CustomerServiceImplTest {
         verify(customerRepository).findById(anyLong());
     }
 
-    @DisplayName("Get Customers - with populated list")
+    @DisplayName("Get Customers - With Populated List")
     @Test
     void testGetAll_whenListIsNotEmpty_returnsListOfCustomerDTO() {
 
@@ -163,7 +163,7 @@ class CustomerServiceImplTest {
     }
 
 
-    @DisplayName("Get Customers - with no customers")
+    @DisplayName("Get Customers - Empty List")
     @Test
     void testGetAll_whenListIsEmpty_returnsEmptyList() {
 
@@ -181,9 +181,9 @@ class CustomerServiceImplTest {
         verify(customerRepository).findAll();
     }
 
-    @DisplayName("Get Customer - successful")
+    @DisplayName("Get Customer")
     @Test
-    void testGetCustomer_whenValidIdIsProvided_returnsByIdDTO() {
+    void testGetCustomer_whenValidIdIsProvided_returnsCustomerDTO() {
 
         //given
         Customer customer = Customer.builder().firstName(customerDTO.getFirstName())
@@ -194,15 +194,6 @@ class CustomerServiceImplTest {
                 .city(customerDTO.getCity())
                 .build();
 
-
-        CustomerDTO customerDTO = CustomerDTO.builder().firstName(customer.getFirstName())
-                .lastName(customer.getLastName())
-                .address(customer.getAddress())
-                .email(customer.getEmail())
-                .phone(customer.getPhone())
-                .city(customer.getCity())
-                .build();
-
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(customer));
         when(customerMapper.customerToCustomerDTO(any(Customer.class))).thenReturn(customerDTO);
 
@@ -210,7 +201,7 @@ class CustomerServiceImplTest {
         CustomerDTO foundCustomerDTO = customerService.getById(anyLong());
 
         //then
-        assertNotNull(foundCustomerDTO, "CustomerDTO cannot be empty");
+        assertNotNull(foundCustomerDTO, "foundCustomerDTO should not be null");
         assertAll("Validate found customer details",
                 () -> assertEquals(customerDTO.getId(), foundCustomerDTO.getId(), "Id doesn't match"),
                 () -> assertEquals(customerDTO.getFirstName(), foundCustomerDTO.getFirstName(), "First name doesn't match"),
@@ -224,8 +215,9 @@ class CustomerServiceImplTest {
         verify(customerMapper).customerToCustomerDTO(any(Customer.class));
     }
 
+    @DisplayName("Get Customer - Invalid ID - Throws CustomerNotFound Exception ")
     @Test
-    void testGetCustomer_whenInvalidIdProvided_throwsByIdNotFoundException() {
+    void testGetCustomer_whenInvalidIdProvided_throwsCustomerNotFoundException() {
 
         //given
         when(customerRepository.findById(anyLong())).thenReturn(Optional.empty());
@@ -238,9 +230,9 @@ class CustomerServiceImplTest {
         verify(customerRepository).findById(anyLong());
     }
 
-    @DisplayName("Delete Customer - successful")
+    @DisplayName("Delete Customer")
     @Test
-    void testDelete_whenValidIdProvided_nothingReturns() {
+    void testDelete_whenValidIdProvided_thenSuccess() {
 
         when(customerRepository.existsById(anyLong())).thenReturn(true);
         doNothing().when(customerRepository).deleteById(anyLong());
@@ -252,8 +244,9 @@ class CustomerServiceImplTest {
 
     }
 
+    @DisplayName("Delete Customer - Invalid ID - Throws CustomerNotFound Exception")
     @Test
-    void testDeleteCustomer_whenInvalidIdProvided_throwsNotFoundException() {
+    void testDeleteCustomer_whenInvalidIdProvided_throwsCustomerNotFoundException() {
         //given
         when(customerRepository.existsById(anyLong())).thenReturn(false);
 

@@ -19,11 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class CustomerDTOTest {
 
-    final ValidatorFactory validatorFactory;
-    final Validator validator;
-    Set<ConstraintViolation<CustomerDTO>> violations;
-    ConstraintViolation<CustomerDTO> violation;
-    CustomerDTO customerDTO;
+    private final ValidatorFactory validatorFactory;
+    private final Validator validator;
+    private Set<ConstraintViolation<CustomerDTO>> violations;
+    private ConstraintViolation<CustomerDTO> violation;
+    private CustomerDTO customerDTO;
 
     @BeforeEach
     void setUp() {
@@ -38,8 +38,8 @@ class CustomerDTOTest {
     }
 
     public CustomerDTOTest() {
-        validatorFactory = Validation.buildDefaultValidatorFactory();
-        validator = validatorFactory.getValidator();
+        this.validatorFactory = Validation.buildDefaultValidatorFactory();
+        this.validator = validatorFactory.getValidator();
     }
 
     @DisplayName("First Name - valid input")

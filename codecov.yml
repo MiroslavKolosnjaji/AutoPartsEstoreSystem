@@ -6,7 +6,5 @@ coverage:
         threshold: 1%
 
 ignore:
-  - "test/*"
-  - "exception/*"
-  - "mapper/*"
-  - "bootstrap/*"
+  - "src/main/java/com/myproject/autopartsestoresystem/test/*"
+  - "src/main/java/com/myproject/autopartsestoresystem/exception/*"

@@ -95,7 +95,7 @@ class CityControllerIT {
     @DisplayName("Get All Cities")
     @Order(2)
     @Test
-    void testGetCities_whenListIsPopulated_returnsListOfCityDto() throws Exception {
+    void testGetAllCities_whenListIsPopulated_returnsListOfCityDto() throws Exception {
         mockMvc.perform(get(CityController.CITY_URI)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

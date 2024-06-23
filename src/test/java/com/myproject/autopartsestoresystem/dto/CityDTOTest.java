@@ -1,5 +1,6 @@
-package com.myproject.autopartsestoresystem.dto.customer;
+package com.myproject.autopartsestoresystem.dto;
 
+import com.myproject.autopartsestoresystem.dto.customer.CityDTO;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -110,5 +111,23 @@ class CityDTOTest {
         //then
         violation = violations.iterator().next();
         assertEquals("Zip code must contain 5 digits", violation.getMessage());
+    }
+
+    @Test
+    void testIsEqual_whenCompareTwoObjectsWithSameDetails_thenIsEqual() {
+
+        //given
+        CityDTO cityDTO2 = CityDTO.builder()
+                .id(1L)
+                .name("Berlin")
+                .zipCode("12345")
+                .build();
+
+        //when
+        boolean isEqual = cityDTO2.equals(cityDTO);
+
+
+        //then
+        assertTrue(isEqual, "City should be equal");
     }
 }

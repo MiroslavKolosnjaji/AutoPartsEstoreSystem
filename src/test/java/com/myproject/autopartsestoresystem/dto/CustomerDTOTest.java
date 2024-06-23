@@ -1,5 +1,6 @@
-package com.myproject.autopartsestoresystem.dto.customer;
+package com.myproject.autopartsestoresystem.dto;
 
+import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
 import com.myproject.autopartsestoresystem.model.City;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -329,5 +330,22 @@ class CustomerDTOTest {
 
         violation = violations.iterator().next();
         assertEquals("City cannot be null", violation.getMessage());
+    }
+
+    @Test
+    void testIsEqual_whenCompareTwoObjectsWithSameDetails_thenIsEqual() {
+        CustomerDTO customerDTO2 = CustomerDTO.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .address("1017 Thunder Road")
+                .email("john@doe.com")
+                .phone("+381324123565")
+                .city(new City(1L, "Palo Alto", "94306"))
+                .build();
+
+        //when
+        boolean isEqual = customerDTO2.equals(customerDTO);
+
+        assertTrue(isEqual);
     }
 }

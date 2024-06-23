@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.customer.CityDTO;
-import com.myproject.autopartsestoresystem.exception.service.CityAlreadyExists;
+import com.myproject.autopartsestoresystem.exception.service.CityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.CityNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.CityMapper;
 import com.myproject.autopartsestoresystem.model.City;
@@ -83,7 +83,7 @@ class CityServiceImplTest {
         Executable executable = () -> cityService.save(cityDTO);
 
         //then
-        assertThrows(CityAlreadyExists.class, executable, "Exception not match");
+        assertThrows(CityAlreadyExistsException.class, executable, "Exception not match");
         verify(cityRepository).findByNameAndZipCode(anyString(), anyString());
     }
 

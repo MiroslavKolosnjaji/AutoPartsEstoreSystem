@@ -1,7 +1,9 @@
 package com.myproject.autopartsestoresystem.bootstrap;
 
+import com.myproject.autopartsestoresystem.model.Brand;
 import com.myproject.autopartsestoresystem.model.City;
 import com.myproject.autopartsestoresystem.model.Customer;
+import com.myproject.autopartsestoresystem.repository.BrandRepository;
 import com.myproject.autopartsestoresystem.repository.CityRepository;
 import com.myproject.autopartsestoresystem.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +19,23 @@ public class BootStrapData implements CommandLineRunner {
 
     private final CustomerRepository customerRepository;
     private final CityRepository cityRepository;
+    private final BrandRepository brandRepository;
 
     @Override
     public void run(String... args) throws Exception {
+        loadBrandData();
         loadCityData();
         loadCustomerData();
+    }
+
+    private void loadBrandData() {
+        Brand brand1 = Brand.builder().name("BMW").build();
+        Brand brand2 = Brand.builder().name("Pagani").build();
+        Brand brand3 = Brand.builder().name("Lamborghini").build();
+
+        brandRepository.save(brand1);
+        brandRepository.save(brand2);
+        brandRepository.save(brand3);
     }
 
     private void loadCityData() {

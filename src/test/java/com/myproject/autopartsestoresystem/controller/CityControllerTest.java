@@ -2,9 +2,7 @@ package com.myproject.autopartsestoresystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.autopartsestoresystem.dto.customer.CityDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.CityNotFoundException;
-import com.myproject.autopartsestoresystem.model.City;
 import com.myproject.autopartsestoresystem.service.CityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,8 +17,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,7 +51,7 @@ class CityControllerTest {
                 .build();
     }
 
-    @DisplayName("Create City - Successful")
+    @DisplayName("Create City")
     @Test
     void testCreateCity_whenValidCityDetailsProvided_returnsCreatedCityDTO() throws Exception {
 
@@ -99,7 +95,7 @@ class CityControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 400 expected");
     }
 
-    @DisplayName("Update City - Successful")
+    @DisplayName("Update City")
     @Test
     void testUpdateCity_whenValidCityDetailsProvided_returns204StatusCode() throws Exception {
 
@@ -137,6 +133,7 @@ class CityControllerTest {
         //when
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
+        //then
         assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 400 expected");
     }
 
@@ -157,7 +154,7 @@ class CityControllerTest {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
         //then
-        assertEquals(2, objectMapper.readValue(result.getResponse().getContentAsString(), List.class).size(), "Expected 2 cities returned");
+        assertEquals(2, objectMapper.readValue(result.getResponse().getContentAsString(), List.class).size(), "Expected 2 cities to be returned");
         verify(cityService).getAll();
     }
 
@@ -184,9 +181,11 @@ class CityControllerTest {
                 () -> assertEquals(cityDTO.getId(), getCityDTO.getId(), "City id doesn't match"),
                 () -> assertEquals(cityDTO.getName(), getCityDTO.getName(), "City name doesn't match"),
                 () -> assertEquals(cityDTO.getZipCode(), getCityDTO.getZipCode(), "ZipCode doesn't match"));
+
+        verify(cityService).getById(any(Long.class));
     }
 
-    @DisplayName("Get City When Invalid ID Provided - Tell me. Returns 404 Status Code")
+    @DisplayName("Get City When Invalid ID Provided - Returns 404 Status Code")
     @Test
     void testGetCity_whenInvalidIdProvided_returns404StatusCode() throws Exception {
 
@@ -196,15 +195,14 @@ class CityControllerTest {
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(CityController.CITY_URI_WITH_ID, id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(cityDTO));
+                .accept(MediaType.APPLICATION_JSON);
 
         //when
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
         //then
         assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 404 expected");
-
+        verify(cityService).getById(any(Long.class));
     }
 
     @DisplayName("Delete City -Successful")
@@ -222,6 +220,7 @@ class CityControllerTest {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 204 expected");
+        verify(cityService).delete(id);
     }
 
 

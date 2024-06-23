@@ -2,9 +2,6 @@ package com.myproject.autopartsestoresystem.controller.global;
 
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.CustomerAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.EmailAddressAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,12 +18,12 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityAlreadyExistsException.class)
-    public ResponseEntity<Object> handlEmailAddressAlreadyExistsException(EntityAlreadyExistsException e) {
+    public ResponseEntity<Object> handleEntityAlreadyExistsException(EntityAlreadyExistsException e) {
         return new ResponseEntity<>(createErrorBody(e.getMessage()), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Object> handlCustomerDoesntExistsException(EntityNotFoundException e) {
+    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException e) {
         return new ResponseEntity<>(createErrorBody(e.getMessage()), HttpStatus.NOT_FOUND);
     }
 

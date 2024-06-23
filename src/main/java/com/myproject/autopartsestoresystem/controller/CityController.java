@@ -3,7 +3,7 @@ package com.myproject.autopartsestoresystem.controller;
 import com.myproject.autopartsestoresystem.dto.customer.CityDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.CityAlreadyExists;
+import com.myproject.autopartsestoresystem.exception.service.CityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.CityNotFoundException;
 import com.myproject.autopartsestoresystem.service.CityService;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ public class CityController {
 
             return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
 
-        } catch (CityAlreadyExists e) {
+        } catch (CityAlreadyExistsException e) {
             throw new EntityAlreadyExistsException(e.getMessage());
         }
     }
@@ -64,9 +64,8 @@ public class CityController {
 
         List<CityDTO> cities = cityService.getAll();
 
-        if (cities.isEmpty()) {
+        if (cities.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
 
         return new ResponseEntity<>(cities, HttpStatus.OK);
     }

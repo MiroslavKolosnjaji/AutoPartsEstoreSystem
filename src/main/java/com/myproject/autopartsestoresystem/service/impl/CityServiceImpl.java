@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.customer.CityDTO;
-import com.myproject.autopartsestoresystem.exception.service.CityAlreadyExists;
+import com.myproject.autopartsestoresystem.exception.service.CityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.CityNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.CityMapper;
 import com.myproject.autopartsestoresystem.model.City;
@@ -27,7 +27,7 @@ public class CityServiceImpl implements CityService {
     public CityDTO save(CityDTO cityDTO) {
 
         if (cityRepository.findByNameAndZipCode(cityDTO.getName(), cityDTO.getZipCode()).isPresent())
-            throw new CityAlreadyExists();
+            throw new CityAlreadyExistsException();
 
         City saved = cityRepository.save(cityMapper.cityDTOToCity(cityDTO));
         return cityMapper.cityToCityDTO(saved);

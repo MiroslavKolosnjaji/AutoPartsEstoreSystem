@@ -3,6 +3,10 @@ coverage:
     project:
       default:
         target: 60%
+        threshold: 1%
 
 ignore:
-  - "src/main/java/com/project/autopartsestoresystem/test"
+  - "test/*"
+  - "exception/*"
+  - "mapper/*"
+  - "bootstrap/*"

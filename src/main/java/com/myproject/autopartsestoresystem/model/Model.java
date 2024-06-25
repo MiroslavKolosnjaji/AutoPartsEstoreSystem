@@ -17,11 +17,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "model")
 public class Model {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "brand_id")
-    private Long id;
+    @EmbeddedId
+    private ModelId id;
 
-    private String name;
+    @ManyToOne
+    @MapsId("brand_id")
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
 }

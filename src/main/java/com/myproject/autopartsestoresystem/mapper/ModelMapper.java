@@ -11,5 +11,5 @@ import org.mapstruct.Mapper;
 public interface ModelMapper {
 
     ModelDTO modelToModelDTO(Model model);
-    Model mapDtoToModel(ModelDTO modelDTO);
+    Model modelDtoToModel(ModelDTO modelDTO);
 }

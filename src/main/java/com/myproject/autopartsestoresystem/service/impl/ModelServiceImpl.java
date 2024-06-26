@@ -10,6 +10,7 @@ import com.myproject.autopartsestoresystem.repository.ModelRepository;
 import com.myproject.autopartsestoresystem.service.ModelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,19 +31,19 @@ public class ModelServiceImpl implements ModelService {
         if (modelRepository.findById(modelDTO.getId()).isPresent())
             throw new ModelAlreadyExistsException("Model already exists");
 
-        Model saved = modelRepository.save(modelMapper.mapDtoToModel(modelDTO));
+        Model saved = modelRepository.save(modelMapper.modelDtoToModel(modelDTO));
 
         return modelMapper.modelToModelDTO(saved);
     }
 
 
     @Override
-    public ModelDTO update(ModelId id, ModelDTO entity) {
+    public ModelDTO update(ModelId id, ModelDTO modelDTO) {
 
         Model model = modelRepository.findById(id)
                 .orElseThrow(() -> new ModelNotFoundException("Model not found"));
 
-        model.setId(id);
+        model.getId().setName(modelDTO.getId().getName());
 
         modelRepository.save(model);
 
@@ -61,7 +62,12 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
+    @Transactional
     public void delete(ModelId id) {
+
+        if(modelRepository.findById(id).isEmpty())
+            throw new ModelNotFoundException("Model not found");
+
         modelRepository.deleteById(id);
     }
 }

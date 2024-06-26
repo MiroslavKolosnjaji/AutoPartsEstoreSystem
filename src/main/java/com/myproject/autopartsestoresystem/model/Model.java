@@ -21,8 +21,10 @@ public class Model {
     private ModelId id;
 
     @ManyToOne
-    @MapsId("brand_id")
-    @JoinColumn(name = "brand_id")
+    @JoinColumn(name = "brand_id", insertable = false, updatable = false)
     private Brand brand;
+
+//    @Column(name = "name", nullable = false, length = 50)
+//    private String name;
 
 }

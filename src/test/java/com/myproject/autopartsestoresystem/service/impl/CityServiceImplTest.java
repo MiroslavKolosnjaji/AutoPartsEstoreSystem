@@ -71,7 +71,7 @@ class CityServiceImplTest {
         verify(cityRepository).save(city);
     }
 
-    @DisplayName("Save City - City Already Exists - Throws CityAlreadyExists")
+    @DisplayName("Save City - City Already Exists - Throws CityAlreadyExistsException")
     @Test
     void testSaveCity_whenCityAlreadyExists_throwsCityAlreadyExistsException() {
 
@@ -89,7 +89,7 @@ class CityServiceImplTest {
 
     @DisplayName("Update City")
     @Test
-    void testUpdateCity_whenValidDetailsProvided_returnsUpdateDTO() {
+    void testUpdateCity_whenValidDetailsProvided_returnsUpdatedDTO() {
 
         //given
         City city = mock(City.class);
@@ -107,6 +107,7 @@ class CityServiceImplTest {
 
         verify(cityRepository).findById(anyLong());
         verify(cityMapper).cityToCityDTO(city);
+        verify(cityRepository).save(city);
     }
 
 

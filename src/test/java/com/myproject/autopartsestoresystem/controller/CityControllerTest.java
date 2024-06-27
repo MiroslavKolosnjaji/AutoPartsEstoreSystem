@@ -76,7 +76,7 @@ class CityControllerTest {
         verify(cityService).save(any(CityDTO.class));
     }
 
-    @DisplayName("Create City With Invalid City Details Provided - Returns Status 400 ")
+    @DisplayName("Create City When Invalid City Details Provided - Returns Status 400 ")
     @Test
     void testCreateCity_whenCityNameIsNotProvided_returns400StatusCode() throws Exception {
 
@@ -205,7 +205,7 @@ class CityControllerTest {
         verify(cityService).getById(any(Long.class));
     }
 
-    @DisplayName("Delete City -Successful")
+    @DisplayName("Delete City")
     @Test
     void testDeleteCity_whenValidIdProvided_returns204StatusCode() throws Exception {
         //given

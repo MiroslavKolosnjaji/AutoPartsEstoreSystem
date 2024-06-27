@@ -47,7 +47,7 @@ public class ModelController {
     }
 
     @PutMapping(MODEL_ID)
-    public ResponseEntity<Void> updateModel(@PathVariable("brandId") Long brandId, @PathVariable("name") String name, @RequestBody ModelDTO modelDTO) {
+    public ResponseEntity<Void> updateModel(@PathVariable("brandId") Long brandId, @PathVariable("name") String name, @Validated @RequestBody ModelDTO modelDTO) {
 
         try {
 

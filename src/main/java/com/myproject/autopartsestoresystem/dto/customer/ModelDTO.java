@@ -2,6 +2,7 @@ package com.myproject.autopartsestoresystem.dto.customer;
 
 import com.myproject.autopartsestoresystem.model.Brand;
 import com.myproject.autopartsestoresystem.model.ModelId;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,10 +20,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ModelDTO {
 
-    @NotNull
+    @Valid
+    @NotNull(message = "Model id can't be null")
     private ModelId id;
 
-    @NotNull
+    @NotNull(message = "Brand can't be null")
     private Brand brand;
 
 

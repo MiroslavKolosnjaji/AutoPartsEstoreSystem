@@ -19,12 +19,12 @@ import org.hibernate.sql.Update;
 @Embeddable
 public class ModelId {
 
-    @NotNull(groups = Update.class)
+    @NotNull(groups = Update.class, message = "Id cannot be null")
     @Column(name = "model_id")
     private Long id;
 
-    @NotBlank
-    @Size(max = 50, message = "Name cannot be longer than 50 characters")
+    @NotBlank(message = "Name cannot be blank")
+    @Size(max = 50, message = "Name cannot be greater than 50 characters")
     @Column(name = "name", insertable = false, updatable = false)
     private String name;
 }

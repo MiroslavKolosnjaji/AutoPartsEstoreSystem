@@ -39,10 +39,10 @@ public class PartServiceImpl implements PartService {
         if(partDTO.getPrices().isEmpty())
             throw new IllegalArgumentException("Part must contain at least one price");
 
-        Part part = partRepository.save(partMapper.partDTOToPart(partDTO));
-        priceService.save(priceMapper.priceToPriceDTO(getLastPriceFromPart(part)));
+        Part saved = partRepository.save(partMapper.partDTOToPart(partDTO));
+        priceService.save(priceMapper.priceToPriceDTO(getLastPriceFromPart(saved)));
 
-        return partMapper.partToPartDTO(part);
+        return partMapper.partToPartDTO(saved);
     }
 
     @Override

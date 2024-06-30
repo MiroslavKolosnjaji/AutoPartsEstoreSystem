@@ -5,7 +5,6 @@ import com.myproject.autopartsestoresystem.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,9 +23,9 @@ public class BootStrapData implements CommandLineRunner {
     private final ModelRepository modelRepository;
     private final PartGroupRepository partGroupRepository;
     private final PartRepository partRepository;
+    private final PriceRepository priceRepository;
 
     @Override
-    @Transactional
     public void run(String... args) throws Exception {
         loadPartGroupData();
         loadBrandData();
@@ -45,7 +44,6 @@ public class BootStrapData implements CommandLineRunner {
                 .partNumber("BP12345")
                 .partName("Front Brake Pad Set")
                 .description("High-Performance brake pads for superior stopping power. Suitable for both everyday driving and high-performance use.")
-                .prices(List.of(Price.builder().price(new BigDecimal("59.99")).currency(Currency.USD).build()))
                 .partGroup(brakingSystem)
                 .vehicles(new ArrayList<>())
                 .build();
@@ -54,7 +52,6 @@ public class BootStrapData implements CommandLineRunner {
                 .partNumber("BR67890")
                 .partName("Rear Brake Rotor")
                 .description("Durable and heat-resistant brake rotor for improved braking efficiency. Designed to reduce brake noise and vibration.")
-                .prices(List.of(Price.builder().price(new BigDecimal("89.99")).currency(Currency.USD).build()))
                 .partGroup(brakingSystem)
                 .vehicles(new ArrayList<>())
                 .build();
@@ -63,12 +60,22 @@ public class BootStrapData implements CommandLineRunner {
                 .partNumber("BC245680")
                 .partName("Brake Caliper Assembly")
                 .description("High-quality brake caliper for precise braking control. Comes pre-assembled with brake pads for easy installation")
-                .prices(List.of(Price.builder().price(new BigDecimal("129.99")).currency(Currency.USD).build()))
                 .partGroup(brakingSystem)
                 .vehicles(new ArrayList<>())
                 .build();
 
-        partRepository.saveAll(List.of(part1, part2, part3));
+      List<Part> saved = partRepository.saveAll(List.of(part1, part2, part3));
+
+      List<Price> prices = List.of(Price.builder().price(new BigDecimal("59.99")).currency(Currency.USD).build(),
+              Price.builder().price(new BigDecimal("89.99")).currency(Currency.USD).build(),
+              Price.builder().price(new BigDecimal("129.99")).currency(Currency.USD).build());
+
+        for (int i = 0; i < saved.size(); i++) {
+            prices.get(i).setId(new PriceId(saved.get(i).getId(), saved.get(i).getPartName()));
+            saved.get(i).setPrices(List.of(prices.get(i)));
+        }
+
+        priceRepository.saveAll(prices);
 
     }
 

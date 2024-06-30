@@ -10,5 +10,5 @@ import java.util.Optional;
  */
 public interface PartRepository extends JpaRepository<Part, Long> {
 
-    Optional<Part> findByPartNameAndBrand(String partName, String BrandName);
+//    Optional<Part> findByPartNameAnGroupId(String partName, Long groupId);
 }

@@ -1,7 +1,5 @@
 package com.myproject.autopartsestoresystem.service;
 
-import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
-
 import java.util.List;
 
 /**

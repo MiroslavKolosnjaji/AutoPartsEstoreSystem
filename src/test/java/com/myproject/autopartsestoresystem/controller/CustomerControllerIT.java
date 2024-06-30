@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
+import com.myproject.autopartsestoresystem.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.model.City;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

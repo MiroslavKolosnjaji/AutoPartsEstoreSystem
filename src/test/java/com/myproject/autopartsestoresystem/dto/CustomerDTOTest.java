@@ -1,6 +1,5 @@
 package com.myproject.autopartsestoresystem.dto;
 
-import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
 import com.myproject.autopartsestoresystem.model.City;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

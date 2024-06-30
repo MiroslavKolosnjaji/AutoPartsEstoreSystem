@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.service;
 
-import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
+import com.myproject.autopartsestoresystem.dto.CustomerDTO;
 
 /**
  * @author Miroslav Kološnjaji

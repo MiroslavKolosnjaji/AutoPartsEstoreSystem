@@ -9,9 +9,8 @@ import java.util.Optional;
 /**
  * @author Miroslav Kološnjaji
  */
-public interface ModelRepository extends JpaRepository<Model, Long> {
+public interface ModelRepository extends JpaRepository<Model, ModelId> {
 
-    Optional<Model> findById(ModelId id);
-    void deleteById(ModelId id);
+//    void deleteById(ModelId id);
 
 }

@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.dto.customer.ModelDTO;
+import com.myproject.autopartsestoresystem.dto.ModelDTO;
 import com.myproject.autopartsestoresystem.model.Brand;
 import com.myproject.autopartsestoresystem.model.ModelId;
 import org.junit.jupiter.api.*;

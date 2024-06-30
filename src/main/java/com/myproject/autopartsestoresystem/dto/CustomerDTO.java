@@ -1,9 +1,8 @@
-package com.myproject.autopartsestoresystem.dto.customer;
+package com.myproject.autopartsestoresystem.dto;
 
 import com.myproject.autopartsestoresystem.model.City;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;

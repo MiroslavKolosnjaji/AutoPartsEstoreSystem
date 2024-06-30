@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
-import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
+import com.myproject.autopartsestoresystem.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.EmailAddressAlreadyExistsException;
 import com.myproject.autopartsestoresystem.mapper.CustomerMapper;

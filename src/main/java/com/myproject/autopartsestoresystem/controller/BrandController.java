@@ -1,14 +1,12 @@
 package com.myproject.autopartsestoresystem.controller;
 
-import com.myproject.autopartsestoresystem.dto.customer.BrandDTO;
+import com.myproject.autopartsestoresystem.dto.BrandDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.BrandAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.BrandNotFoundException;
-import com.myproject.autopartsestoresystem.model.Brand;
 import com.myproject.autopartsestoresystem.service.BrandService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

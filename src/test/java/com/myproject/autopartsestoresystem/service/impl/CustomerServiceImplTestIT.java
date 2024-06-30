@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 
-import com.myproject.autopartsestoresystem.dto.customer.CustomerDTO;
+import com.myproject.autopartsestoresystem.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.model.City;
 import com.myproject.autopartsestoresystem.repository.CityRepository;

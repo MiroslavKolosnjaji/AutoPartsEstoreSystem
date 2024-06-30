@@ -1,7 +1,6 @@
 package com.myproject.autopartsestoresystem.service;
 
-import com.myproject.autopartsestoresystem.dto.customer.BrandDTO;
-import com.myproject.autopartsestoresystem.model.Brand;
+import com.myproject.autopartsestoresystem.dto.BrandDTO;
 
 /**
  * @author Miroslav Kološnjaji

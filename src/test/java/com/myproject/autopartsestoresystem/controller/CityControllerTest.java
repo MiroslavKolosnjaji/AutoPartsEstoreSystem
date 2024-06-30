@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.dto.customer.CityDTO;
+import com.myproject.autopartsestoresystem.dto.CityDTO;
 import com.myproject.autopartsestoresystem.exception.service.CityNotFoundException;
 import com.myproject.autopartsestoresystem.service.CityService;
 import org.junit.jupiter.api.BeforeEach;

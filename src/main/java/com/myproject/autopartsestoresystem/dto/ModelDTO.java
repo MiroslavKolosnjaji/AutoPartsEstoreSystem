@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.dto.customer;
+package com.myproject.autopartsestoresystem.dto;
 
 import com.myproject.autopartsestoresystem.model.Brand;
 import com.myproject.autopartsestoresystem.model.ModelId;

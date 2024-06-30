@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.controller;
 
-import com.myproject.autopartsestoresystem.dto.customer.CityDTO;
+import com.myproject.autopartsestoresystem.dto.CityDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.CityAlreadyExistsException;

@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
-import com.myproject.autopartsestoresystem.dto.customer.ModelDTO;
+import com.myproject.autopartsestoresystem.dto.ModelDTO;
 import com.myproject.autopartsestoresystem.exception.service.ModelAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.ModelNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.ModelMapper;

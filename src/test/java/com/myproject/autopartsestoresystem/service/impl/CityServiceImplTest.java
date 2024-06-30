@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
-import com.myproject.autopartsestoresystem.dto.customer.CityDTO;
+import com.myproject.autopartsestoresystem.dto.CityDTO;
 import com.myproject.autopartsestoresystem.exception.service.CityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.CityNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.CityMapper;

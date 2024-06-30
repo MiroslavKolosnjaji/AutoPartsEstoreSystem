@@ -1,10 +1,9 @@
 package com.myproject.autopartsestoresystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.dto.customer.ModelDTO;
+import com.myproject.autopartsestoresystem.dto.ModelDTO;
 import com.myproject.autopartsestoresystem.exception.service.ModelNotFoundException;
 import com.myproject.autopartsestoresystem.model.Brand;
-import com.myproject.autopartsestoresystem.model.Model;
 import com.myproject.autopartsestoresystem.model.ModelId;
 import com.myproject.autopartsestoresystem.service.ModelService;
 import org.junit.jupiter.api.BeforeEach;
@@ -175,20 +174,21 @@ class ModelControllerTest {
         //when
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         String response = result.getResponse().getContentAsString();
-        ModelDTO savedDTO = objectMapper.readValue(response, ModelDTO.class);
+        ModelDTO foundDTO = objectMapper.readValue(response, ModelDTO.class);
 
         //then
         assertAll("Get Model By ID Validation",
-                () -> assertEquals(modelDTO.getId().getId(), savedDTO.getId().getId(), "Id doesn't match"),
-                () -> assertEquals(modelDTO.getId().getName(), savedDTO.getId().getName(), "Name doesn't match"),
-                () -> assertEquals(savedDTO.getBrand(), modelDTO.getBrand(), "Brand doesn't match"));
+                () -> assertEquals(modelDTO.getId().getId(), foundDTO.getId().getId(), "Id doesn't match"),
+                () -> assertEquals(modelDTO.getId().getName(), foundDTO.getId().getName(), "Name doesn't match"),
+                () -> assertEquals(foundDTO.getBrand(), modelDTO.getBrand(), "Brand doesn't match"));
 
         verify(modelService).getById(any(ModelId.class));
 
     }
 
+    @DisplayName("Get Model By ID When Invalid ID Provided - Returns 404 Status Code")
     @Test
-    void testGetModel_whenInvalidIdProvided_Returns404StatusCode() throws Exception {
+    void testGetModel_whenInvalidIdProvided_returns404StatusCode() throws Exception {
 
         //given
         modelDTO.setId(new ModelId(15L, "XC"));
@@ -206,6 +206,7 @@ class ModelControllerTest {
         verify(modelService).getById(any(ModelId.class));
     }
 
+    @DisplayName("Delete Model")
     @Test
     void testDeleteModel_whenValidIDProvided_returns204StatusCode() throws Exception {
 
@@ -225,6 +226,7 @@ class ModelControllerTest {
         verify(modelService).delete(modelDTO.getId());
     }
 
+    @DisplayName("Delete Model When Ivalid ID Provided - Returns 404 Status Code")
     @Test
     void testDeleteCity_whenInvalidIdProvided_returns404StatusCode() throws Exception {
 

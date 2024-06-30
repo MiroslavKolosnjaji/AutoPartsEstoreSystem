@@ -1,7 +1,6 @@
 package com.myproject.autopartsestoresystem.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,8 +23,5 @@ public class Model {
     @ManyToOne
     @JoinColumn(name = "brand_id", insertable = false, updatable = false)
     private Brand brand;
-
-//    @Column(name = "name", nullable = false, length = 50)
-//    private String name;
 
 }

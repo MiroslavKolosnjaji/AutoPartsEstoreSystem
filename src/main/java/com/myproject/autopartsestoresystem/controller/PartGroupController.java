@@ -44,8 +44,8 @@ public class PartGroupController {
         }
     }
 
-    @PutMapping(PARTGROUP_URI)
-    public ResponseEntity<PartGroupDTO> updatePartGroup(@PathVariable("partGroupId") Long id, @RequestBody PartGroupDTO partGroupDTO) {
+    @PutMapping(PARTGROUP_ID)
+    public ResponseEntity<PartGroupDTO> updatePartGroup(@PathVariable("partGroupId") Long id, @Validated @RequestBody PartGroupDTO partGroupDTO) {
 
         try{
 

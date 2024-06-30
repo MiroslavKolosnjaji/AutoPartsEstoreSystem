@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.mapper;
 
-import com.myproject.autopartsestoresystem.dto.customer.CityDTO;
+import com.myproject.autopartsestoresystem.dto.CityDTO;
 import com.myproject.autopartsestoresystem.model.City;
 import org.mapstruct.Mapper;
 

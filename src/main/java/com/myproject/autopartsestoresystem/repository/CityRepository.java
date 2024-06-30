@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface CityRepository  extends JpaRepository<City, Long> {
 
     Optional<City> findByNameAndZipCode(String name, String zipCode);
+    Optional<City> findByName(String name);
 }

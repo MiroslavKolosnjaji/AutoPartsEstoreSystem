@@ -127,7 +127,7 @@ class CustomerServiceImplTest {
         verify(customerMapper).customerToCustomerDTO(any(Customer.class));
     }
 
-    @DisplayName("Update Customer - failed (invalid ID)")
+    @DisplayName("Update Customer Failed - Invalid ID Provided")
     @Test
     void testUpdateCustomer_whenInvalidIdIsProvided_throwsDoesntExistException() {
 
@@ -143,7 +143,7 @@ class CustomerServiceImplTest {
         verify(customerRepository).findById(anyLong());
     }
 
-    @DisplayName("Get Customers - With Populated List")
+    @DisplayName("Get Customers")
     @Test
     void testGetAll_whenListIsNotEmpty_returnsListOfCustomerDTO() {
 
@@ -234,11 +234,14 @@ class CustomerServiceImplTest {
     @Test
     void testDelete_whenValidIdProvided_thenSuccess() {
 
+        //given
         when(customerRepository.existsById(anyLong())).thenReturn(true);
         doNothing().when(customerRepository).deleteById(anyLong());
 
+        //when
         customerService.delete(anyLong());
 
+        //then
         verify(customerRepository).existsById(anyLong());
         verify(customerRepository).deleteById(anyLong());
 

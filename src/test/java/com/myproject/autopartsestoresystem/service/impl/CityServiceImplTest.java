@@ -122,12 +122,12 @@ class CityServiceImplTest {
         Executable executable = () -> cityService.update(anyLong(), cityDTO);
 
         //then
-        assertThrows(CityNotFoundException.class, executable);
+        assertThrows(CityNotFoundException.class, executable, "Exception not match. Expected CityNotFoundException");
 
         verify(cityRepository).findById(anyLong());
     }
 
-    @DisplayName("Get Cities - With Populated List")
+    @DisplayName("Get All Cities")
     @Test
     void testGetAll_whenListIsNotEmpty_returnListOfCityDTO() {
 
@@ -140,7 +140,7 @@ class CityServiceImplTest {
 
         assertNotNull(citiesDTOList, "List of Cities should not be null");
         assertFalse(citiesDTOList.isEmpty(), "List of Cities should not be empty");
-        assertEquals(3, citiesDTOList.size(), "List of Cities size should be 3");
+        assertEquals(3, citiesDTOList.size(), "City list size is not equal to 3");
 
         verify(cityRepository).findAll();
     }
@@ -224,7 +224,7 @@ class CityServiceImplTest {
         verify(cityRepository).deleteById(anyLong());
     }
 
-    @DisplayName("Delete City - Invalid ID - throws CityNotFound Exception")
+    @DisplayName("Delete City - Invalid ID - throws CityNotFoundException")
     @Test
     void testDeleteCity_whenInvalidIdProvided_throwsCityNotFoundException() {
 

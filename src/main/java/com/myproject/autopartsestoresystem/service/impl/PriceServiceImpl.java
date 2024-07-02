@@ -29,25 +29,36 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public PriceDTO save(PriceDTO priceDTO) {
 
-       Price price = priceRepository.save(priceMapper.priceDTOToPrice(priceDTO));
+        PriceId priceId = new PriceId(priceDTO.getId().getPartId(), generateNextPriceId(priceRepository.findMaxPriceId()));
+        priceDTO.setId(priceId);
 
-       return priceMapper.priceToPriceDTO(price);
+        if (priceDTO.getDateModified() == null)
+            priceDTO.setDateModified(LocalDateTime.now());
+
+        Price price = priceRepository.save(priceMapper.priceDTOToPrice(priceDTO));
+
+        return priceMapper.priceToPriceDTO(price);
     }
 
     @Override
     public PriceDTO update(PriceId priceId, PriceDTO priceDTO) {
-        AtomicReference<Price> priceRef = new AtomicReference<>();
 
-        priceRepository.getPriceByIdAndDateModified(priceId, priceDTO.getDateModified())
-                .ifPresent(price -> {
-                    price.setPrice(priceDTO.getPrice());
-                    price.setCurrency(priceDTO.getCurrency());
+        PriceUpdateStatus updateStatus = getPriceUpdateStatus(priceId, priceDTO.getDateModified());
 
-                   priceRef.set(priceRepository.save(price));
 
-                });
 
-        return priceMapper.priceToPriceDTO(priceRef.get());
+        switch (updateStatus) {
+
+            case NEW_PRICE -> {
+                return save(priceDTO);
+            }
+
+            case UPDATE_EXISTING_PRICE -> { return updateExistingPrice(priceId, priceDTO); }
+
+            default -> {
+                return null;
+            }
+        }
     }
 
     @Override
@@ -71,10 +82,30 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public PriceDTO getPriceByPriceIdAndLastModifiedDate(PriceId priceId, LocalDateTime lastModifiedDate) {
-       Price price = priceRepository.getPriceByIdAndDateModified(priceId, lastModifiedDate).orElseThrow(() -> new PriceNotFoundException("Price for part ID: " + priceId.getId() +
-                "doesn't exists"));
-
-       return priceMapper.priceToPriceDTO(price);
+    public Optional<PriceDTO> getPriceByPriceIdAndLastModifiedDate(PriceId priceId, LocalDateTime lastModifiedDate) {
+      Optional<Price> price = priceRepository.getPriceByIdAndDateModified(priceId, lastModifiedDate);
+      return Optional.ofNullable(priceMapper.priceToPriceDTO(price.get()));
     }
+
+    private PriceDTO updateExistingPrice(PriceId priceId, PriceDTO priceDTO) {
+        AtomicReference<Price> priceRef = new AtomicReference<>();
+
+        priceRepository.getPriceByIdAndDateModified(priceId, priceDTO.getDateModified())
+                .ifPresentOrElse(price -> {
+                    price.setPrice(priceDTO.getPrice());
+                    price.setCurrency(priceDTO.getCurrency());
+
+                    priceRef.set(priceRepository.save(price));
+
+                }, () -> {throw new PriceNotFoundException("Price not found for update");});
+
+        return priceMapper.priceToPriceDTO(priceRef.get());
+    }
+
+    private PriceUpdateStatus getPriceUpdateStatus(PriceId priceId, LocalDateTime lastModifiedDate) {
+
+        Optional<PriceDTO> lastPrice = getPriceByPriceIdAndLastModifiedDate(priceId, lastModifiedDate);
+        return lastPrice.isPresent() ? PriceUpdateStatus.UPDATE_EXISTING_PRICE : PriceUpdateStatus.NEW_PRICE;
+    }
+
 }

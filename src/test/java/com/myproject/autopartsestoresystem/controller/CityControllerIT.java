@@ -35,8 +35,8 @@ class CityControllerIT {
         CityDTO cityDTO = getTestCityDTO();
 
         mockMvc.perform(post(CityController.CITY_URI)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(cityDTO)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(cityDTO)))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", CityController.CITY_URI + "/4"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -53,8 +53,8 @@ class CityControllerIT {
         cityDTO.setZipCode("1234");
 
         mockMvc.perform(post(CityController.CITY_URI)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(cityDTO)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(cityDTO)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -67,8 +67,8 @@ class CityControllerIT {
         cityDTO.setZipCode("22222");
 
         mockMvc.perform(put(CityController.CITY_URI_WITH_ID, cityDTO.getId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(cityDTO)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(cityDTO)))
                 .andExpect(status().isNoContent());
     }
 
@@ -77,7 +77,7 @@ class CityControllerIT {
     @Test
     void testGetCityById_whenValidIdProvided_returnsCityDTO() throws Exception {
         mockMvc.perform(get(CityController.CITY_URI_WITH_ID, 1)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(header().string("Content-type", "application/json"))
@@ -88,7 +88,7 @@ class CityControllerIT {
     @Test
     void testGetCityById_whenInvalidIdProvided_returns4040StatusCode() throws Exception {
         mockMvc.perform(get(CityController.CITY_URI_WITH_ID, 99)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
@@ -97,7 +97,7 @@ class CityControllerIT {
     @Test
     void testGetAllCities_whenListIsPopulated_returnsListOfCityDto() throws Exception {
         mockMvc.perform(get(CityController.CITY_URI)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.length()").value(3));
@@ -109,7 +109,7 @@ class CityControllerIT {
     void testDeleteCity_whenValidIdProvided_returns204StatusCode() throws Exception {
 
         mockMvc.perform(delete(CityController.CITY_URI_WITH_ID, 4)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
 
@@ -117,7 +117,7 @@ class CityControllerIT {
     @Test
     void testDeleteCustomer_whenInvalidIdProvided_returns404StatusCode() throws Exception {
         mockMvc.perform(delete(CustomerController.CUSTOMER_URI_WITH_ID, 99)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 

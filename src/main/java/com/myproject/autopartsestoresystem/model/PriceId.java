@@ -2,6 +2,8 @@ package com.myproject.autopartsestoresystem.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -21,9 +23,8 @@ public class PriceId {
 
     @NotNull(groups = Update.class, message = "price id cannot be null")
     @Column(name = "part_id")
-    private Long id;
+    private Long partId;
 
-    @NotBlank(message = "part name cannot be blank")
-    @Size(max = 120, message = "part name cannot be longer than 120 characters")
-    private String partName;
+    @Column(name = "price_id")
+    private Long priceId;
 }

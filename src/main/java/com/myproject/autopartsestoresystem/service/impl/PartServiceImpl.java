@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 /**
@@ -36,9 +38,6 @@ public class PartServiceImpl implements PartService {
     @Transactional
     public PartDTO save(PartDTO partDTO) {
 
-        if(partDTO.getPrices().isEmpty())
-            throw new IllegalArgumentException("Part must contain at least one price");
-
         Part saved = partRepository.save(partMapper.partDTOToPart(partDTO));
         priceService.save(priceMapper.priceToPriceDTO(getLastPriceFromPart(saved)));
 
@@ -49,24 +48,37 @@ public class PartServiceImpl implements PartService {
     @Transactional
     public PartDTO update(Long id, PartDTO partDTO) {
 
-       Part part = partRepository.findById(id).orElseThrow(() -> new PartNotFoundException("Part not found"));
+        Part part = partRepository.findById(id).orElseThrow(() -> new PartNotFoundException("Part not found"));
 
-       part.setPartName(partDTO.getPartName());
-       part.setPartGroup(partDTO.getPartGroup());
-       part.setPartNumber(partDTO.getPartNumber());
-       part.setPrices(partDTO.getPrices());
-       part.setVehicles(partDTO.getVehicles());
+        part.setPartName(partDTO.getPartName());
+        part.setPartGroup(partDTO.getPartGroup());
+        part.setPartNumber(partDTO.getPartNumber());
+        part.setVehicles(partDTO.getVehicles());
+        updatePrice(part, partDTO.getPrices());
 
-       partRepository.save(part);
-
-       Price lastPrice = getLastPriceFromPart(part);
-       Price existingLastPrice = getLastPriceFromPriceHistory(partDTO.getId(), partDTO.getPartName(), getLastPriceFromPart(part).getDateModified());
-
-       if(!lastPrice.equals(existingLastPrice))
-            priceService.save(priceMapper.priceToPriceDTO(getLastPriceFromPart(part)));
+        partRepository.save(part);
+        Price lastPrice = getLastPriceFromPart(partMapper.partDTOToPart(partDTO));
+        priceService.update(lastPrice.getId(), priceMapper.priceToPriceDTO(lastPrice));
 
 
         return partMapper.partToPartDTO(part);
+    }
+
+    private void updatePrice(Part part, List<Price> prices) {
+
+        Map<PriceId, Price> priceMap = prices.stream().collect(Collectors.toMap(Price::getId, p -> p));
+
+        for (Price price : prices) {
+
+            Price existingPrice = priceMap.get(price.getId());
+
+            if (existingPrice != null) {
+                price.setPrice(price.getPrice());
+                existingPrice.setCurrency(price.getCurrency());
+            } else {
+                part.getPrices().add(price);
+            }
+        }
     }
 
     @Override
@@ -78,30 +90,32 @@ public class PartServiceImpl implements PartService {
     @Override
     @Transactional(readOnly = true)
     public PartDTO getById(Long id) {
-      Part part =  partRepository.findById(id).orElseThrow(() -> new PartNotFoundException("Part not found"));
-      List<PriceDTO> prices = priceService.getAllPricesByPriceId(new PriceId(part.getId(), part.getPartName()));
+        Part part = partRepository.findById(id).orElseThrow(() -> new PartNotFoundException("Part not found"));
+        List<PriceDTO> prices = priceService.getAllPricesByPriceId(new PriceId(part.getId(), null));
 
-      part.setPrices(priceMapper.priceDTOListToPrice(prices));
+        part.setPrices(priceMapper.priceDTOListToPrice(prices));
 
-      return partMapper.partToPartDTO(part);
+        return partMapper.partToPartDTO(part);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
 
-        if(!partRepository.existsById(id))
+        if (!partRepository.existsById(id))
             throw new PartNotFoundException("Part not found");
 
         partRepository.deleteById(id);
     }
 
     private Price getLastPriceFromPart(Part part) {
+
+
+        if(part.getPrices() == null  || part.getPrices().isEmpty())
+            throw new NoSuchElementException("No prices found for the part");
+
         return part.getPrices().get(part.getPrices().size() - 1);
     }
 
-    private Price getLastPriceFromPriceHistory(Long id, String partName, LocalDateTime lastModifiedDate) {
-        PriceDTO priceDTO = priceService.getPriceByPriceIdAndLastModifiedDate(new PriceId(id, partName), lastModifiedDate);
-        return priceMapper.priceDTOToPrice(priceDTO);
-    }
+
 }

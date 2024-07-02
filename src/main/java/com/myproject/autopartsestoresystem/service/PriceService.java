@@ -14,5 +14,9 @@ import java.util.Optional;
 public interface PriceService extends CrudService<PriceDTO, PriceId> {
 
     List<PriceDTO> getAllPricesByPriceId(PriceId priceId);
-    PriceDTO getPriceByPriceIdAndLastModifiedDate(PriceId priceId, LocalDateTime lastModifiedDate);
+    Optional<PriceDTO> getPriceByPriceIdAndLastModifiedDate(PriceId priceId, LocalDateTime lastModifiedDate);
+
+    default Long generateNextPriceId(Long maxPriceId){
+        return (maxPriceId == null) ? 1 : maxPriceId + 1;
+    }
 }

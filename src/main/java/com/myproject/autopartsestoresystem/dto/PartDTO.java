@@ -28,11 +28,12 @@ public class PartDTO {
     @NotNull(groups = Update.class)
     private Long id;
 
-    @NotBlank(message = "Part number cannot be blank!")
+    @NotBlank(message = "Part number cannot be blank")
     @Size(max = 20, message = "Part number cannot be longer than 20 characters" )
     private String partNumber;
 
-    @NotBlank(message = "Part name cannot be blank!")
+    @NotBlank(message = "Part name cannot be blank")
+    @Size(max = 120, message = "Part name cannot be longer than 120 characters")
     private String partName;
 
     @Size(max = 255, message = "Description cannot be longer than 255 characters")

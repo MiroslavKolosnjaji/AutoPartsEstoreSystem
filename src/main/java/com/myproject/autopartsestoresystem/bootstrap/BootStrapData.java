@@ -71,7 +71,7 @@ public class BootStrapData implements CommandLineRunner {
               Price.builder().price(new BigDecimal("129.99")).currency(Currency.USD).build());
 
         for (int i = 0; i < saved.size(); i++) {
-            prices.get(i).setId(new PriceId(saved.get(i).getId(), saved.get(i).getPartName()));
+            prices.get(i).setId(new PriceId(saved.get(i).getId(), 0L));
             saved.get(i).setPrices(List.of(prices.get(i)));
         }
 

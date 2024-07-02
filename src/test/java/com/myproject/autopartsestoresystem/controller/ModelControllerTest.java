@@ -138,6 +138,7 @@ class ModelControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 400 expected");
     }
 
+    @DisplayName("Get All Models")
     @Test
     void testGetAllModels_whenListIsPopulated_returnsTwoModels() throws Exception {
 
@@ -180,7 +181,7 @@ class ModelControllerTest {
         assertAll("Get Model By ID Validation",
                 () -> assertEquals(modelDTO.getId().getId(), foundDTO.getId().getId(), "Id doesn't match"),
                 () -> assertEquals(modelDTO.getId().getName(), foundDTO.getId().getName(), "Name doesn't match"),
-                () -> assertEquals(foundDTO.getBrand(), modelDTO.getBrand(), "Brand doesn't match"));
+                () -> assertEquals(modelDTO.getBrand(), foundDTO.getBrand(), "Brand doesn't match"));
 
         verify(modelService).getById(any(ModelId.class));
 
@@ -242,6 +243,8 @@ class ModelControllerTest {
         //when
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         String response = result.getResponse().getContentAsString();
+
+
         //then
         assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 404 expected");
         assertTrue(response.contains(MESSAGE), "Error message doesn't match");

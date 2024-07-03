@@ -84,4 +84,18 @@ class ModelIdTest {
         violation = violations.iterator().next();
         assertEquals("Name cannot be greater than 50 characters", violation.getMessage());
     }
+
+    @Test
+    void testIsEqual_whenCompareTwoObjectsWithSameDetails_thenIsEqual() {
+
+        //given
+        ModelId modelId2 = new ModelId(1L, "330");
+
+        //given
+        boolean isEqual = modelId2.equals(modelId);
+        boolean isEqualHashCode = modelId2.hashCode() == modelId.hashCode();
+
+        assertTrue(isEqual, "ModelId should be equal");
+        assertTrue(isEqualHashCode, "ModelId hashCode should be equal");
+    }
 }

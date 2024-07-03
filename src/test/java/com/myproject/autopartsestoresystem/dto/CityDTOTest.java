@@ -129,4 +129,23 @@ class CityDTOTest {
         //then
         assertTrue(isEqual, "City should be equal");
     }
+
+    @Test
+    void testIsEqual_whenCOmpareTwoObjectsWithSameDetails_thenEqual() {
+
+        //given
+        CityDTO cityDTO2 = CityDTO.builder()
+                .id(1L)
+                .name("Berlin")
+                .zipCode("12345")
+                .build();
+
+        //when
+        boolean isEqual = cityDTO2.equals(cityDTO);
+        boolean isEqualHashCode = cityDTO2.hashCode() == cityDTO.hashCode();
+
+        //then
+        assertTrue(isEqual, "CityDTO should be equal");
+        assertTrue(isEqualHashCode, "CityDTO hashCode should be equal");
+    }
 }

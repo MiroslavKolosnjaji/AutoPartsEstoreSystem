@@ -274,4 +274,27 @@ class PartDTOTest {
         violation = violations.iterator().next();
         assertEquals("Vehicle list cannot be null", violation.getMessage());
     }
+
+    @Test
+    void testIsEqual_whenCompareTwoObjectsWithSameDetails_thenIsEqual() {
+
+        //given
+        PartDTO partDTO2 = PartDTO.builder()
+                .id(1L)
+                .partNumber("BR56789")
+                .partName("Rear Brake Rotor")
+                .description("High-quality rear brake rotor designed for optimal heat dissapation and minimal wear. Ensures smooth and effective braking perfomance")
+                .prices(partDTO.getPrices())
+                .partGroup(PartGroup.builder().id(1L).name(PartGroupType.BRAKING_SYSTEM).parts(new ArrayList<>()).build())
+                .vehicles(new ArrayList<>())
+                .build();
+
+        //when
+        boolean isEqual = partDTO.equals(partDTO2);
+        boolean isEqualHashCode = partDTO2.hashCode() == partDTO2.hashCode();
+
+        //then
+        assertTrue(isEqual, "PartDTO should be equal");
+        assertTrue(isEqualHashCode, "PartDTO hashCode should be equal");
+    }
 }

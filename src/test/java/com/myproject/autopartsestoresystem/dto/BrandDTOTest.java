@@ -72,8 +72,12 @@ class BrandDTOTest {
 
         //when
         boolean isEqual = brandDTO2.equals(brandDTO);
+        boolean isEqualHashCode = brandDTO2.hashCode() == brandDTO.hashCode();
 
         //then
-        assertTrue(isEqual, "Brand should be equal");
+        assertTrue(isEqual, "BrandDTO should be equal");
+        assertTrue(isEqualHashCode, "BrandDTO hashCode should be equal");
     }
+
+
 }

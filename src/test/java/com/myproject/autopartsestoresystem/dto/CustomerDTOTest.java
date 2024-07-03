@@ -344,7 +344,9 @@ class CustomerDTOTest {
 
         //when
         boolean isEqual = customerDTO2.equals(customerDTO);
+        boolean isEqualHashCode = customerDTO2.hashCode() == customerDTO.hashCode();
 
-        assertTrue(isEqual);
+        assertTrue(isEqual, "CustomerDTO should be equal");
+        assertTrue(isEqualHashCode, "CustomerDTO hashCode should be equal");
     }
 }

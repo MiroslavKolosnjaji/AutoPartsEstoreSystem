@@ -163,4 +163,23 @@ class PriceDTOTest {
         assertFalse(violations.isEmpty(), "Violation should fail for valid currency");
         assertTrue(violation.getMessage().contains("Currency cannot be null"));
     }
+
+    @Test
+    void testIsEqual_whenCompareTwoObjectsWithSameDetails_thenIsEqual() {
+
+        //given
+        PriceDTO priceDTO2 = PriceDTO.builder()
+                .id(new PriceId(1L, 1L))
+                .price(new BigDecimal("125.99"))
+                .currency(Currency.USD)
+                .dateModified(priceDTO.getDateModified())
+                .build();
+
+        //when
+        boolean isEqual = priceDTO2.equals(priceDTO);
+        boolean isEqualHashCode = priceDTO2.hashCode() == priceDTO.hashCode();
+
+        assertTrue(isEqual, "PriceDTO should be equal");
+        assertTrue(isEqualHashCode, "PriceDTO hashCode should be equal");
+    }
 }

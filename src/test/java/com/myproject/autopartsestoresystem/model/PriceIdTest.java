@@ -45,4 +45,19 @@ class PriceIdTest {
         //then
         assertTrue(violations.isEmpty(), "Validation should pass for valid part ID");
     }
+
+    @Test
+    void testIsEqual_whenCompareTwoObjectsWithSameDetails_thenIsEqual() {
+
+        //given
+        PriceId priceId2 = new PriceId(1L, 0L);
+
+        //given
+        boolean isEqual = priceId2.equals(priceId);
+        boolean isEqualHashCode = priceId2.hashCode() == priceId.hashCode();
+
+        //then
+        assertTrue(isEqual, "PriceId should be equal");
+        assertTrue(isEqualHashCode, "PriceId hashCode should be equal");
+    }
 }

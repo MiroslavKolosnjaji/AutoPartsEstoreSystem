@@ -95,4 +95,21 @@ class PartGroupDTOTest {
         violation = violations.iterator().next();
         assertEquals(violation.getMessage(), "Parts list cannot be null");
     }
+
+    @Test
+    void testIsEqual_whenCompareTwoObjectsWithSameDetails_thenIsEqual() {
+
+        //given
+        PartGroupDTO partGroupDTO2 = PartGroupDTO.builder()
+                .name(PartGroupType.FUEL_SYSTEM)
+                .parts(new ArrayList<>())
+                .build();
+
+        //when
+        boolean isEqual = partGroupDTO2.equals(partGroupDTO);
+        boolean isEqualHashCode = partGroupDTO2.hashCode() == partGroupDTO.hashCode();
+
+        assertTrue(isEqual, "PartGroupDTO should be equal");
+        assertTrue(isEqualHashCode, "PartGroupDTO hashCode should be equal");
+    }
 }

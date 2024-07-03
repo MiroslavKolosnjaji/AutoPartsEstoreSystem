@@ -85,4 +85,20 @@ class ModelDTOTest {
         violation = violations.iterator().next();
         assertEquals("Brand can't be null", violation.getMessage());
     }
+
+    @Test
+    void testIsEqual_whenCompareTwoObjectsWIthSameDetails_thenIsEqual() {
+
+        //given
+        ModelDTO modelDTO2 = ModelDTO.builder()
+                .id(new ModelId(1L, "330"))
+                .brand(new Brand(1L, "BMW", null))
+                .build();
+
+        boolean isEqual = modelDTO2.equals(modelDTO);
+        boolean isEqualHashCode = modelDTO2.hashCode() == modelDTO.hashCode();
+
+        assertTrue(isEqual, "ModelDTO should be equal");
+        assertTrue(isEqualHashCode, "ModelDTO hashCode should be equal");
+    }
 }

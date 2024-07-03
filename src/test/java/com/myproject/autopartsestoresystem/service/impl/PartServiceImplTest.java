@@ -127,6 +127,7 @@ class PartServiceImplTest {
     void testUpdatePart_whenValidDetailsProvided_returnUpdatedPartDTO() {
 
         //given
+        priceDTO.setId(new PriceId(1L, 1L));
         when(partRepository.findById(anyLong())).thenReturn(Optional.of(part));
         when(partMapper.partDTOToPart(partDTO)).thenReturn(part);
         when(partMapper.partToPartDTO(part)).thenReturn(partDTO);

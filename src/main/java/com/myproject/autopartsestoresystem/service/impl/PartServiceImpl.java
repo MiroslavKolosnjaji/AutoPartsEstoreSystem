@@ -58,7 +58,10 @@ public class PartServiceImpl implements PartService {
 
         partRepository.save(part);
         Price lastPrice = getLastPriceFromPart(partMapper.partDTOToPart(partDTO));
-        priceService.update(lastPrice.getId(), priceMapper.priceToPriceDTO(lastPrice));
+
+        PriceId priceid = new PriceId(lastPrice.getId().getPartId(), (long) part.getPrices().size());
+
+        priceService.update(priceid, priceMapper.priceToPriceDTO(lastPrice));
 
 
         return partMapper.partToPartDTO(part);

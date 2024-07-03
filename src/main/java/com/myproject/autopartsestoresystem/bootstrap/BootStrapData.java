@@ -7,7 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,6 +39,10 @@ public class BootStrapData implements CommandLineRunner {
 
     private void loadPartData() {
 
+        List<Price> prices = Arrays.asList(Price.builder().id(new PriceId(1L, 0L)).price(new BigDecimal("122.99")).currency(Currency.USD).build(),
+                Price.builder().id(new PriceId(2L, 0L)).price(new BigDecimal("131.99")).currency(Currency.USD).build(),
+                Price.builder().id(new PriceId(3L, 0L)).price(new BigDecimal("213.99")).currency(Currency.USD).build());
+
         PartGroup brakingSystem = partGroupRepository.findByName(PartGroupType.BRAKING_SYSTEM)
                 .orElseThrow(() -> new RuntimeException("Part Group BRAKING_SYSTEM not found"));
 
@@ -45,6 +51,7 @@ public class BootStrapData implements CommandLineRunner {
                 .partName("Front Brake Pad Set")
                 .description("High-Performance brake pads for superior stopping power. Suitable for both everyday driving and high-performance use.")
                 .partGroup(brakingSystem)
+                .prices(List.of(prices.get(0)))
                 .vehicles(new ArrayList<>())
                 .build();
 
@@ -53,6 +60,7 @@ public class BootStrapData implements CommandLineRunner {
                 .partName("Rear Brake Rotor")
                 .description("Durable and heat-resistant brake rotor for improved braking efficiency. Designed to reduce brake noise and vibration.")
                 .partGroup(brakingSystem)
+                .prices(List.of(prices.get(1)))
                 .vehicles(new ArrayList<>())
                 .build();
 
@@ -61,20 +69,11 @@ public class BootStrapData implements CommandLineRunner {
                 .partName("Brake Caliper Assembly")
                 .description("High-quality brake caliper for precise braking control. Comes pre-assembled with brake pads for easy installation")
                 .partGroup(brakingSystem)
+                .prices(List.of(prices.get(2)))
                 .vehicles(new ArrayList<>())
                 .build();
 
-      List<Part> saved = partRepository.saveAll(List.of(part1, part2, part3));
-
-      List<Price> prices = List.of(Price.builder().price(new BigDecimal("59.99")).currency(Currency.USD).build(),
-              Price.builder().price(new BigDecimal("89.99")).currency(Currency.USD).build(),
-              Price.builder().price(new BigDecimal("129.99")).currency(Currency.USD).build());
-
-        for (int i = 0; i < saved.size(); i++) {
-            prices.get(i).setId(new PriceId(saved.get(i).getId(), 0L));
-            saved.get(i).setPrices(List.of(prices.get(i)));
-        }
-
+        partRepository.saveAll(List.of(part1, part2, part3));
         priceRepository.saveAll(prices);
 
     }

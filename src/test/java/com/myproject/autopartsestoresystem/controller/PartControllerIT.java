@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.autopartsestoresystem.dto.PartDTO;
 import com.myproject.autopartsestoresystem.model.*;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -90,20 +92,20 @@ class PartControllerIT {
                 .andExpect(status().isBadRequest());
     }
 
-//    @DisplayName("Update Part - Current Price Not Changed")
-//    @Order(4)
-//    @Test
-//    void testUpdatePart_whenValidDetailsProvidedAndPriceNotChanged_returns204StatusCode() throws Exception {
-//
-//        partDTO.setId(4L);
-//        partDTO.setPartNumber("ABS67891");
-//
-//        mockMvc.perform(put(PartController.PART_URI_WITH_ID, partDTO.getId())
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(partDTO)))
-//                .andExpect(status().isNoContent());
-//
-//    }
+    @DisplayName("Update Part - Current Price Not Changed")
+    @Order(4)
+    @Test
+    void testUpdatePart_whenValidDetailsProvidedAndPriceNotChanged_returns204StatusCode() throws Exception {
+
+        partDTO.setId(4L);
+        partDTO.setPartNumber("ABS67891");
+
+        mockMvc.perform(put(PartController.PART_URI_WITH_ID, partDTO.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(partDTO)))
+                .andExpect(status().isNoContent());
+
+    }
 
     @DisplayName("Update Part - Update Current Price")
     @Order(6)
@@ -123,13 +125,12 @@ class PartControllerIT {
 
     @DisplayName("Update Part - Add New Price")
     @Order(5)
-    @Test
-    void testUpdatePart_whenAddingNewPrice_returns204StatusCode() throws Exception {
+    @ParameterizedTest
+    @CsvFileSource(resources = "/newPrice.csv", numLinesToSkip = 1)
+    void testUpdatePart_whenAddingNewPrice_returns204StatusCode(BigDecimal newPrice, Long id) throws Exception {
 
         partDTO.setId(4L);
-        List<Price> prices = partDTO.getPrices();
-        prices.add(Price.builder().id(new PriceId(partDTO.getId(), 1L)).currency(Currency.USD).price(new BigDecimal("389.99")).build());
-        partDTO.setPrices(prices);
+        partDTO.getPrices().add(Price.builder().id(new PriceId(partDTO.getId(), id)).currency(Currency.USD).price(newPrice).build());
 
         mockMvc.perform(put(PartController.PART_URI_WITH_ID, partDTO.getId())
                         .contentType(MediaType.APPLICATION_JSON)

@@ -46,14 +46,15 @@ public class PriceServiceImpl implements PriceService {
         PriceUpdateStatus updateStatus = getPriceUpdateStatus(priceId, priceDTO.getDateModified());
 
 
-
         switch (updateStatus) {
 
             case NEW_PRICE -> {
                 return save(priceDTO);
             }
 
-            case UPDATE_EXISTING_PRICE -> { return updateExistingPrice(priceId, priceDTO); }
+            case UPDATE_EXISTING_PRICE -> {
+                return updateExistingPrice(priceId, priceDTO);
+            }
 
             default -> {
                 return null;
@@ -83,8 +84,24 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Optional<PriceDTO> getPriceByPriceIdAndLastModifiedDate(PriceId priceId, LocalDateTime lastModifiedDate) {
-      Optional<Price> price = priceRepository.getPriceByIdAndDateModified(priceId, lastModifiedDate);
-      return Optional.ofNullable(priceMapper.priceToPriceDTO(price.get()));
+
+//        if (lastModifiedDate == null)
+//            return Optional.empty();
+
+        Optional<Price> price = priceRepository.getPriceByIdAndDateModified(priceId, lastModifiedDate);
+
+        return price.map(priceMapper::priceToPriceDTO);
+
+    }
+
+    private PriceUpdateStatus getPriceUpdateStatus(PriceId priceId, LocalDateTime lastModifiedDate) {
+
+        Optional<PriceDTO> lastPrice = getPriceByPriceIdAndLastModifiedDate(priceId, lastModifiedDate);
+
+        if (lastPrice.isPresent())
+            return lastPrice.get().getId().equals(priceId) ? PriceUpdateStatus.UPDATE_EXISTING_PRICE : PriceUpdateStatus.NO_CHANGES;
+
+        return PriceUpdateStatus.NEW_PRICE;
     }
 
     private PriceDTO updateExistingPrice(PriceId priceId, PriceDTO priceDTO) {
@@ -97,15 +114,10 @@ public class PriceServiceImpl implements PriceService {
 
                     priceRef.set(priceRepository.save(price));
 
-                }, () -> {throw new PriceNotFoundException("Price not found for update");});
+                }, () -> {
+                    throw new PriceNotFoundException("Price not found for update");
+                });
 
         return priceMapper.priceToPriceDTO(priceRef.get());
     }
-
-    private PriceUpdateStatus getPriceUpdateStatus(PriceId priceId, LocalDateTime lastModifiedDate) {
-
-        Optional<PriceDTO> lastPrice = getPriceByPriceIdAndLastModifiedDate(priceId, lastModifiedDate);
-        return lastPrice.isPresent() ? PriceUpdateStatus.UPDATE_EXISTING_PRICE : PriceUpdateStatus.NEW_PRICE;
-    }
-
 }

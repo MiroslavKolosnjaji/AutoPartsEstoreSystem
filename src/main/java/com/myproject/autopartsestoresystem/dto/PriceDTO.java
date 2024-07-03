@@ -2,19 +2,15 @@ package com.myproject.autopartsestoresystem.dto;
 
 import com.myproject.autopartsestoresystem.model.Currency;
 import com.myproject.autopartsestoresystem.model.PriceId;
-import jakarta.persistence.EmbeddedId;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -37,6 +33,5 @@ public class PriceDTO {
     @NotNull(message = "Currency cannot be null")
     private Currency currency;
 
-    @NotNull(message = "Date modified cannot be null")
     private LocalDateTime dateModified;
 }

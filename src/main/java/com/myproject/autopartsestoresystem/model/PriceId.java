@@ -2,11 +2,7 @@ package com.myproject.autopartsestoresystem.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +17,7 @@ import org.hibernate.sql.Update;
 @Embeddable
 public class PriceId {
 
-    @NotNull(groups = Update.class, message = "price id cannot be null")
+    @NotNull(groups = Update.class, message = "PRICE ID - part id cannot be null")
     @Column(name = "part_id")
     private Long partId;
 

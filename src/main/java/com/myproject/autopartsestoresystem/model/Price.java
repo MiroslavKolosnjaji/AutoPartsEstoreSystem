@@ -6,9 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -29,6 +29,7 @@ public class Price {
     private Currency currency;
 
     @LastModifiedDate
+    @Column(name = "date_modified")
     private LocalDateTime dateModified;
 
 }

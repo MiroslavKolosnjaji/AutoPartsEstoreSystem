@@ -24,19 +24,19 @@ public class Vehicle {
     private Long id;
 
     private String engineType;
-    private String serie;
+    private String series;
 
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumns({
-//            @JoinColumn(name = "model_id", referencedColumnName = "id.id"),
-//            @JoinColumn(name = "name", referencedColumnName = "id.name")
-//    })
-//    private Model modelName;
-//
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "brand_id", insertable = false, updatable = false)
-//    private Brand brand;
-//
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumns({
+            @JoinColumn(name = "model_brand_id", referencedColumnName = "brand_id"),
+            @JoinColumn(name = "model_name", referencedColumnName = "name")
+    })
+    private Model modelName;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "brand_id", insertable = false, updatable = false)
+    private Brand brand;
+
     @ManyToMany
     @JoinTable(name = "vehicle_part", joinColumns = @JoinColumn(name = "vehicle_id"), inverseJoinColumns = @JoinColumn(name = "part_id"))
     private List<Part> parts;

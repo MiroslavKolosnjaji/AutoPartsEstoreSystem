@@ -20,7 +20,7 @@ import org.hibernate.sql.Update;
 public class ModelId {
 
     @NotNull(groups = Update.class, message = "Id cannot be null")
-    @Column(name = "model_id")
+    @Column(name = "brand_id")
     private Long id;
 
     @NotBlank(message = "Name cannot be blank")

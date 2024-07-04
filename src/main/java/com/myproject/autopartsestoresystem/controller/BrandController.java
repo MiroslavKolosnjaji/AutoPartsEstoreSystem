@@ -20,7 +20,7 @@ import java.util.List;
  * @author Miroslav Kološnjaji
  */
 @RestController
-@RequestMapping("api/brand")
+@RequestMapping("/api/brand")
 @RequiredArgsConstructor
 public class BrandController {
 
@@ -30,7 +30,6 @@ public class BrandController {
     public static final String BRAND_URI_WITH_ID = BRAND_URI + BRAND_ID;
 
     private final BrandService brandService;
-    private final HandlerMapping resourceHandlerMapping;
 
 
     @PostMapping()

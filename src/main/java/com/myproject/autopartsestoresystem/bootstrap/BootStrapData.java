@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Miroslav Kološnjaji
@@ -117,7 +118,10 @@ public class BootStrapData implements CommandLineRunner {
                 .brand(bmw)
                 .build();
 
+
         modelRepository.saveAll(List.of(model1, model2, model3));
+//        bmw.setModels(Set.of(model1, model2, model3));
+//        brandRepository.save(bmw);
     }
 
     private void loadBrandData() {

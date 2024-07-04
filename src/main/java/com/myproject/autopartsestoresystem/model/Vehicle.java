@@ -31,7 +31,7 @@ public class Vehicle {
             @JoinColumn(name = "model_brand_id", referencedColumnName = "brand_id"),
             @JoinColumn(name = "model_name", referencedColumnName = "name")
     })
-    private Model modelName;
+    private Model model;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "brand_id", insertable = false, updatable = false)

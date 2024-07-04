@@ -41,7 +41,7 @@ class ModelControllerIT {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(modelDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", ModelController.MODEL_URI + "/" + modelDTO.getId().getId() + "/" + modelDTO.getId().getName()))
+                .andExpect(header().string("Location", ModelController.MODEL_URI + "/" + 1 + "/" + "330"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id.name").value(modelDTO.getId().getName()));
 
@@ -79,7 +79,7 @@ class ModelControllerIT {
     @DisplayName("Get Model By ID")
     @Order(1)
     @Test
-    void testGetModelById_whenValidIdProvided_returnsModelDTO() throws Exception {
+    void testGetModelById_whenValidIdProvided_returns200StatusCode() throws Exception {
 
         mockMvc.perform(get(ModelController.MODEL_URI_WITH_ID, 1,"316")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -120,7 +120,7 @@ class ModelControllerIT {
                 .andExpect(status().isNoContent());
     }
 
-    @DisplayName("Delete Model Failed - Invalid ID Provided - Returns 404 Status Code")
+    @DisplayName("Delete Model Failed - Invalid ID Provided - Returns Code 404")
     @Test
     void testDeleteModel_whenInvalidIdProvided_returns404StatusCode() throws Exception {
         mockMvc.perform(delete(ModelController.MODEL_URI_WITH_ID, 99, "325")

@@ -34,7 +34,7 @@ public class VehicleController {
         VehicleDTO saved = vehicleService.save(vehicleDTO);
 
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Location", VEHICLE_URI_WITH_ID + saved.getId());
+        responseHeaders.add("Location", VEHICLE_URI + "/" + saved.getId());
 
         return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
     }

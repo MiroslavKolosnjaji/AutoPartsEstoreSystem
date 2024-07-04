@@ -34,8 +34,8 @@ public class VehicleDTO {
     @Size(max = 120, message = "Series description cannot be longer than 120 characters")
     private String series;
 
-    @NotNull(message = "Model name cannot be null")
-    private Model modelName;
+    @NotNull(message = "Model cannot be null")
+    private Model model;
 
     @NotNull(message = "Brand cannot be null")
     private Brand brand;

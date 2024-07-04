@@ -89,7 +89,7 @@ class CustomerServiceImplTest {
         verify(customerRepository).save(any(Customer.class));
     }
 
-    @DisplayName("Save customer - failed (email already exists)")
+    @DisplayName("Save customer - Failed -  Email Already Exists")
     @Test
     void testSave_whenEmailAddressAlreadyExistsInSystem_throwsEmailAddressAlreadyExists() {
 

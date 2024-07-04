@@ -9,6 +9,7 @@ import com.myproject.autopartsestoresystem.repository.BrandRepository;
 import com.myproject.autopartsestoresystem.service.BrandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ public class BrandServiceImpl implements BrandService {
 
 
     @Override
+    @Transactional
     public BrandDTO save(BrandDTO brandDTO) {
 
         if (brandRepository.findByName(brandDTO.getName()).isPresent())
@@ -37,6 +39,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    @Transactional
     public BrandDTO update(Long id, BrandDTO brandDTO) {
 
         Brand brand = brandRepository.findById(id).orElseThrow(BrandNotFoundException::new);
@@ -49,11 +52,13 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<BrandDTO> getAll() {
         return brandRepository.findAll().stream().map(brandMapper::brandToBrandDTO).collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BrandDTO getById(Long id) {
 
         Brand brand = brandRepository.findById(id).orElseThrow(BrandNotFoundException::new);
@@ -62,6 +67,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
 
         if(!brandRepository.existsById(id))

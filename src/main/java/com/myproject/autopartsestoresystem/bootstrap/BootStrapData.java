@@ -1,6 +1,7 @@
 package com.myproject.autopartsestoresystem.bootstrap;
 
 import com.myproject.autopartsestoresystem.model.*;
+import com.myproject.autopartsestoresystem.model.Currency;
 import com.myproject.autopartsestoresystem.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -8,10 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Miroslav Kološnjaji
@@ -27,6 +25,7 @@ public class BootStrapData implements CommandLineRunner {
     private final PartGroupRepository partGroupRepository;
     private final PartRepository partRepository;
     private final PriceRepository priceRepository;
+    private final VehicleRepository vehicleRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -34,8 +33,27 @@ public class BootStrapData implements CommandLineRunner {
         loadBrandData();
         loadModelData();
         loadPartData();
+        loadVehicleData();
         loadCityData();
         loadCustomerData();
+    }
+
+    private void loadVehicleData() {
+
+        Model model = Model.builder()
+                .id(new ModelId(1L, "316"))
+                .brand(Brand.builder().id(1L).name("BMW").models(new HashSet<>()).build())
+                .build();
+
+        Vehicle vehicle1 = Vehicle.builder()
+                .parts(partRepository.findAll())
+                .model(model)
+                .brand(model.getBrand())
+                .engineType("1.8i Injection")
+                .series("Series 3")
+                .build();
+
+        vehicleRepository.save(vehicle1);
     }
 
     private void loadPartData() {

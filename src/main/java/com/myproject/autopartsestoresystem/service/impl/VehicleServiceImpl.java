@@ -36,11 +36,11 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public VehicleDTO update(Long id, VehicleDTO vehicleDTO) {
 
-        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new RuntimeException("Vehicle not found"));
+        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
 
         vehicle.setEngineType(vehicleDTO.getEngineType());
         vehicle.setSeries(vehicleDTO.getSeries());
-        vehicle.setModelName(vehicleDTO.getModelName());
+        vehicle.setModel(vehicleDTO.getModel());
         vehicle.setBrand(vehicleDTO.getBrand());
         vehicle.setParts(vehicleDTO.getParts());
 
@@ -67,7 +67,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public void delete(Long id) {
 
-        if(vehicleRepository.existsById(id))
+        if(!vehicleRepository.existsById(id))
             throw new VehicleNotFoundException("Vehicle not found");
 
         vehicleRepository.deleteById(id);

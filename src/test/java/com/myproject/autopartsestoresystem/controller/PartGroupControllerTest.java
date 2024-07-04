@@ -139,7 +139,7 @@ class PartGroupControllerTest {
 
     @DisplayName("Get All Part Groups")
     @Test
-    void testGetAllPartGroups_whenListIsPopulated_returnsOnePartGroup() throws Exception {
+    void testGetAllPartGroups_whenListIsPopulated_returns200StatusCode() throws Exception {
 
         //given
         List<PartGroupDTO> partGroups = List.of(partGroupDTO);
@@ -178,6 +178,7 @@ class PartGroupControllerTest {
 
         assertNotNull(foundDTO, "Found part group cannot be null");
         assertEquals(partGroupDTO.getName(), foundDTO.getName());
+        verify(partGroupService).getById(partGroupDTO.getId());
     }
 
     @DisplayName("Get Part Group By ID When Invalid ID Provided - Returns 404 Status Code")

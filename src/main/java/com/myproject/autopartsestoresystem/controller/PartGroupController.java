@@ -84,7 +84,7 @@ public class PartGroupController {
     }
 
     @DeleteMapping(PARTGROUP_ID)
-    public ResponseEntity<PartGroupDTO> deletePartGroup(@PathVariable("partGroupId") Long id) {
+    public ResponseEntity<Void> deletePartGroup(@PathVariable("partGroupId") Long id) {
 
         try{
 

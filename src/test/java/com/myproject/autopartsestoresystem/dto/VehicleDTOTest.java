@@ -1,8 +1,6 @@
 package com.myproject.autopartsestoresystem.dto;
 
-import com.myproject.autopartsestoresystem.model.Brand;
-import com.myproject.autopartsestoresystem.model.Model;
-import com.myproject.autopartsestoresystem.model.ModelId;
+import com.myproject.autopartsestoresystem.model.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -245,5 +243,25 @@ class VehicleDTOTest {
 
         violation = violations.iterator().next();
         assertEquals(violation.getMessage(), "Part list cannot be null");
+    }
+
+    @Test
+    void testIsEqual_whenCompareTwoObjectsWithSameDetails_thenIsEqual() {
+
+        //given
+        VehicleDTO vehicleDTO2 = VehicleDTO.builder()
+                .brand(vehicleDTO.getModel().getBrand())
+                .parts(new ArrayList<>())
+                .model(vehicleDTO.getModel())
+                .engineType("2.0i Injection")
+                .series("Series 3")
+                .build();
+
+        //when
+        boolean isEqual = vehicleDTO2.equals(vehicleDTO);
+        boolean isEqualHashCode = vehicleDTO2.hashCode() == vehicleDTO.hashCode();
+
+        assertTrue(isEqual, "VehicleDTO should be equal");
+        assertTrue(isEqualHashCode, "VehicleDTO hashCode should be equal");
     }
 }

@@ -77,7 +77,7 @@ public class VehicleController {
     }
 
     @DeleteMapping(VEHICLE_ID)
-    public ResponseEntity<VehicleDTO> deleteVehicle(@PathVariable("vehicleId") Long brandId) {
+    public ResponseEntity<Void> deleteVehicle(@PathVariable("vehicleId") Long brandId) {
 
         try{
             vehicleService.delete(brandId);

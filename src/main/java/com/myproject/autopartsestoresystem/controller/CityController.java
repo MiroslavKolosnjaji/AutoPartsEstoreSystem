@@ -84,7 +84,7 @@ public class CityController {
     }
 
     @DeleteMapping(CITY_ID)
-    public ResponseEntity<CityDTO> deleteCity(@PathVariable("city_id") Long cityId) {
+    public ResponseEntity<Void> deleteCity(@PathVariable("city_id") Long cityId) {
 
         try {
 

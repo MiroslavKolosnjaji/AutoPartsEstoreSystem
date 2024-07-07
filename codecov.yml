@@ -2,8 +2,27 @@ coverage:
   status:
     project:
       default:
-        target: 60%
-        threshold: 1%
+        target: 80%
+        threshold: 5%
+
+        patch:
+          default:
+            target: 80%
+          model:
+            paths:
+              - "src/main/java/com/myproject/autopartsestoresystem/model/**"
+            target: 90%
+            threshold: 5%
+          service:
+            paths:
+              - "src/main/java/com/myproject/autopartsestoresystem/service/**"
+            target: 85%
+            threshold: 5%
+          controller:
+            paths:
+              - "src/main/java/com/myproject/autopartsestoresystem/controller/**"
+            target: 75%
+            threshold: 5%
 
 ignore:
   - "src/main/java/com/myproject/autopartsestoresystem/test/**"

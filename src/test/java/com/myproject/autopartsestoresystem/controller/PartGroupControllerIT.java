@@ -109,7 +109,7 @@ class PartGroupControllerIT {
     @DisplayName("Get All Part Groups")
     @Order(2)
     @Test
-    void testGetAllPartGroups_whenListIsPopulated_returnsListOfModelDtos() throws Exception {
+    void testGetAllPartGroups_whenListIsPopulated_returns200StatusCode() throws Exception {
 
         mockMvc.perform(get(PartGroupController.PARTGROUP_URI)
                         .contentType(MediaType.APPLICATION_JSON))

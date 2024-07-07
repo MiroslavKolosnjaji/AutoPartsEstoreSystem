@@ -163,7 +163,7 @@ class CityServiceImplTest {
         verify(cityRepository).findAll();
     }
 
-    @DisplayName("Get City")
+    @DisplayName("Get City By ID")
     @Test
     void testGetCity_whenValidIdProvided_returnsCityDTO() {
 

@@ -33,19 +33,31 @@ public class BootStrapData implements CommandLineRunner {
     private final PriceRepository priceRepository;
     private final VehicleRepository vehicleRepository;
     private final CardRepository cardRepository;
+    private final PaymentMethodRepository paymentMethodRepository;
+
+
+
     private final TextEncryptor textEncryptor;
 
 
     @Override
     public void run(String... args) throws Exception {
+        loadPaymentMethodData();
         loadPartGroupData();
-//        loadBrandData();
-//        loadModelData();
-//        loadPartData();
-//        loadVehicleData();
+        loadBrandData();
+        loadModelData();
+        loadPartData();
+        loadVehicleData();
         loadCityData();
         loadCustomerData();
         loadCardData();
+    }
+
+    private void loadPaymentMethodData() {
+        PaymentMethod paymentMethod1 = PaymentMethod.builder().paymentType(PaymentType.DEBIT_CARD).build();
+        PaymentMethod paymentMethod2 = PaymentMethod.builder().paymentType(PaymentType.CREDIT_CARD).build();
+
+        paymentMethodRepository.saveAll(List.of(paymentMethod1, paymentMethod2));
     }
 
     private void loadCardData() {

@@ -49,7 +49,7 @@ class ModelDTOTest {
     }
 
     @Test
-    void testIdValidation_whenIdisNull_thenValidationFailed() {
+    void testIdValidation_whenIdIsNull_thenValidationFailed() {
 
         //given
         modelDTO.setId(null);

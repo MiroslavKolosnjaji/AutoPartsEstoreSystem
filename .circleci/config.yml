@@ -22,11 +22,22 @@ jobs:
           name: Install dependencies
           command: mvn install
       - run:
+          name: Build project
+          command: mvn clean compile
+      - run:
+          name: Package project
+          command: mvn package
+      - run:
+          name: Check code quality with Checkstyle
+          command: mvn checkstyle:check
+      - run:
+          name: Analyze code with SpotBugs
+          command: mvn spotbugs:check
+      - run:
           name: Run tests and generate coverage report
           command: |
             mvn -B test
             mvn jacoco:report
-      - codecov/upload
       - run:
           name: Upload Coverage to Codecov
           command: |

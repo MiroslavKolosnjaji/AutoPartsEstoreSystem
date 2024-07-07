@@ -8,3 +8,4 @@ coverage:
 ignore:
   - "src/main/java/com/myproject/autopartsestoresystem/test/**"
   - "src/main/java/com/myproject/autopartsestoresystem/exception/**"
+  - "src/main/java/com/myproject/autopartsestoresystem/model/**/*Enum.java"

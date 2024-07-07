@@ -237,7 +237,7 @@ class CardControllerTest {
         //given
         doNothing().when(cardService).delete(1L);
 
-        RequestBuilder requestBuilder = get(CardController.CARD_URI_WITH_ID, 1L)
+        RequestBuilder requestBuilder = delete(CardController.CARD_URI_WITH_ID, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
 
@@ -245,7 +245,7 @@ class CardControllerTest {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
         //then
-        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 200 expected");
+        assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 200 expected");
         verify(cardService).delete(1L);
     }
 
@@ -255,7 +255,7 @@ class CardControllerTest {
         //given
         doThrow(CardNotFoundException.class).when(cardService).delete(anyLong());
 
-        RequestBuilder requestBuilder = get(CardController.CARD_URI_WITH_ID, 99L)
+        RequestBuilder requestBuilder = delete(CardController.CARD_URI_WITH_ID, 99L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
 

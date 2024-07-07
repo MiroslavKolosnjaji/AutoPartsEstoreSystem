@@ -26,6 +26,8 @@ public class Price {
     private PriceId id;
 
     private BigDecimal price;
+
+    @Enumerated(EnumType.STRING)
     private Currency currency;
 
     @LastModifiedDate

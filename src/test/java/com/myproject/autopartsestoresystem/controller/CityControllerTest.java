@@ -76,7 +76,7 @@ class CityControllerTest {
         verify(cityService).save(any(CityDTO.class));
     }
 
-    @DisplayName("Create City When Invalid City Details Provided - Returns Status 400 ")
+    @DisplayName("Create City Failed - Invalid City Details Provided")
     @Test
     void testCreateCity_whenCityNameIsNotProvided_returns400StatusCode() throws Exception {
 
@@ -117,7 +117,7 @@ class CityControllerTest {
         verify(cityService).update(any(Long.class), any(CityDTO.class));
     }
 
-    @DisplayName("Update City With Invalid City Details Provided - Return Status 400")
+    @DisplayName("Update City Failed - Invalid City Details Provided")
     @Test
     void testUpdateCity_whenInvalidCityDetailsProvided_returns400StatusCode() throws Exception {
 

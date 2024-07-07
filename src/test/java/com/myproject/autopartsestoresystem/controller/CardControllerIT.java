@@ -105,7 +105,7 @@ class CardControllerIT {
     @Test
     void testGetCardById_whenValidIdProvided_returns200StatusCode() throws Exception {
 
-        mockMvc.perform(get(CardController.CARD_URI_WITH_ID, 2L)
+        mockMvc.perform(get(CardController.CARD_URI_WITH_ID, 1L)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -130,7 +130,7 @@ class CardControllerIT {
         mockMvc.perform(get(CardController.CARD_URI + "/holderName").param("holderName","John Smith")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[1].cardHolder").value("John Smith"));
+                .andExpect(jsonPath("$[0].cardHolder").value("John Smith"));
     }
 
     @DisplayName("Delete Card")

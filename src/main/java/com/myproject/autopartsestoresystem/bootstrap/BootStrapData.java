@@ -1,13 +1,19 @@
 package com.myproject.autopartsestoresystem.bootstrap;
 
+import com.myproject.autopartsestoresystem.dto.CardDTO;
 import com.myproject.autopartsestoresystem.model.*;
 import com.myproject.autopartsestoresystem.model.Currency;
 import com.myproject.autopartsestoresystem.repository.*;
+import com.myproject.autopartsestoresystem.service.CardService;
+import com.myproject.autopartsestoresystem.service.impl.CardServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -26,16 +32,37 @@ public class BootStrapData implements CommandLineRunner {
     private final PartRepository partRepository;
     private final PriceRepository priceRepository;
     private final VehicleRepository vehicleRepository;
+    private final CardRepository cardRepository;
+    private final TextEncryptor textEncryptor;
+
 
     @Override
     public void run(String... args) throws Exception {
         loadPartGroupData();
-        loadBrandData();
-        loadModelData();
-        loadPartData();
-        loadVehicleData();
+//        loadBrandData();
+//        loadModelData();
+//        loadPartData();
+//        loadVehicleData();
         loadCityData();
         loadCustomerData();
+        loadCardData();
+    }
+
+    private void loadCardData() {
+
+        Customer customer = customerRepository.findById(1L)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        Card card = Card.builder()
+                .id(1L)
+                .cardHolder("John Smith")
+                .cardNumber(textEncryptor.encrypt("5169562420690104"))
+                .expiryDate(LocalDate.of(2025,12, 1))
+                .cvv("123")
+                .customer(customer)
+                .build();
+
+        cardRepository.save(card);
     }
 
     private void loadVehicleData() {

@@ -11,8 +11,8 @@ import org.springframework.security.crypto.encrypt.TextEncryptor;
 @Configuration
 public class EncryptionConfig {
 
-    private static final String ENCRYPTION_KEY = "encryptionKey";
-    private static final String ENCRYPTION_SALT = "encryptionSalt";
+    private static final String ENCRYPTION_KEY = "00112233445566778899AABBCCDDEEFF";;
+    private static final String ENCRYPTION_SALT = "1122334455667788";
 
     @Bean
     public TextEncryptor textEncryptor() {

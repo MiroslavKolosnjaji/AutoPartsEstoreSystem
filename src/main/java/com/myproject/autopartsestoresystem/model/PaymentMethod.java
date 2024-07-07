@@ -22,5 +22,6 @@ public class PaymentMethod {
     @Column(name = "payment_method_id")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
 }

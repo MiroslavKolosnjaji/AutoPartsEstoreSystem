@@ -3,8 +3,9 @@ package com.myproject.autopartsestoresystem.controller;
 import com.myproject.autopartsestoresystem.dto.CardDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.CardNotFoundException;
-import com.myproject.autopartsestoresystem.model.Card;
+import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.service.CardService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,23 +32,29 @@ public class CardController {
     @PostMapping()
     public ResponseEntity<CardDTO> createCard(@Validated @RequestBody CardDTO cardDTO) {
 
-        CardDTO saved = cardService.save(cardDTO);
+       try{
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", CARD_URI+ "/" + saved.getId());
+           CardDTO saved = cardService.save(cardDTO);
 
-        return new ResponseEntity<>(saved, headers, HttpStatus.CREATED);
+           HttpHeaders headers = new HttpHeaders();
+           headers.add("Location", CARD_URI+ "/" + saved.getId());
+
+           return new ResponseEntity<>(saved, headers, HttpStatus.CREATED);
+
+       }catch (CustomerNotFoundException e){
+           throw new EntityNotFoundException(e.getMessage());
+       }
     }
 
     @PutMapping(CARD_ID)
-    public ResponseEntity<CardDTO> updateCard(@PathVariable("cardId") Long cardId,  @Validated @RequestBody CardDTO cardDTO) {
+    public ResponseEntity<CardDTO> updateCard(@PathVariable("cardId") Long cardId,  @Valid @RequestBody CardDTO cardDTO) {
 
         try{
 
             CardDTO updated = cardService.update(cardId, cardDTO);
             return new ResponseEntity<>(updated, HttpStatus.NO_CONTENT);
 
-        }catch (CardNotFoundException e){
+        }catch (CardNotFoundException | CustomerNotFoundException e){
             throw new EntityNotFoundException(e.getMessage());
         }
     }

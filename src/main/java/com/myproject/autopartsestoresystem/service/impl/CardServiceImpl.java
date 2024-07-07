@@ -2,16 +2,22 @@ package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.CardDTO;
 import com.myproject.autopartsestoresystem.exception.service.CardNotFoundException;
+import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.CardMapper;
+import com.myproject.autopartsestoresystem.mapper.CustomerMapper;
 import com.myproject.autopartsestoresystem.model.Card;
+import com.myproject.autopartsestoresystem.model.Customer;
 import com.myproject.autopartsestoresystem.repository.CardRepository;
+import com.myproject.autopartsestoresystem.repository.CustomerRepository;
 import com.myproject.autopartsestoresystem.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
@@ -28,53 +34,68 @@ public class CardServiceImpl implements CardService {
 
 
     @Override
+    @Transactional
     public CardDTO save(CardDTO cardDTO) {
 
-        Optional<Card> foundedCard = cardRepository.findByCardNumber(encrypt(cardDTO.getCardHolder()));
+        Optional<Card> foundedCard = cardRepository.findByCardNumber(encrypt(cardDTO.getCardNumber()));
 
-        if(foundedCard.isPresent())
+        if (foundedCard.isPresent()) {
             return cardMapper.cardToCardDTO(foundedCard.get());
+        }
 
-        cardDTO.setCardNumber(encrypt(cardDTO.getCardNumber()));
-        cardDTO.setCvv(null);
+        Card card = cardMapper.cardDTOToCard(cardDTO);
 
-        Card saved = cardRepository.save(cardMapper.cardDTOToCard(cardDTO));
+        card.setCardNumber(encrypt(cardDTO.getCardNumber()));
+        card.setCvv(null);
+
+        Card saved = cardRepository.save(card);
+
+        saved.setCardNumber(decrypt(saved.getCardNumber()));
 
         return cardMapper.cardToCardDTO(saved);
     }
 
     @Override
+    @Transactional
     public CardDTO update(Long id, CardDTO cardDTO) {
 
         Card foundedCard = cardRepository.findById(id)
                 .orElseThrow(() -> new CardNotFoundException("Card not found"));
 
-        foundedCard.setCardNumber(encrypt(cardDTO.getCardHolder()));
+
+        foundedCard.setCardNumber(encrypt(cardDTO.getCardNumber()));
         foundedCard.setCardHolder(cardDTO.getCardHolder());
         foundedCard.setExpiryDate(cardDTO.getExpiryDate());
-        foundedCard.setCustomer(cardDTO.getCustomer());
+        foundedCard.setCustomer(Customer.builder().id(cardDTO.getCustomerId()).build());
 
         Card updated = cardRepository.save(foundedCard);
+
+        updated.setCardNumber(decrypt(updated.getCardNumber()));
 
         return cardMapper.cardToCardDTO(updated);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CardDTO> getAll() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CardDTO getById(Long id) {
         return cardRepository.findById(id)
-                .map(cardMapper::cardToCardDTO)
+                .map(card -> {
+                    card.setCardNumber(decrypt(card.getCardNumber()));
+                    return cardMapper.cardToCardDTO(card);
+                })
                 .orElseThrow(() -> new CardNotFoundException("Card not found"));
     }
 
     @Override
     public void delete(Long id) {
 
-        if(!cardRepository.existsById(id))
+        if (!cardRepository.existsById(id))
             throw new CardNotFoundException("Card not found");
 
         cardRepository.deleteById(id);
@@ -83,16 +104,21 @@ public class CardServiceImpl implements CardService {
     @Override
     public List<CardDTO> getCardsByHolderName(String holderName) {
         return cardRepository.findByCardHolder(holderName).stream()
-                .map(cardMapper::cardToCardDTO)
+                .map(card -> {
+
+                    card.setCardNumber(decrypt(card.getCardNumber()));
+                    return cardMapper.cardToCardDTO(card);
+                })
                 .collect(Collectors.toList());
 
     }
 
-    private String encrypt(String sensitiveData){
+    private String encrypt(String sensitiveData) {
         return textEncryptor.encrypt(sensitiveData);
     }
 
-    private String decrypt(String sensitiveData){
-        return textEncryptor.decrypt(sensitiveData);
+    private String decrypt(String encryptedData) {
+        return textEncryptor.decrypt(encryptedData);
     }
+
 }

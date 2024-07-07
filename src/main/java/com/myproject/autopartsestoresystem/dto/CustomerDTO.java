@@ -39,6 +39,8 @@ public class CustomerDTO {
     @Pattern(regexp = "\\+?[0-9]+", message = "Invalid phone number format")
     private String phone;
 
+    // TODO: Implement List<Long> cardIds;
+
     @NotNull(message = "City cannot be null")
     private City city;
 }

@@ -44,7 +44,7 @@ class CityControllerIT {
                 .andExpect(jsonPath("$.zipCode").value(cityDTO.getZipCode()));
     }
 
-    @DisplayName("Create City Failed - Invalid Details Provided - Returns Code 400")
+    @DisplayName("Create City Failed - Invalid Details Provided")
     @Order(99)
     @Test
     void testCreateCity_whenInvalidDetailsProvided_returns400StatusCode() throws Exception {
@@ -84,7 +84,7 @@ class CityControllerIT {
                 .andExpect(jsonPath("$.id").value(1));
     }
 
-    @DisplayName("Get City By ID Failed - Invalid ID Provided - Returns Code 404")
+    @DisplayName("Get City By ID Failed - Invalid ID Provided")
     @Test
     void testGetCityById_whenInvalidIdProvided_returns4040StatusCode() throws Exception {
         mockMvc.perform(get(CityController.CITY_URI_WITH_ID, 99)
@@ -113,7 +113,7 @@ class CityControllerIT {
                 .andExpect(status().isNoContent());
     }
 
-    @DisplayName("Delete Customer Failed - Invalid ID provided - Returns 404 Status Code")
+    @DisplayName("Delete Customer Failed - Invalid ID provided")
     @Test
     void testDeleteCustomer_whenInvalidIdProvided_returns404StatusCode() throws Exception {
         mockMvc.perform(delete(CustomerController.CUSTOMER_URI_WITH_ID, 99)

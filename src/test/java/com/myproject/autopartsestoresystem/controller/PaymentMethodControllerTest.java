@@ -43,6 +43,7 @@ class PaymentMethodControllerTest {
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
+        paymentMethodDTO = PaymentMethodDTO.builder().id(1L).paymentType(PaymentType.DEBIT_CARD).build();
     }
 
     @Test
@@ -70,7 +71,7 @@ class PaymentMethodControllerTest {
     void testGetPaymentMethodById_whenValidIdProvided_returns200StatusCode() throws Exception {
 
         //given
-        when(paymentMethodService.getById(anyLong())).thenReturn(paymentMethodDTO);
+        when(paymentMethodService.getById(1L)).thenReturn(paymentMethodDTO);
 
         RequestBuilder requestBuilder = get(PaymentMethodController.PAYMENT_METHOD_URI_WITH_ID, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -80,8 +81,10 @@ class PaymentMethodControllerTest {
         //when
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         String response = result.getResponse().getContentAsString();
+
         PaymentMethodDTO foundDTO = objectMapper.readValue(response, PaymentMethodDTO.class);
 
+        //then
         assertNotNull(foundDTO, "Payment method should not be null");
         assertEquals(foundDTO.getId(), paymentMethodDTO.getId(), "Payment method id mismatch");
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus(), "Status mismatch. Expected Status code 200");

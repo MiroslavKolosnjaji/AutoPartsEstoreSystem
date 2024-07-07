@@ -5,6 +5,8 @@ import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundEx
 import com.myproject.autopartsestoresystem.exception.service.PaymentMethodNotFoundException;
 import com.myproject.autopartsestoresystem.service.PaymentMethodService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +43,7 @@ public class PaymentMethodController {
         try {
 
             PaymentMethodDTO paymentMethodDTO = paymentMethodService.getById(paymentMethodId);
-            return ResponseEntity.ok(paymentMethodDTO);
+            return new ResponseEntity<>(paymentMethodDTO, HttpStatus.OK);
 
         } catch (PaymentMethodNotFoundException e) {
             throw new EntityNotFoundException(e.getMessage());
@@ -54,7 +56,7 @@ public class PaymentMethodController {
         try{
 
             PaymentMethodDTO paymentMethodDTO = paymentMethodService.getByPaymentType(paymentType);
-            return ResponseEntity.ok(paymentMethodDTO);
+            return new ResponseEntity<>(paymentMethodDTO, HttpStatus.OK);
 
         }catch (PaymentMethodNotFoundException e){
             throw new EntityNotFoundException(e.getMessage());

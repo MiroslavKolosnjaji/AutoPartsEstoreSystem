@@ -31,7 +31,6 @@ public class CardDTO {
     @NotNull(message = "Expiry date cannot be null")
     private LocalDate expiryDate;
 
-    @NotBlank(message = "CVV cannot be empty")
     @Pattern(regexp = "\\d{3,4}", message = "Invalid CVV")
     private String cvv;
 

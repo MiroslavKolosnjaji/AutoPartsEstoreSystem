@@ -215,7 +215,7 @@ class CardDTOTest {
         assertFalse(violations.isEmpty(), "Violation should fail for invalid cvv");
 
         violation = violations.iterator().next();
-        assertEquals( "CVV cannot be empty", violation.getMessage());
+        assertEquals( "Invalid CVV", violation.getMessage());
     }
 
     @Test

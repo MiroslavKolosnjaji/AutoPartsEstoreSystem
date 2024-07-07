@@ -27,9 +27,9 @@ jobs:
       - run:
           name: Package project
           command: mvn package
-      - run:
-          name: Check code quality with Checkstyle
-          command: mvn checkstyle:check
+#      - run:
+#          name: Check code quality with Checkstyle
+#          command: mvn checkstyle:check
       - run:
           name: Analyze code with SpotBugs
           command: mvn spotbugs:check

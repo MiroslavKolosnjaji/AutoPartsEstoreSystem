@@ -6,13 +6,13 @@ Description:
 AutoPartsEstoreSystem is a web application aimed at providing a platform for ordering automobile parts for various makes and models.
 The application serves as an online store where users can browse, search, and purchase car parts.
 The main functionality includes a search system based on selecting the brand, model, and engine type of the vehicle to narrow down the parts selection.
-Users can add items to their shopping cart, view details of selected parts, and proceed to checkout.
+Users can add items to their shopping purchaseOrder, view details of selected parts, and proceed to checkout.
 
 ## Key Features:
 
 Brand, model, and engine-based part search system
 Part group selection to refine search results (e.g., braking system, engine components)
-Shopping cart functionality for adding and managing selected items
+Shopping purchaseOrder functionality for adding and managing selected items
 User registration and login system
 Secure checkout process with various payment methods
 
@@ -31,7 +31,7 @@ Secure checkout process with various payment methods
 
 ## Project Goals:
 The main goal of the project is to create a fully functional web application for ordering automobile parts.
-The application will allow users to search for parts by selecting the car brand, model, and engine type, add parts to a shopping cart, and proceed to checkout.
+The application will allow users to search for parts by selecting the car brand, model, and engine type, add parts to a shopping purchaseOrder, and proceed to checkout.
 
 ### Project Phases:
 
@@ -39,7 +39,7 @@ The application will allow users to search for parts by selecting the car brand,
 - Database design and entity modeling
 - Implementing CRUD operations for managing parts, brands, and models
 - Developing search functionality based on brand, model, and engine type
-- Adding shopping cart and checkout features
+- Adding shopping purchaseOrder and checkout features
 - User authentication and registration system
 - Testing and debugging
 - Integration with CircleCI for continuous integration and automated testing

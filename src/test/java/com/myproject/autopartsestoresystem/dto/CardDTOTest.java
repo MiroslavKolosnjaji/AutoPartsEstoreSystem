@@ -262,7 +262,7 @@ class CardDTOTest {
         boolean isEqual = cardDTO2.equals(cardDTO);
         boolean isEqualHashCode = cardDTO2.hashCode() == cardDTO.hashCode();
 
-        assertTrue(isEqual, "ModelDTO should be equal");
-        assertTrue(isEqualHashCode, "ModelDTO hashCode should be equal");
+        assertTrue(isEqual, "CardDTO should be equal");
+        assertTrue(isEqualHashCode, "CardDTO hashCode should be equal");
     }
 }

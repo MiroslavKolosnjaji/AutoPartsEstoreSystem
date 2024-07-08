@@ -1,13 +1,10 @@
 package com.myproject.autopartsestoresystem.model;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.EmbeddedId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 
 /**
  * @author Miroslav Kološnjaji
@@ -17,13 +14,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 @Embeddable
-public class Item {
+public class PurchaseOrderItemId {
 
-    @EmbeddedId
-    private ItemId id;
-
-    private Integer quantity;
-    private BigDecimal unitPrice;
-    private BigDecimal totalPrice;
-
+    private Long purchaseOrderId;
+    private Integer ordinalNumber;
 }

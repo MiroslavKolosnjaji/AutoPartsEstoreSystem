@@ -44,10 +44,10 @@ public class BootStrapData implements CommandLineRunner {
     public void run(String... args) throws Exception {
         loadPaymentMethodData();
         loadPartGroupData();
-        loadBrandData();
-        loadModelData();
-        loadPartData();
-        loadVehicleData();
+//        loadBrandData();
+//        loadModelData();
+//        loadPartData();
+//        loadVehicleData();
         loadCityData();
         loadCustomerData();
         loadCardData();

@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.service;
 
-import com.myproject.autopartsestoresystem.dto.CartDTO;
+import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.model.CartStatus;
 
 import java.util.List;
@@ -10,10 +10,10 @@ import java.util.UUID;
 /**
  * @author Miroslav Kološnjaji
  */
-public interface CartService extends CrudService<CartDTO, Long> {
+public interface PurchaseOrderService extends CrudService<PurchaseOrderDTO, Long> {
 
-    CartDTO findByCartNumber(UUID cartNumber);
-    Optional<List<CartDTO>> findByCustomerId(Long customerId);
+    PurchaseOrderDTO findByCartNumber(UUID cartNumber);
+    Optional<List<PurchaseOrderDTO>> findByCustomerId(Long customerId);
     void updateCartStatus(UUID cartNumber, CartStatus cartStatus);
 
 

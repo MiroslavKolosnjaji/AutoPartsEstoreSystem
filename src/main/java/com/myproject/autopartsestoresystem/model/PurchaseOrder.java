@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,28 +18,27 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "cart")
-public class Cart {
+@Table(name = "purchaseOrder")
+public class PurchaseOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "purchaseOrderId")
     private Long id;
 
-    @Column(name = "cartNumber", unique = true, nullable = false)
-    private UUID cartNumber;
+    @Column(name = "purchaseOrderNumber", unique = true, nullable = false)
+    private UUID purchaseOrderNumber;
 
     @Enumerated(EnumType.STRING)
     private CartStatus status;
 
     private BigDecimal totalAmount;
 
-    @ElementCollection
-    @CollectionTable(name = "item", joinColumns = @JoinColumn(name = "cart_id"))
-    private Set<Item> items;
+    @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PurchaseOrderItem> purchaseOrderItems;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customerId")
     private Customer customer;
-
 
 }

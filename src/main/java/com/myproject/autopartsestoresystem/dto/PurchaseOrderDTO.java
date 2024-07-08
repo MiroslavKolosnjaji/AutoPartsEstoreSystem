@@ -1,11 +1,6 @@
 package com.myproject.autopartsestoresystem.dto;
 
 import com.myproject.autopartsestoresystem.model.CartStatus;
-import com.myproject.autopartsestoresystem.model.Customer;
-import com.myproject.autopartsestoresystem.model.Item;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -25,23 +20,23 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CartDTO {
+public class PurchaseOrderDTO {
 
     @NotNull(groups = Update.class)
     private Long id;
 
-    @NotNull(message = "Cart number cannot be null")
-    private UUID cartNumber;
+    @NotNull(message = "Purchase order number cannot be null")
+    private UUID purchaseOrderNumber;
 
     @NotNull(message = "Status cannot be null")
     private CartStatus status;
 
     @NotNull(message = "Total amount cannot be null")
-    @Positive
+    @Positive(message = "Total amount cannot be negative")
     private BigDecimal totalAmount;
 
     @NotNull(message = "Item list cannot be null")
-    private List<ItemDTO> items;
+    private List<PurchaseOrderItemDTO> items;
 
     private CustomerDTO customer;
 }

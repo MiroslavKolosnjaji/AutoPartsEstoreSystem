@@ -17,10 +17,10 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ItemDTO {
+public class PurchaseOrderItemDTO {
 
-    @NotNull(message = "Cart id in item cannot be null")
-    private Long cartId;
+    @NotNull(message = "Purchase order id in purchse item cannot be null")
+    private Long purchaseOrderId;
 
     @NotNull(message = "Ordinal num cannot be null")
     @Min(value = 1, message = "Ordinal num starts from 1")

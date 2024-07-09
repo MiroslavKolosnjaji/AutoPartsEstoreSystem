@@ -3,7 +3,7 @@ package com.myproject.autopartsestoresystem.model;
 /**
  * @author Miroslav Kološnjaji
  */
-public enum CartStatus {
+public enum PurchaseOrderStatus {
 
     PENDING_PROCESSING,
     PROCESSING,

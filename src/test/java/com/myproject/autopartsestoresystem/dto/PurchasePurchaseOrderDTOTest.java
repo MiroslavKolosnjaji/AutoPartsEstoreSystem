@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.dto;
 
-import com.myproject.autopartsestoresystem.model.CartStatus;
+import com.myproject.autopartsestoresystem.model.PurchaseOrderStatus;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -35,7 +35,7 @@ class PurchasePurchaseOrderDTOTest {
     void setUp() {
         purchaseOrderDTO = PurchaseOrderDTO.builder()
                 .id(1L)
-                .status(CartStatus.COMPLETED)
+                .status(PurchaseOrderStatus.COMPLETED)
                 .purchaseOrderNumber(UUID.randomUUID())
                 .items(new ArrayList<>())
                 .customer(CustomerDTO.builder().build())
@@ -76,7 +76,7 @@ class PurchasePurchaseOrderDTOTest {
     void testStatusValidation_whenValidStatusProvided_thenCorrect() {
 
         //given
-        purchaseOrderDTO.setStatus(CartStatus.CANCELLED);
+        purchaseOrderDTO.setStatus(PurchaseOrderStatus.CANCELLED);
 
         //when
         violations = validator.validate(purchaseOrderDTO);
@@ -181,7 +181,7 @@ class PurchasePurchaseOrderDTOTest {
         //given
         PurchaseOrderDTO purchaseOrderDTO2 = PurchaseOrderDTO.builder()
                 .id(1L)
-                .status(CartStatus.COMPLETED)
+                .status(PurchaseOrderStatus.COMPLETED)
                 .purchaseOrderNumber(UUID.randomUUID())
                 .items(new ArrayList<>())
                 .customer(CustomerDTO.builder().build())

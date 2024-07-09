@@ -2,11 +2,13 @@ package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.exception.service.CartNotFoundException;
+import com.myproject.autopartsestoresystem.mapper.PurchaseOrderItemMapper;
 import com.myproject.autopartsestoresystem.mapper.PurchaseOrderMapper;
 import com.myproject.autopartsestoresystem.model.PurchaseOrder;
-import com.myproject.autopartsestoresystem.model.CartStatus;
+import com.myproject.autopartsestoresystem.model.PurchaseOrderStatus;
 import com.myproject.autopartsestoresystem.model.PurchaseOrderItem;
 import com.myproject.autopartsestoresystem.repository.PurchaseOrderRepository;
+import com.myproject.autopartsestoresystem.service.PurchaseOrderItemService;
 import com.myproject.autopartsestoresystem.service.PurchaseOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,9 @@ import java.util.stream.Collectors;
 public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     private final PurchaseOrderRepository purchaseOrderRepository;
+    private final PurchaseOrderItemService purchaseOrderItemService;
     private final PurchaseOrderMapper purchaseOrderMapper;
+    private final PurchaseOrderItemMapper purchaseOrderItemMapper;
 
 
     @Override
@@ -39,17 +43,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 
     @Override
-    public void updateCartStatus(UUID cartNumber, CartStatus cartStatus) {
+    public void updateCartStatus(UUID cartNumber, PurchaseOrderStatus purchaseOrderStatus) {
         PurchaseOrder purchaseOrder = purchaseOrderRepository.findByPurchaseOrderNumber(cartNumber)
                 .orElseThrow(() -> new CartNotFoundException("Cart not found"));
 
-        purchaseOrder.setStatus(cartStatus);
+        purchaseOrder.setStatus(purchaseOrderStatus);
         purchaseOrderRepository.save(purchaseOrder);
     }
 
     @Override
     public Optional<List<PurchaseOrderDTO>> findByCustomerId(Long customerId) {
-       //TODO: Implement this method
+        //TODO: Implement this method
         return Optional.empty();
     }
 
@@ -58,13 +62,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public PurchaseOrderDTO save(PurchaseOrderDTO purchaseOrderDTO) {
 
         purchaseOrderDTO.setPurchaseOrderNumber(generateCartNumber());
-        purchaseOrderDTO.setStatus(CartStatus.PENDING_PROCESSING);
+        purchaseOrderDTO.setStatus(PurchaseOrderStatus.PENDING_PROCESSING);
 
         PurchaseOrder purchaseOrder = purchaseOrderMapper.purchaseOrderDTOtoPurchaseOrder(purchaseOrderDTO);
 
-        addOrdinalNumberToItem(purchaseOrder);
-
         PurchaseOrder savedPurchaseOrder = purchaseOrderRepository.save(purchaseOrder);
+
+        savedPurchaseOrder.getPurchaseOrderItems().forEach(item -> item.setPurchaseOrder(savedPurchaseOrder));
+        purchaseOrderItemService.saveAll(purchaseOrderItemMapper.purchaseOrderItemSetToPurchaseOrderDTOList(savedPurchaseOrder.getPurchaseOrderItems()));
+
 
         return purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(savedPurchaseOrder);
     }
@@ -81,17 +87,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         purchaseOrder.setPurchaseOrderNumber(purchaseOrderWithUpdatedData.getPurchaseOrderNumber());
         purchaseOrder.setStatus(purchaseOrderWithUpdatedData.getStatus());
         purchaseOrder.setCustomer(purchaseOrderWithUpdatedData.getCustomer());
-
-        purchaseOrder.getPurchaseOrderItems().removeIf(purchaseOrderItem -> !purchaseOrderWithUpdatedData.getPurchaseOrderItems().contains(purchaseOrderItem));
-
-        for (PurchaseOrderItem purchaseOrderItem : purchaseOrderWithUpdatedData.getPurchaseOrderItems()) {
-            purchaseOrder.getPurchaseOrderItems().add(purchaseOrderItem);
-        }
-
-        addOrdinalNumberToItem(purchaseOrder);
+        purchaseOrder.setPurchaseOrderItems(purchaseOrderWithUpdatedData.getPurchaseOrderItems());
 
         PurchaseOrder updated = purchaseOrderRepository.save(purchaseOrder);
 
+        updated.getPurchaseOrderItems().forEach(item -> item.setPurchaseOrder(purchaseOrder));
+        purchaseOrderItemService.updateItemList(id, purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(updated).getItems());
+        
         return purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(updated);
     }
 

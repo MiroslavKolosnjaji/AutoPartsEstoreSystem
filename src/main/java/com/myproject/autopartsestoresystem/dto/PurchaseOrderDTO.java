@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.dto;
 
-import com.myproject.autopartsestoresystem.model.CartStatus;
+import com.myproject.autopartsestoresystem.model.PurchaseOrderStatus;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,7 @@ public class PurchaseOrderDTO {
     private UUID purchaseOrderNumber;
 
     @NotNull(message = "Status cannot be null")
-    private CartStatus status;
+    private PurchaseOrderStatus status;
 
     @NotNull(message = "Total amount cannot be null")
     @Positive(message = "Total amount cannot be negative")

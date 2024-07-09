@@ -30,7 +30,7 @@ public class PurchaseOrder {
     private UUID purchaseOrderNumber;
 
     @Enumerated(EnumType.STRING)
-    private CartStatus status;
+    private PurchaseOrderStatus status;
 
     private BigDecimal totalAmount;
 

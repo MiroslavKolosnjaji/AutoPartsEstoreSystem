@@ -26,7 +26,7 @@ public class PurchaseOrderItem {
     private BigDecimal unitPrice;
     private BigDecimal totalPrice;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "purchaseOrderId", insertable = false, updatable = false)
     private PurchaseOrder purchaseOrder;
 

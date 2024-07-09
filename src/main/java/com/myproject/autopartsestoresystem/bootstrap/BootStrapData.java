@@ -1,10 +1,14 @@
 package com.myproject.autopartsestoresystem.bootstrap;
 
-import com.myproject.autopartsestoresystem.dto.CardDTO;
+import com.myproject.autopartsestoresystem.dto.*;
+import com.myproject.autopartsestoresystem.mapper.BrandMapper;
+import com.myproject.autopartsestoresystem.mapper.CityMapper;
+import com.myproject.autopartsestoresystem.mapper.ModelMapper;
+import com.myproject.autopartsestoresystem.mapper.PartMapper;
 import com.myproject.autopartsestoresystem.model.*;
 import com.myproject.autopartsestoresystem.model.Currency;
 import com.myproject.autopartsestoresystem.repository.*;
-import com.myproject.autopartsestoresystem.service.CardService;
+import com.myproject.autopartsestoresystem.service.*;
 import com.myproject.autopartsestoresystem.service.impl.CardServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -24,18 +28,26 @@ import java.util.*;
 @RequiredArgsConstructor
 public class BootStrapData implements CommandLineRunner {
 
-    private final CustomerRepository customerRepository;
-    private final CityRepository cityRepository;
-    private final BrandRepository brandRepository;
-    private final ModelRepository modelRepository;
+    private final CustomerService customerService;
+
+    private final CityService cityService;
+    private final CityMapper cityMapper;
+
+    private final BrandService brandService;
+    private final BrandMapper brandMapper;
+
+    private final ModelService modelService;
+    private final ModelMapper modelMapper;
+
     private final PartGroupRepository partGroupRepository;
-    private final PartRepository partRepository;
-    private final PriceRepository priceRepository;
-    private final VehicleRepository vehicleRepository;
-    private final CardRepository cardRepository;
+
+    private final PartService partService;
+    private final PartMapper partMapper;
+
+    private final VehicleService vehicleService;
+    private final CardService cardService;
+
     private final PaymentMethodRepository paymentMethodRepository;
-
-
 
     private final TextEncryptor textEncryptor;
 
@@ -44,10 +56,10 @@ public class BootStrapData implements CommandLineRunner {
     public void run(String... args) throws Exception {
         loadPaymentMethodData();
         loadPartGroupData();
-//        loadBrandData();
-//        loadModelData();
-//        loadPartData();
-//        loadVehicleData();
+        loadBrandData();
+        loadModelData();
+        loadPartData();
+        loadVehicleData();
         loadCityData();
         loadCustomerData();
         loadCardData();
@@ -62,49 +74,55 @@ public class BootStrapData implements CommandLineRunner {
 
     private void loadCardData() {
 
-        Customer customer = customerRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+        CustomerDTO customer = customerService.getById(1L);
 
-        Card card = Card.builder()
+
+        CardDTO card = CardDTO.builder()
                 .id(1L)
                 .cardHolder("John Smith")
                 .cardNumber(textEncryptor.encrypt("5169562420690104"))
                 .expiryDate(LocalDate.of(2025,12, 1))
                 .cvv("123")
-                .customer(customer)
+                .customerId(customer.getId())
                 .build();
 
-        cardRepository.save(card);
+        cardService.save(card);
     }
 
     private void loadVehicleData() {
 
-        Model model = Model.builder()
-                .id(new ModelId(1L, "316"))
-                .brand(Brand.builder().id(1L).name("BMW").models(new HashSet<>()).build())
-                .build();
+        ModelDTO modelDTO = modelService.getById(new ModelId(1L, "316"));
+        Model model = modelMapper.modelDtoToModel(modelDTO);
 
-        Vehicle vehicle1 = Vehicle.builder()
-                .parts(partRepository.findAll())
+        List<PartDTO> partDTOList = partService.getAll();
+        List<Part> parts = new ArrayList<>();
+
+        for (PartDTO partDTO : partDTOList) {
+            parts.add(partMapper.partDTOToPart(partDTO));
+        }
+
+
+        VehicleDTO vehicle1 = VehicleDTO.builder()
+                .parts(parts)
                 .model(model)
                 .brand(model.getBrand())
                 .engineType("1.8i Injection")
                 .series("Series 3")
                 .build();
 
-        vehicleRepository.save(vehicle1);
+        vehicleService.save(vehicle1);
     }
 
     private void loadPartData() {
 
-        List<Price> prices = Arrays.asList(Price.builder().id(new PriceId(1L, 0L)).price(new BigDecimal("122.99")).currency(Currency.USD).build(),
-                Price.builder().id(new PriceId(2L, 0L)).price(new BigDecimal("131.99")).currency(Currency.USD).build(),
-                Price.builder().id(new PriceId(3L, 0L)).price(new BigDecimal("213.99")).currency(Currency.USD).build());
+        List<Price> prices = Arrays.asList(Price.builder().id(new PriceId(1L, 0L)).price(new BigDecimal("122.99")).dateModified(LocalDateTime.now()).currency(Currency.USD).build(),
+                Price.builder().id(new PriceId(2L, 0L)).price(new BigDecimal("131.99")).dateModified(LocalDateTime.now()).currency(Currency.USD).build(),
+                Price.builder().id(new PriceId(3L, 0L)).price(new BigDecimal("213.99")).dateModified(LocalDateTime.now()).currency(Currency.USD).build());
 
         PartGroup brakingSystem = partGroupRepository.findByName(PartGroupType.BRAKING_SYSTEM)
                 .orElseThrow(() -> new RuntimeException("Part Group BRAKING_SYSTEM not found"));
 
-        Part part1 = Part.builder()
+        PartDTO part1 = PartDTO.builder()
                 .partNumber("BP12345")
                 .partName("Front Brake Pad Set")
                 .description("High-Performance brake pads for superior stopping power. Suitable for both everyday driving and high-performance use.")
@@ -113,7 +131,7 @@ public class BootStrapData implements CommandLineRunner {
                 .vehicles(new ArrayList<>())
                 .build();
 
-        Part part2 = Part.builder()
+        PartDTO part2 = PartDTO.builder()
                 .partNumber("BR67890")
                 .partName("Rear Brake Rotor")
                 .description("Durable and heat-resistant brake rotor for improved braking efficiency. Designed to reduce brake noise and vibration.")
@@ -122,7 +140,7 @@ public class BootStrapData implements CommandLineRunner {
                 .vehicles(new ArrayList<>())
                 .build();
 
-        Part part3 = Part.builder()
+        PartDTO part3 = PartDTO.builder()
                 .partNumber("BC245680")
                 .partName("Brake Caliper Assembly")
                 .description("High-quality brake caliper for precise braking control. Comes pre-assembled with brake pads for easy installation")
@@ -131,8 +149,9 @@ public class BootStrapData implements CommandLineRunner {
                 .vehicles(new ArrayList<>())
                 .build();
 
-        partRepository.saveAll(List.of(part1, part2, part3));
-        priceRepository.saveAll(prices);
+        partService.save(part1);
+        partService.save(part2);
+        partService.save(part3);
 
     }
 
@@ -158,80 +177,87 @@ public class BootStrapData implements CommandLineRunner {
     private void loadModelData() {
 
 
-        Brand bmw = brandRepository.findByName("BMW").orElseThrow(() -> new RuntimeException("Brand BMW not found!"));
+        BrandDTO bmwDTO = brandService.getById(1L);
+        Brand bmw = brandMapper.brandDTOToBrand(bmwDTO);
 
-        Model model1 = Model.builder()
+        ModelDTO model1 = ModelDTO.builder()
                 .id(new ModelId(bmw.getId(), "316"))
                 .brand(bmw)
                 .build();
 
-        Model model2 = Model.builder()
+        ModelDTO model2 = ModelDTO.builder()
                 .id(new ModelId(bmw.getId(), "318"))
                 .brand(bmw)
                 .build();
 
-        Model model3 = Model.builder()
+        ModelDTO model3 = ModelDTO.builder()
                 .id(new ModelId(bmw.getId(), "320"))
                 .brand(bmw)
                 .build();
 
 
-        modelRepository.saveAll(List.of(model1, model2, model3));
-//        bmw.setModels(Set.of(model1, model2, model3));
-//        brandRepository.save(bmw);
+        modelService.save(model1);
+        modelService.save(model2);
+        modelService.save(model3);
     }
 
     private void loadBrandData() {
-        Brand brand1 = Brand.builder()
+        BrandDTO brand1 = BrandDTO.builder()
                 .name("BMW")
                 .build();
 
-        Brand brand2 = Brand.builder()
+        BrandDTO brand2 = BrandDTO.builder()
                 .name("Pagani")
                 .build();
 
-        Brand brand3 = Brand.builder()
+        BrandDTO brand3 = BrandDTO.builder()
                 .name("Lamborghini")
                 .build();
 
-        brandRepository.saveAll(List.of(brand1, brand2, brand3));
+        brandService.save(brand1);
+        brandService.save(brand2);
+        brandService.save(brand3);
     }
 
     private void loadCityData() {
-        City city1 = City.builder()
+        CityDTO city1 = CityDTO.builder()
                 .name("Avon")
                 .zipCode("44011")
                 .build();
 
-        City city2 = City.builder()
+        CityDTO city2 = CityDTO.builder()
                 .name("Pittsburgh")
                 .zipCode("15226")
                 .build();
 
-        City city3 = City.builder()
+        CityDTO city3 = CityDTO.builder()
                 .name("Centennial")
                 .zipCode("80112")
                 .build();
 
-        cityRepository.saveAll(List.of(city1, city2, city3));
+        cityService.save(city1);
+        cityService.save(city2);
+        cityService.save(city3);
     }
 
     private void loadCustomerData() {
 
-        City city1 = cityRepository.findByName("Avon").orElseThrow(() -> new RuntimeException("City Avon not found"));
-        City city2 = cityRepository.findByName("Pittsburgh").orElseThrow(() -> new RuntimeException("City Pittsburgh not found"));
-        City city3 = cityRepository.findByName("Centennial").orElseThrow(() -> new RuntimeException("City Centennial not found"));
+        CityDTO city1 = cityService.getById(1L);
+        CityDTO city2 = cityService.getById(2L);
+        CityDTO city3 = cityService.getById(3L);
 
-        Customer customer1 = getCustomer("John", "Smith", "1256 Harley Vincent Drive", "+4406539302", "john.smith@test.com", city1);
-        Customer customer2 = getCustomer("Sarah", "Connor", "1190 Stiles Street", "+4125718361", "sarahconnor@test.com", city2);
-        Customer customer3 = getCustomer("Anna", "Thompson", "1237 River Road", "+7192105599", "anna.thompson@example.com", city3);
+        CustomerDTO customer1 = getCustomer("John", "Smith", "1256 Harley Vincent Drive", "+4406539302", "john.smith@test.com",cityMapper.cityDTOToCity(city1));
+        CustomerDTO customer2 = getCustomer("Sarah", "Connor", "1190 Stiles Street", "+4125718361", "sarahconnor@test.com", cityMapper.cityDTOToCity(city2));
+        CustomerDTO customer3 = getCustomer("Anna", "Thompson", "1237 River Road", "+7192105599", "anna.thompson@example.com", cityMapper.cityDTOToCity(city3));
 
 
-        customerRepository.saveAll(List.of(customer1, customer2, customer3));
+        customerService.save(customer1);
+        customerService.save(customer2);
+        customerService.save(customer3);
     }
 
-    private Customer getCustomer(String firstName, String lastName, String address, String phone, String email, City city) {
-        return Customer.builder()
+    private CustomerDTO getCustomer(String firstName, String lastName, String address, String phone, String email, City city) {
+        return CustomerDTO.builder()
                 .firstName(firstName)
                 .lastName(lastName)
                 .address(address)

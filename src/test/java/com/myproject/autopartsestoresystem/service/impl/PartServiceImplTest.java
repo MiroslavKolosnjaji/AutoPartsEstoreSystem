@@ -102,10 +102,8 @@ class PartServiceImplTest {
         //given
         when(partMapper.partDTOToPart(partDTO)).thenReturn(part);
         when(partMapper.partToPartDTO(part)).thenReturn(partDTO);
-        when(priceMapper.priceToPriceDTO(any(Price.class))).thenReturn(priceDTO);
 
         when(partRepository.save(part)).thenReturn(part);
-        when(priceService.save(any(PriceDTO.class))).thenReturn(priceDTO);
 
         //when
         PartDTO savedDTO = partService.save(partDTO);
@@ -116,9 +114,7 @@ class PartServiceImplTest {
 
         verify(partMapper).partToPartDTO(part);
         verify(partMapper).partDTOToPart(partDTO);
-        verify(priceMapper).priceToPriceDTO(any(Price.class));
         verify(partRepository).save(part);
-        verify(priceService).save(priceDTO);
 
     }
 
@@ -129,12 +125,10 @@ class PartServiceImplTest {
         //given
         priceDTO.setId(new PriceId(1L, 1L));
         when(partRepository.findById(anyLong())).thenReturn(Optional.of(part));
-        when(partMapper.partDTOToPart(partDTO)).thenReturn(part);
         when(partMapper.partToPartDTO(part)).thenReturn(partDTO);
-        when(priceMapper.priceToPriceDTO(any(Price.class))).thenReturn(priceDTO);
+
 
         when(partRepository.save(part)).thenReturn(part);
-        when(priceService.update(priceDTO.getId(), priceDTO)).thenReturn(priceDTO);
 
         //when
         PartDTO updatedDTO = partService.update(part.getId(), partDTO);
@@ -144,10 +138,7 @@ class PartServiceImplTest {
         assertEquals(partDTO, updatedDTO, "Updated DTO is not equal to PartDTO");
 
         verify(partMapper).partToPartDTO(part);
-        verify(partMapper).partDTOToPart(partDTO);
-        verify(priceMapper).priceToPriceDTO(any(Price.class));
         verify(partRepository).save(part);
-        verify(priceService).update(priceDTO.getId(), priceDTO);
 
     }
 

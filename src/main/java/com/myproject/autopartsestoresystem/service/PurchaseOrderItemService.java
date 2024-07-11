@@ -11,6 +11,6 @@ import java.util.List;
 public interface PurchaseOrderItemService extends CrudService<PurchaseOrderItemDTO, PurchaseOrderItemId>{
 
     List<PurchaseOrderItemDTO> findByPurchaseOrderId(Long purchaseOrderId);
-    List<PurchaseOrderItemDTO> saveAll(List<PurchaseOrderItemDTO> purchaseOrderItemDTOList);
+    List<PurchaseOrderItemDTO> saveAll(Long purchaseOrderId, List<PurchaseOrderItemDTO> purchaseOrderItemDTOList);
     List<PurchaseOrderItemDTO> updateItemList(Long purchaseOrderId, List<PurchaseOrderItemDTO> purchaseOrderItemDTOList);
 }

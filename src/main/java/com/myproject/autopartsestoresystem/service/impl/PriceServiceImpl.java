@@ -29,7 +29,7 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public PriceDTO save(PriceDTO priceDTO) {
 
-        PriceId priceId = new PriceId(priceDTO.getId().getPartId(), generateNextPriceId(priceRepository.findMaxPriceId()));
+        PriceId priceId = new PriceId(priceDTO.getId().getPartId(), generateNextPriceId(priceRepository.findMaxPriceId(priceDTO.getId().getPartId())));
         priceDTO.setId(priceId);
 
         if (priceDTO.getDateModified() == null)

@@ -25,6 +25,7 @@ public class Card {
     @Column(name = "card_id")
     private Long id;
 
+    @Column(name = "card_number", length = 256)
     private String cardNumber;
     private String cardHolder;
     private LocalDate expiryDate;

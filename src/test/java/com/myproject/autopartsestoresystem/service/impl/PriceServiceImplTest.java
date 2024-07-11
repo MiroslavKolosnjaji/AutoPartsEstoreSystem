@@ -68,7 +68,7 @@ class PriceServiceImplTest {
         priceDTO.setDateModified(null);
         price.setDateModified(null);
 
-        when(priceRepository.findMaxPriceId()).thenReturn(1L);
+        when(priceRepository.findMaxPriceId(anyLong())).thenReturn(1L);
         when(priceMapper.priceToPriceDTO(price)).thenReturn(priceDTO);
         when(priceMapper.priceDTOToPrice(priceDTO)).thenReturn(price);
         when(priceRepository.save(price)).thenReturn(price);
@@ -80,7 +80,7 @@ class PriceServiceImplTest {
         assertNotNull(savedDTO, "Saved Price should not be null");
         assertEquals(priceDTO, savedDTO, "Saved Price should be equal to priceDTO");
 
-        verify(priceRepository).findMaxPriceId();
+        verify(priceRepository).findMaxPriceId(anyLong());
         verify(priceMapper).priceToPriceDTO(price);
         verify(priceMapper).priceDTOToPrice(priceDTO);
         verify(priceRepository).save(price);
@@ -112,7 +112,7 @@ class PriceServiceImplTest {
     void testUpdatePrice_whenAddingNewPrice_returnsPriceDTO() {
         //given
         when(priceRepository.getPriceByIdAndDateModified(new PriceId(1L, 1L), price.getDateModified())).thenReturn(Optional.empty());
-        when(priceRepository.findMaxPriceId()).thenReturn(1L);
+        when(priceRepository.findMaxPriceId(anyLong())).thenReturn(1L);
         when(priceMapper.priceToPriceDTO(price)).thenReturn(priceDTO);
         when(priceMapper.priceDTOToPrice(priceDTO)).thenReturn(price);
         when(priceRepository.save(price)).thenReturn(price);
@@ -123,7 +123,7 @@ class PriceServiceImplTest {
         assertNotNull(updatedDTO, "Updated Price should not be null");
         assertEquals(priceDTO, updatedDTO, "Updated Price should be equal to priceDTO");
 
-        verify(priceRepository).findMaxPriceId();
+        verify(priceRepository).findMaxPriceId(anyLong());
         verify(priceMapper).priceToPriceDTO(price);
         verify(priceMapper).priceDTOToPrice(priceDTO);
         verify(priceRepository).save(price);

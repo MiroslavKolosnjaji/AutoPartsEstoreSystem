@@ -1,18 +1,22 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
+import com.myproject.autopartsestoresystem.dto.PartDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderItemDTO;
 import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderItemNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.PurchaseOrderItemMapper;
+import com.myproject.autopartsestoresystem.model.Part;
+import com.myproject.autopartsestoresystem.model.Price;
 import com.myproject.autopartsestoresystem.model.PurchaseOrderItem;
 import com.myproject.autopartsestoresystem.model.PurchaseOrderItemId;
 import com.myproject.autopartsestoresystem.repository.PurchaseOrderItemRepository;
+import com.myproject.autopartsestoresystem.service.PartService;
+import com.myproject.autopartsestoresystem.service.PriceService;
 import com.myproject.autopartsestoresystem.service.PurchaseOrderItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -24,6 +28,8 @@ public class PurchaseOrderItemServiceImpl implements PurchaseOrderItemService {
 
     private final PurchaseOrderItemRepository purchaseOrderItemRepository;
     private final PurchaseOrderItemMapper purchaseOrderItemMapper;
+    private final PartService partService;
+
     private static final int DEFAULT_VALUE = 1;
 
 
@@ -33,14 +39,25 @@ public class PurchaseOrderItemServiceImpl implements PurchaseOrderItemService {
     }
 
     @Override
-    public List<PurchaseOrderItemDTO> saveAll(List<PurchaseOrderItemDTO> purchaseOrderItemDTOList) {
+    public List<PurchaseOrderItemDTO> saveAll(Long purchaseOrderId, List<PurchaseOrderItemDTO> purchaseOrderItemDTOList) {
 
-        updateTotalPriceAndOrdinalNumber(purchaseOrderItemDTOList);
+        List<Long> ids = getPartIds(purchaseOrderItemDTOList);
+
+        List<PartDTO> parts = partService.getSelectedParts(ids);
+
+        Map<PartDTO, List<Price>> partMap = new HashMap<>();
+        parts.forEach(partDTO -> partMap.put(partDTO, partDTO.getPrices()));
+
+        purchaseOrderItemDTOList.forEach(orderItem -> orderItem.getPart().setPrices(partMap.get(orderItem.getPart())));
+
+        updateTotalPriceAndOrdinalNumber(purchaseOrderId, purchaseOrderItemDTOList);
 
         List<PurchaseOrderItem> savedList = purchaseOrderItemRepository.saveAll(purchaseOrderItemMapper.purchaseOrderItemDTOListToPurchaseOrderItemList(purchaseOrderItemDTOList));
 
         return purchaseOrderItemMapper.purchaseOrderItemListToPurchaseOrderDTOList(savedList);
     }
+
+
 
     @Override
     public List<PurchaseOrderItemDTO> updateItemList(Long purchaseOrderId, List<PurchaseOrderItemDTO> purchaseOrderItemDTOList) {
@@ -48,7 +65,7 @@ public class PurchaseOrderItemServiceImpl implements PurchaseOrderItemService {
         Set<PurchaseOrderItem> purchaseOrderItems = purchaseOrderItemRepository.findByPurchaseOrderId(purchaseOrderId)
                 .orElseThrow(PurchaseOrderItemNotFoundException::new);
 
-        updateTotalPriceAndOrdinalNumber(purchaseOrderItemDTOList);
+        updateTotalPriceAndOrdinalNumber(purchaseOrderId, purchaseOrderItemDTOList);
 
         purchaseOrderItems.removeIf( item -> !purchaseOrderItemDTOList.contains(item));
         purchaseOrderItemDTOList.forEach(item -> purchaseOrderItems.add(purchaseOrderItemMapper.purchaseOrderItemDTOToPurchaseOrderItem(item)));
@@ -93,15 +110,30 @@ public class PurchaseOrderItemServiceImpl implements PurchaseOrderItemService {
             purchaseOrderItemRepository.deleteById(purchaseOrderItemId);
     }
 
-    private void updateTotalPriceAndOrdinalNumber(List<PurchaseOrderItemDTO> purchaseOrderItemDTOList) {
+    private void updateTotalPriceAndOrdinalNumber(Long purchaseOrderId, List<PurchaseOrderItemDTO> purchaseOrderItemDTOList) {
         int itemCount = DEFAULT_VALUE;
         for (PurchaseOrderItemDTO purchaseOrderItemDTO : purchaseOrderItemDTOList) {
+            purchaseOrderItemDTO.setPurchaseOrderId(purchaseOrderId);
             updateItemValues(purchaseOrderItemDTO, itemCount++);
         }
     }
 
-    private void updateItemValues(PurchaseOrderItemDTO purchaseOrderItemDTO, int itemCount) {
+    private static void updateItemValues(PurchaseOrderItemDTO purchaseOrderItemDTO, int itemCount) {
+
+        int indexOfLastPrice = purchaseOrderItemDTO.getPart().getPrices().size() - 1;
+        BigDecimal lastPrice = purchaseOrderItemDTO.getPart().getPrices().get(indexOfLastPrice).getPrice();
+
+        purchaseOrderItemDTO.setUnitPrice(lastPrice);
         purchaseOrderItemDTO.setOrdinalNumber(itemCount);
         purchaseOrderItemDTO.setTotalPrice(purchaseOrderItemDTO.getUnitPrice().multiply(BigDecimal.valueOf(purchaseOrderItemDTO.getQuantity())));
+    }
+
+    private List<Long> getPartIds(List<PurchaseOrderItemDTO> purchaseOrderItemDTOList) {
+        List<Long> partIds = new ArrayList<>();
+
+        for (PurchaseOrderItemDTO purchaseOrderItemDTO : purchaseOrderItemDTOList)
+            partIds.add(purchaseOrderItemDTO.getPart().getId());
+
+        return partIds;
     }
 }

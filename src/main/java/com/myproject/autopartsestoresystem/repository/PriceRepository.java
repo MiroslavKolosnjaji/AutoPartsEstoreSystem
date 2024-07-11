@@ -14,8 +14,8 @@ import java.util.Optional;
  */
 public interface PriceRepository extends JpaRepository<Price, PriceId> {
 
-    @Query("SELECT MAX(id.priceId) FROM Price")
-    Long findMaxPriceId();
+    @Query("SELECT MAX(p.id.priceId) FROM Price p WHERE p.id.partId = :id ")
+    Long findMaxPriceId(Long id);
 
     List<Price> getPricesById(PriceId priceId);
     Optional<Price> getPriceByIdAndDateModified(PriceId priceId , LocalDateTime dateModified);

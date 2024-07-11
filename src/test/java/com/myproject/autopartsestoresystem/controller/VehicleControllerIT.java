@@ -45,7 +45,6 @@ class VehicleControllerIT {
 
 
         vehicleDTO = VehicleDTO.builder()
-                .brand(model.getBrand())
                 .parts(new ArrayList<>())
                 .model(model)
                 .engineType("2.0i Injection")
@@ -71,7 +70,7 @@ class VehicleControllerIT {
     @Test
     void testCreateVehicle_whenInvalidDetailsProvided_returns400StatusCode() throws Exception {
 
-        vehicleDTO.setBrand(null);
+        vehicleDTO.setModel(null);
 
         mockMvc.perform(post(VehicleController.VEHICLE_URI)
                 .contentType(MediaType.APPLICATION_JSON)

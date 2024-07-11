@@ -30,5 +30,8 @@ public interface PurchaseOrderItemMapper {
     List<PurchaseOrderItem> purchaseOrderItemDTOListToPurchaseOrderItemList(List<PurchaseOrderItemDTO> purchaseOrderDTOList);
 
     @IterableMapping(elementTargetType = PurchaseOrderItemDTO.class)
-    List<PurchaseOrderItemDTO> purchaseOrderItemSetToPurchaseOrderDTOList(Set<PurchaseOrderItem> purchaseOrderItemList);
+    List<PurchaseOrderItemDTO> purchaseOrderItemSetToPurchaseOrderItemDTOList(Set<PurchaseOrderItem> purchaseOrderItemList);
+
+    @IterableMapping(elementTargetType = PurchaseOrderItem.class)
+    List<PurchaseOrderItem> purchaseOrderItemSetToPurchaseOrderItemList(Set<PurchaseOrderItem> purchaseOrderItemList);
 }

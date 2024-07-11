@@ -39,7 +39,7 @@ public class PartDTO {
     @Size(max = 255, message = "Description cannot be longer than 255 characters")
     private String description;
 
-    @NotNull(message = "Price list cannot be null")
+    @NotNull(groups = Update.class,message = "Price list cannot be null")
     private List<Price> prices;
 
     @NotNull(message = "Part group cannot be null")

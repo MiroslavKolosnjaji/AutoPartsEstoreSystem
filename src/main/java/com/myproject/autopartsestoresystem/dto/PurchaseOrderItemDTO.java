@@ -1,5 +1,8 @@
 package com.myproject.autopartsestoresystem.dto;
 
+import com.myproject.autopartsestoresystem.model.Part;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -7,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.sql.Update;
 
 import java.math.BigDecimal;
 
@@ -19,22 +23,25 @@ import java.math.BigDecimal;
 @Builder
 public class PurchaseOrderItemDTO {
 
-    @NotNull(message = "Purchase order id in purchse item cannot be null")
+    @NotNull(groups = Update.class, message = "Purchase order id in purchase item cannot be null")
     private Long purchaseOrderId;
 
-    @NotNull(message = "Ordinal num cannot be null")
+    @NotNull(groups = Update.class, message = "Ordinal num cannot be null")
     @Min(value = 1, message = "Ordinal num starts from 1")
     private Integer ordinalNumber;
+
+    @NotNull(message = "Part cannot be null")
+    private PartDTO part;
 
     @NotNull(message = "Quantity cannot be null")
     @Min(value = 1, message = "Quantity must have at least 1")
     private Integer quantity;
 
-    @NotNull(message = "Unit price cannot be null")
+    @NotNull(groups = Update.class, message = "Unit price cannot be null")
     @Positive
     private BigDecimal unitPrice;
 
-    @NotNull(message = "Total price cannot be null")
+    @NotNull(groups = Update.class, message = "Total price cannot be null")
     @Positive
     private BigDecimal totalPrice;
 

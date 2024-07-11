@@ -37,9 +37,6 @@ public class VehicleDTO {
     @NotNull(message = "Model cannot be null")
     private Model model;
 
-    @NotNull(message = "Brand cannot be null")
-    private Brand brand;
-
     @NotNull(message = "Part list cannot be null")
     private List<Part> parts;
 

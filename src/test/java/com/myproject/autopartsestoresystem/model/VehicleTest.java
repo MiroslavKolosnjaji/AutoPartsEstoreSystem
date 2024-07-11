@@ -18,7 +18,6 @@ class VehicleTest {
         //given
         Vehicle vehicle1 =  Vehicle.builder()
                 .id(1L)
-                .brand(null)
                 .parts(new ArrayList<>())
                 .model(null)
                 .engineType("2.0i Injection")
@@ -27,7 +26,6 @@ class VehicleTest {
 
         Vehicle vehicle2 =  Vehicle.builder()
                 .id(1L)
-                .brand(null)
                 .parts(new ArrayList<>())
                 .model(null)
                 .engineType("2.0i Injection")
@@ -40,7 +38,6 @@ class VehicleTest {
         //when && then
         assertAll("Vehicle fields validation",
                 () -> assertEquals(vehicle1.getId(), vehicle2.getId(), "Vehicle ID mismatch"),
-                () -> assertEquals(vehicle1.getBrand(), vehicle2.getBrand(), "Vehicle brand mismatch"),
                 () -> assertEquals(vehicle1.getParts(), vehicle2.getParts(), "Vehicle parts mismatch"),
                 () -> assertEquals(vehicle1.getModel(), vehicle2.getModel(), "Vehicle model mismatch"),
                 () -> assertEquals(vehicle1.getEngineType(), vehicle2.getEngineType(), "Vehicle engine type mismatch"),

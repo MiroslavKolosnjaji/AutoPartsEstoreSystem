@@ -31,7 +31,7 @@ class ModelControllerIT {
     ObjectMapper objectMapper;
 
     @DisplayName("Create Model")
-    @Order(3)
+    @Order(1)
     @Test
     void testCreateModel_whenValidDetailsProvided_returns201StatusCode() throws Exception {
 
@@ -61,13 +61,13 @@ class ModelControllerIT {
     }
 
     @DisplayName("Update Model")
-    @Order(4)
+    @Order(2)
     @Test
     void testUpdateModel_whenValidDetailsProvided_returns204StatusCode() throws Exception {
 
         ModelDTO modelDTO = getTestModelDTO();
         modelDTO.setId(new ModelId(1L, "316"));
-        modelDTO.getId().setName("318");
+        modelDTO.getBrand().setName("AUDI");
 
         mockMvc.perform(put(ModelController.MODEL_URI_WITH_ID, 1L, modelDTO.getId().getName())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -77,7 +77,7 @@ class ModelControllerIT {
     }
 
     @DisplayName("Get Model By ID")
-    @Order(1)
+    @Order(3)
     @Test
     void testGetModelById_whenValidIdProvided_returns200StatusCode() throws Exception {
 
@@ -99,7 +99,7 @@ class ModelControllerIT {
     }
 
     @DisplayName("Get All Models")
-    @Order(2)
+    @Order(5)
     @Test
     void testGetAllModels_whenListIsPopulated_returnsListOfModelDtos() throws Exception {
 
@@ -107,11 +107,11 @@ class ModelControllerIT {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.length()").value(3));
+                .andExpect(jsonPath("$.length()").value(4));
     }
 
     @DisplayName("Delete Model")
-    @Order(5)
+    @Order(4)
     @Test
     void testDeleteModel_whenValidIdProvided_returns204StatusCode() throws Exception {
 

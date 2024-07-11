@@ -199,22 +199,22 @@ class PartDTOTest {
         assertTrue(violations.isEmpty(), "Validation should pass for populated list");
     }
 
-    @DisplayName("Prices - Invalid Input - List Is Null")
-    @Test
-    void testPriceList_whenListIsNull_thenValidationFailed() {
-
-        //given
-        partDTO.setPrices(null);
-
-        //when
-        violations = validator.validate(partDTO);
-
-        //then
-        assertFalse(violations.isEmpty(), "Validation should fail for populated list");
-
-        violation = violations.iterator().next();
-        assertEquals("Price list cannot be null", violation.getMessage());
-    }
+//    @DisplayName("Prices - Invalid Input - List Is Null")
+//    @Test
+//    void testPriceList_whenListIsNull_thenValidationFailed() {
+//
+//        //given
+//        partDTO.setPrices(null);
+//
+//        //when
+//        violations = validator.validate(partDTO);
+//
+//        //then
+//        assertFalse(violations.isEmpty(), "Validation should fail for populated list");
+//
+//        violation = violations.iterator().next();
+//        assertEquals("Price list cannot be null", violation.getMessage());
+//    }
 
     @DisplayName("Part Group - Valid Input")
     @Test

@@ -51,7 +51,6 @@ class VehicleServiceImplTest {
 
 
         vehicleDTO = VehicleDTO.builder()
-                .brand(model.getBrand())
                 .parts(new ArrayList<>())
                 .model(model)
                 .engineType("2.0i Injection")

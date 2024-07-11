@@ -2,7 +2,8 @@ package com.myproject.autopartsestoresystem.controller;
 
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.CartNotFoundException;
+import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderNotFoundException;
+import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderItemNotFoundException;
 import com.myproject.autopartsestoresystem.service.PurchaseOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -30,12 +31,16 @@ public class PurchaseOrderController {
     @PostMapping()
     public ResponseEntity<PurchaseOrderDTO> addCart(@Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO) {
 
-        PurchaseOrderDTO saved = purchaseOrderService.save(purchaseOrderDTO);
+      try{
+          PurchaseOrderDTO saved = purchaseOrderService.save(purchaseOrderDTO);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", PURCHASE_ORDER_URI + "/" + saved.getId());
+          HttpHeaders headers = new HttpHeaders();
+          headers.add("Location", PURCHASE_ORDER_URI + "/" + saved.getId());
 
-        return new ResponseEntity<>(saved, headers, HttpStatus.CREATED);
+          return new ResponseEntity<>(saved, headers, HttpStatus.CREATED);
+      }catch(PurchaseOrderItemNotFoundException e){
+          throw new EntityNotFoundException(e.getMessage());
+      }
 
     }
 
@@ -47,7 +52,7 @@ public class PurchaseOrderController {
             PurchaseOrderDTO updated = purchaseOrderService.update(purchaseOrderId, purchaseOrderDTO);
             return new ResponseEntity<>(updated, HttpStatus.NO_CONTENT);
 
-        } catch (CartNotFoundException e) {
+        } catch (PurchaseOrderNotFoundException e) {
             throw new EntityNotFoundException(e.getMessage());
         }
     }
@@ -71,7 +76,7 @@ public class PurchaseOrderController {
 
             PurchaseOrderDTO purchaseOrderDTO = purchaseOrderService.getById(purchaseOrderId);
             return new ResponseEntity<>(purchaseOrderDTO, HttpStatus.OK);
-        } catch (CartNotFoundException e) {
+        } catch (PurchaseOrderNotFoundException e) {
             throw new EntityNotFoundException(e.getMessage());
         }
     }
@@ -82,7 +87,7 @@ public class PurchaseOrderController {
         try {
             purchaseOrderService.delete(purchaseOrderId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch (CartNotFoundException e) {
+        }catch (PurchaseOrderNotFoundException e) {
             throw new EntityNotFoundException(e.getMessage());
         }
     }

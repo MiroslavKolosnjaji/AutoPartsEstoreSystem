@@ -15,6 +15,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -49,10 +50,13 @@ public class BootStrapData implements CommandLineRunner {
 
     private final PaymentMethodRepository paymentMethodRepository;
 
+    private final PurchaseOrderService purchaseOrderService;
+
     private final TextEncryptor textEncryptor;
 
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         loadPaymentMethodData();
         loadPartGroupData();
@@ -63,6 +67,31 @@ public class BootStrapData implements CommandLineRunner {
         loadCityData();
         loadCustomerData();
         loadCardData();
+//        loadPurchaseOrderData();
+    }
+
+    private void loadPurchaseOrderData() {
+
+        CustomerDTO customerDTO = customerService.getById(1L);
+        PartDTO partDTO = partService.getById(1L);
+        Part part = partMapper.partDTOToPart(partDTO);
+
+        System.out.println("PART DETAILS: " + part);
+
+        PurchaseOrderItem purchaseOrderItem = PurchaseOrderItem.builder()
+                .part(part)
+                .quantity(2)
+                .build();
+
+
+        List<PurchaseOrderItem> purchaseOrderItems = Collections.singletonList(purchaseOrderItem);
+
+        PurchaseOrderDTO purchaseOrderDTO = PurchaseOrderDTO.builder()
+                .customer(customerDTO)
+                .items(purchaseOrderItems)
+                .build();
+
+        purchaseOrderService.save(purchaseOrderDTO);
     }
 
     private void loadPaymentMethodData() {
@@ -105,7 +134,6 @@ public class BootStrapData implements CommandLineRunner {
         VehicleDTO vehicle1 = VehicleDTO.builder()
                 .parts(parts)
                 .model(model)
-                .brand(model.getBrand())
                 .engineType("1.8i Injection")
                 .series("Series 3")
                 .build();

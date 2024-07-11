@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -34,12 +34,13 @@ public class PartServiceImpl implements PartService {
     private final PartMapper partMapper;
     private final PriceMapper priceMapper;
 
+
     @Override
     @Transactional
     public PartDTO save(PartDTO partDTO) {
 
+
         Part saved = partRepository.save(partMapper.partDTOToPart(partDTO));
-        priceService.save(priceMapper.priceToPriceDTO(getLastPriceFromPart(saved)));
 
         return partMapper.partToPartDTO(saved);
     }
@@ -57,12 +58,11 @@ public class PartServiceImpl implements PartService {
         updatePrice(part, partDTO.getPrices());
 
         partRepository.save(part);
-        Price lastPrice = getLastPriceFromPart(partMapper.partDTOToPart(partDTO));
 
-        PriceId priceid = new PriceId(lastPrice.getId().getPartId(), (long) part.getPrices().size());
-
-        priceService.update(priceid, priceMapper.priceToPriceDTO(lastPrice));
-
+//
+//        Price lastPrice = getLastPriceFromPart(partMapper.partDTOToPart(partDTO));
+//        PriceId priceid = new PriceId(lastPrice.getId().getPartId(), (long) part.getPrices().size());
+//        priceService.update(priceid, priceMapper.priceToPriceDTO(lastPrice));
 
         return partMapper.partToPartDTO(part);
     }
@@ -82,6 +82,15 @@ public class PartServiceImpl implements PartService {
                 part.getPrices().add(price);
             }
         }
+    }
+
+    @Override
+    public List<PartDTO> getSelectedParts(List<Long> selectedPartIds) {
+
+        List<Part> parts = partRepository.getSelectedParts(selectedPartIds)
+                .orElseThrow(() -> new PartNotFoundException("Selected parts not found"));
+
+        return partMapper.partsToPartDTOs(parts);
     }
 
     @Override
@@ -114,7 +123,7 @@ public class PartServiceImpl implements PartService {
     private Price getLastPriceFromPart(Part part) {
 
 
-        if(part.getPrices() == null  || part.getPrices().isEmpty())
+        if (part.getPrices() == null || part.getPrices().isEmpty())
             throw new NoSuchElementException("No prices found for the part");
 
         return part.getPrices().get(part.getPrices().size() - 1);

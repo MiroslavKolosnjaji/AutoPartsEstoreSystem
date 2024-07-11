@@ -1,22 +1,25 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
-import com.myproject.autopartsestoresystem.exception.service.CartNotFoundException;
+import com.myproject.autopartsestoresystem.dto.PurchaseOrderItemDTO;
+import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderNotFoundException;
+import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderItemNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.PurchaseOrderItemMapper;
 import com.myproject.autopartsestoresystem.mapper.PurchaseOrderMapper;
 import com.myproject.autopartsestoresystem.model.PurchaseOrder;
+import com.myproject.autopartsestoresystem.model.PurchaseOrderItemId;
 import com.myproject.autopartsestoresystem.model.PurchaseOrderStatus;
 import com.myproject.autopartsestoresystem.model.PurchaseOrderItem;
 import com.myproject.autopartsestoresystem.repository.PurchaseOrderRepository;
+import com.myproject.autopartsestoresystem.repository.VehicleRepository;
 import com.myproject.autopartsestoresystem.service.PurchaseOrderItemService;
 import com.myproject.autopartsestoresystem.service.PurchaseOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.math.BigDecimal;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -30,22 +33,23 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private final PurchaseOrderItemService purchaseOrderItemService;
     private final PurchaseOrderMapper purchaseOrderMapper;
     private final PurchaseOrderItemMapper purchaseOrderItemMapper;
+    private final VehicleRepository vehicleRepository;
 
 
     @Override
-    public PurchaseOrderDTO findByCartNumber(UUID cartNumber) {
+    public PurchaseOrderDTO findByPurchaseOrderNumber(UUID cartNumber) {
 
         PurchaseOrder purchaseOrder = purchaseOrderRepository.findByPurchaseOrderNumber(cartNumber)
-                .orElseThrow(() -> new CartNotFoundException("Cart not found"));
+                .orElseThrow(() -> new PurchaseOrderNotFoundException("Cart not found"));
 
         return purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(purchaseOrder);
     }
 
 
     @Override
-    public void updateCartStatus(UUID cartNumber, PurchaseOrderStatus purchaseOrderStatus) {
+    public void updateOrderStatus(UUID cartNumber, PurchaseOrderStatus purchaseOrderStatus) {
         PurchaseOrder purchaseOrder = purchaseOrderRepository.findByPurchaseOrderNumber(cartNumber)
-                .orElseThrow(() -> new CartNotFoundException("Cart not found"));
+                .orElseThrow(() -> new PurchaseOrderNotFoundException("Cart not found"));
 
         purchaseOrder.setStatus(purchaseOrderStatus);
         purchaseOrderRepository.save(purchaseOrder);
@@ -61,26 +65,45 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     @Transactional
     public PurchaseOrderDTO save(PurchaseOrderDTO purchaseOrderDTO) {
 
+        if(purchaseOrderDTO.getItems() == null || purchaseOrderDTO.getItems().isEmpty())
+            throw new PurchaseOrderItemNotFoundException("PurchaseOrder items not found");
+
         purchaseOrderDTO.setPurchaseOrderNumber(generateCartNumber());
         purchaseOrderDTO.setStatus(PurchaseOrderStatus.PENDING_PROCESSING);
 
-        PurchaseOrder purchaseOrder = purchaseOrderMapper.purchaseOrderDTOtoPurchaseOrder(purchaseOrderDTO);
+        List<PurchaseOrderItem> purchaseOrderItems = purchaseOrderDTO.getItems();
+        purchaseOrderDTO.setItems(null);
 
-        PurchaseOrder savedPurchaseOrder = purchaseOrderRepository.save(purchaseOrder);
+        PurchaseOrder savedPurchaseOrder = purchaseOrderRepository.save(purchaseOrderMapper.purchaseOrderDTOtoPurchaseOrder(purchaseOrderDTO));
 
-        savedPurchaseOrder.getPurchaseOrderItems().forEach(item -> item.setPurchaseOrder(savedPurchaseOrder));
-        purchaseOrderItemService.saveAll(purchaseOrderItemMapper.purchaseOrderItemSetToPurchaseOrderDTOList(savedPurchaseOrder.getPurchaseOrderItems()));
+        savedPurchaseOrder.setPurchaseOrderItems(new HashSet<>());
+        purchaseOrderItems.forEach(item ->{
+            item.setPurchaseOrder(savedPurchaseOrder);
+            savedPurchaseOrder.getPurchaseOrderItems().add(item);
+        });
 
+
+
+        List<PurchaseOrderItemDTO> savedItems = purchaseOrderItemService.saveAll(savedPurchaseOrder.getId() ,purchaseOrderItemMapper.purchaseOrderItemSetToPurchaseOrderItemDTOList(savedPurchaseOrder.getPurchaseOrderItems()));
+
+        BigDecimal total = BigDecimal.ZERO;
+        for (PurchaseOrderItemDTO item : savedItems)
+            total = total.add(item.getTotalPrice());
+
+        savedPurchaseOrder.setTotalAmount(total);
+        purchaseOrderRepository.save(savedPurchaseOrder);
 
         return purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(savedPurchaseOrder);
     }
+
+
 
     @Override
     @Transactional
     public PurchaseOrderDTO update(Long id, PurchaseOrderDTO purchaseOrderDTO) {
 
         PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(id)
-                .orElseThrow(() -> new CartNotFoundException("Cart not found"));
+                .orElseThrow(() -> new PurchaseOrderNotFoundException("Cart not found"));
 
         PurchaseOrder purchaseOrderWithUpdatedData = purchaseOrderMapper.purchaseOrderDTOtoPurchaseOrder(purchaseOrderDTO);
 
@@ -88,12 +111,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         purchaseOrder.setStatus(purchaseOrderWithUpdatedData.getStatus());
         purchaseOrder.setCustomer(purchaseOrderWithUpdatedData.getCustomer());
         purchaseOrder.setPurchaseOrderItems(purchaseOrderWithUpdatedData.getPurchaseOrderItems());
+        updateTotalPriceField(purchaseOrderDTO);
 
         PurchaseOrder updated = purchaseOrderRepository.save(purchaseOrder);
 
         updated.getPurchaseOrderItems().forEach(item -> item.setPurchaseOrder(purchaseOrder));
-        purchaseOrderItemService.updateItemList(id, purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(updated).getItems());
-        
+        purchaseOrderItemService.updateItemList(id, purchaseOrderItemMapper.purchaseOrderItemSetToPurchaseOrderItemDTOList(updated.getPurchaseOrderItems()));
+
         return purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(updated);
     }
 
@@ -108,7 +132,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public PurchaseOrderDTO getById(Long id) {
         return purchaseOrderRepository.findById(id)
                 .map(purchaseOrderMapper::purchaseOrderToPurchaseOrderDTO)
-                .orElseThrow(() -> new CartNotFoundException("Cart not found"));
+                .orElseThrow(() -> new PurchaseOrderNotFoundException("Cart not found"));
     }
 
     @Override
@@ -116,20 +140,26 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public void delete(Long id) {
 
         if (!purchaseOrderRepository.existsById(id))
-            throw new CartNotFoundException("Cart not found");
+            throw new PurchaseOrderNotFoundException("Cart not found");
 
         purchaseOrderRepository.deleteById(id);
     }
 
-    private UUID generateCartNumber() {
-        return UUID.randomUUID();
+    private  void updateTotalPriceField(PurchaseOrder purchaseOrder) {
+        updateTotalPriceField(purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(purchaseOrder));
     }
 
-    private void addOrdinalNumberToItem(PurchaseOrder purchaseOrder) {
-        int itemCounter = 1;
-        for (PurchaseOrderItem purchaseOrderItem : purchaseOrder.getPurchaseOrderItems()) {
-            purchaseOrderItem.getId().setOrdinalNumber(itemCounter++);
-        }
+    private static void updateTotalPriceField(PurchaseOrderDTO purchaseOrderDTO) {
+        BigDecimal totalPrice = new BigDecimal("0.0");
+
+        for (PurchaseOrderItem item : purchaseOrderDTO.getItems())
+            totalPrice = totalPrice.add(item.getUnitPrice().multiply(new BigDecimal(item.getQuantity())));
+
+        purchaseOrderDTO.setTotalAmount(totalPrice);
+    }
+
+    private UUID generateCartNumber() {
+        return UUID.randomUUID();
     }
 
 }

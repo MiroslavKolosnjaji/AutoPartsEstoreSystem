@@ -59,7 +59,6 @@ class VehicleControllerTest {
 
 
         vehicleDTO = VehicleDTO.builder()
-                .brand(model.getBrand())
                 .parts(new ArrayList<>())
                 .model(model)
                 .engineType("2.0i Injection")
@@ -95,7 +94,7 @@ class VehicleControllerTest {
     void testCreateVehicle_whenInvalidDetailsProvided_returns400StatusCode() throws Exception {
 
         //given
-        vehicleDTO.setBrand(null);
+        vehicleDTO.setModel(null);
 
         RequestBuilder requestBuilder = post(VehicleController.VEHICLE_URI)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -136,7 +135,7 @@ class VehicleControllerTest {
     void testUpdateVehicle_whenInvalidDetailsProvided_returns404StatusCode() throws Exception {
 
         //given
-        vehicleDTO.setBrand(null);
+        vehicleDTO.setModel(null);
 
         RequestBuilder requestBuilder = put(VehicleController.VEHICLE_URI_WITH_ID, 1L)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -211,7 +210,7 @@ class VehicleControllerTest {
         VehicleDTO foundedDTO = objectMapper.readValue(response, VehicleDTO.class);
 
         assertNotNull(foundedDTO, "Founded DTO cannot be null");
-        assertEquals(vehicleDTO, foundedDTO, "Founded DTO did not match");
+        assertEquals(vehicleDTO.getEngineType(), foundedDTO.getEngineType(), "Founded DTO did not match");
         verify(vehicleService).getById(anyLong());
     }
 

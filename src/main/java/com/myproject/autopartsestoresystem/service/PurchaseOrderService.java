@@ -12,9 +12,9 @@ import java.util.UUID;
  */
 public interface PurchaseOrderService extends CrudService<PurchaseOrderDTO, Long> {
 
-    PurchaseOrderDTO findByCartNumber(UUID cartNumber);
+    PurchaseOrderDTO findByPurchaseOrderNumber(UUID cartNumber);
     Optional<List<PurchaseOrderDTO>> findByCustomerId(Long customerId);
-    void updateCartStatus(UUID cartNumber, PurchaseOrderStatus purchaseOrderStatus);
+    void updateOrderStatus(UUID cartNumber, PurchaseOrderStatus purchaseOrderStatus);
 
 
 }

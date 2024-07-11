@@ -1,5 +1,6 @@
 package com.myproject.autopartsestoresystem.dto;
 
+import com.myproject.autopartsestoresystem.model.PurchaseOrderItem;
 import com.myproject.autopartsestoresystem.model.PurchaseOrderStatus;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -22,21 +23,21 @@ import java.util.UUID;
 @Builder
 public class PurchaseOrderDTO {
 
-    @NotNull(groups = Update.class)
+    @NotNull(groups = Update.class, message = "Id cannot be null")
     private Long id;
 
-    @NotNull(message = "Purchase order number cannot be null")
+    @NotNull(groups = Update.class, message = "Purchase order number cannot be null")
     private UUID purchaseOrderNumber;
 
-    @NotNull(message = "Status cannot be null")
+    @NotNull(groups = Update.class, message = "Status cannot be null")
     private PurchaseOrderStatus status;
 
-    @NotNull(message = "Total amount cannot be null")
+    @NotNull(groups = Update.class, message = "Total amount cannot be null")
     @Positive(message = "Total amount cannot be negative")
     private BigDecimal totalAmount;
 
     @NotNull(message = "Item list cannot be null")
-    private List<PurchaseOrderItemDTO> items;
+    private List<PurchaseOrderItem> items;
 
     private CustomerDTO customer;
 }

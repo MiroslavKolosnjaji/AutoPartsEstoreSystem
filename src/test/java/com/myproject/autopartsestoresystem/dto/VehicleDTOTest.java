@@ -42,7 +42,6 @@ class VehicleDTOTest {
 
 
         vehicleDTO = VehicleDTO.builder()
-                .brand(model.getBrand())
                 .parts(new ArrayList<>())
                 .model(model)
                 .engineType("2.0i Injection")
@@ -187,34 +186,6 @@ class VehicleDTOTest {
         assertEquals(violation.getMessage(), "Model cannot be null");
     }
 
-    @Test
-    void testBrand_whenValidInputProvided_thenCorrect() {
-
-        //given
-        vehicleDTO.setBrand(Brand.builder().build());
-
-        //when
-        violations = validator.validate(vehicleDTO);
-
-        //then
-        assertTrue(violations.isEmpty(), "Validation should pass for valid brand");
-    }
-
-    @Test
-    void testBrand_whenBrandIsNull_thenValidationFailed() {
-
-        //given
-        vehicleDTO.setBrand(null);
-
-        //when
-        violations = validator.validate(vehicleDTO);
-
-        //then
-        assertFalse(violations.isEmpty(), "Validation should fail for brand that is NULL");
-
-        violation = violations.iterator().next();
-        assertEquals(violation.getMessage(), "Brand cannot be null");
-    }
 
     @Test
     void testParts_whenValidInputProvided_thenCorrect() {
@@ -250,7 +221,6 @@ class VehicleDTOTest {
 
         //given
         VehicleDTO vehicleDTO2 = VehicleDTO.builder()
-                .brand(vehicleDTO.getModel().getBrand())
                 .parts(new ArrayList<>())
                 .model(vehicleDTO.getModel())
                 .engineType("2.0i Injection")

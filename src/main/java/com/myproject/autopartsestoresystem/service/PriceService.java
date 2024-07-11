@@ -17,6 +17,6 @@ public interface PriceService extends CrudService<PriceDTO, PriceId> {
     Optional<PriceDTO> getPriceByPriceIdAndLastModifiedDate(PriceId priceId, LocalDateTime lastModifiedDate);
 
     default Long generateNextPriceId(Long maxPriceId){
-        return (maxPriceId == null) ? 1 : maxPriceId + 1;
+        return (maxPriceId == null || maxPriceId == 0) ? 1 : maxPriceId + 1;
     }
 }

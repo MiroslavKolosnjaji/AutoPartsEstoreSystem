@@ -2,6 +2,7 @@
 [![codecov](https://codecov.io/gh/MiroslavKolosnjaji/AutoPartsEstoreSystem/graph/badge.svg?token=0Z63EFNDGY)](https://codecov.io/gh/MiroslavKolosnjaji/AutoPartsEstoreSystem)
 # AutoPartsEstoreSystem
 
+<<<<<<< HEAD
 Description:
 AutoPartsEstoreSystem is a web application aimed at providing a platform for ordering automobile parts for various makes and models.
 The application serves as an online store where users can browse, search, and purchase car parts.
@@ -15,11 +16,29 @@ Part group selection to refine search results (e.g., braking system, engine comp
 Shopping purchaseOrder functionality for adding and managing selected items
 User registration and login system
 Secure checkout process with various payment methods
+=======
+## Description:
+AutoPartsEstoreSystem is a server-side web application in development, designed to serve as an online platform for ordering automobile parts.
+Users can browse, search, and purchase parts based on vehicle make, model, and engine type. 
+Key functionalities include advanced search capabilities, part grouping for refined results, order management, secure payment processing, and invoice generation.
+
+## Key Features:
+
+- Advanced search system based on vehicle brand, model, and engine type
+- Part grouping to refine search results (e.g., braking system, engine components)
+- Order management for tracking and processing purchases
+- Secure payment processing with various payment methods
+- Invoice generation for order transactions
+- User registration and login system
+- Secure checkout process supporting various payment methods
+>>>>>>> a2d143fba91d2a680769a9837ce44d64d073b1fb
 
 ## Technologies Used:
 - __Spring Framework:__ Core Framework for building enterprise Java applications.
 - __Spring Boot DevTools:__ Tools for improving development efficiency with features like automatic restarts and live reload.
 - __Spring Boot Validation:__ Ensures that the data being processed adheres to specified rules and constraints.
+- __Spring Security:__ Provides authentication and authorization for Spring applications
+- __Spring Crypto:__ Provides utilities for cryptographic operations in Spring applications
 - __Project Lombok:__ Library for reducing boilerplate code in Java.
 - __MapStruct:__ Used for mapping between domain entities and DTOs.
 - __JUnit5:__ Testing framework for unit and integration testing in Java.
@@ -30,23 +49,34 @@ Secure checkout process with various payment methods
 - __JSON:__ Data interchange format for communication between the client and the server.
 
 ## Project Goals:
+<<<<<<< HEAD
 The main goal of the project is to create a fully functional web application for ordering automobile parts.
 The application will allow users to search for parts by selecting the car brand, model, and engine type, add parts to a shopping purchaseOrder, and proceed to checkout.
+=======
+The primary objective of this project is to create a fully functional server-side web application for purchasing automobile parts.
+It aims to provide users with a seamless experience for finding and buying parts based on specific vehicle details, processing payments securely, and generating invoices.
+>>>>>>> a2d143fba91d2a680769a9837ce44d64d073b1fb
 
 ### Project Phases:
-
 - Project setup and initialization
 - Database design and entity modeling
+<<<<<<< HEAD
 - Implementing CRUD operations for managing parts, brands, and models
 - Developing search functionality based on brand, model, and engine type
 - Adding shopping purchaseOrder and checkout features
 - User authentication and registration system
 - Testing and debugging
+=======
+- Implementation of CRUD operations for managing parts, brands, and models
+- Development of advanced search functionality based on vehicle specifications
+- Integration of order management, payment processing, and invoice generation
+- Implementation of user authentication and registration system
+- Testing, debugging, and optimization
+>>>>>>> a2d143fba91d2a680769a9837ce44d64d073b1fb
 - Integration with CircleCI for continuous integration and automated testing
 - Deployment and final adjustments
 
 ### Risks and Challenges:
-
-Integration of complex search functionality may pose challenges in terms of performance optimization and data retrieval.
-Ensuring data consistency and reliability in a multi-user environment could require careful handling of concurrency issues.
-User authentication and security measures need to be implemented robustly to prevent unauthorized access and data breaches.
+The integration of complex search functionalities poses challenges in terms of performance optimization and data retrieval.
+Ensuring data consistency in a multi-user environment requires careful management of concurrency issues.
+Robust implementation of user authentication, payment processing, and security measures is essential to prevent unauthorized access and ensure data protection.

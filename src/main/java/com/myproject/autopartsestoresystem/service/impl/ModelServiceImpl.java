@@ -65,7 +65,7 @@ public class ModelServiceImpl implements ModelService {
     @Transactional
     public void delete(ModelId id) {
 
-        if(modelRepository.findById(id).isEmpty())
+        if(!modelRepository.existsById(id))
             throw new ModelNotFoundException("Model not found");
 
         modelRepository.deleteById(id);

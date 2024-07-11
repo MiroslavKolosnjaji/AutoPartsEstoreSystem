@@ -180,4 +180,5 @@ class PriceServiceImplTest {
         //then
         assertTrue(foundPrice.isEmpty(), "Price should be empty");
     }
+
 }

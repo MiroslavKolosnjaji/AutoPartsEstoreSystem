@@ -1,10 +1,10 @@
 package com.myproject.autopartsestoresystem.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -24,6 +24,7 @@ public class PurchaseOrderItem {
 
     @ManyToOne
     @JoinColumn(name = "part_id")
+    @JsonIgnore
     private Part part;
 
     private Integer quantity;
@@ -32,7 +33,8 @@ public class PurchaseOrderItem {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("purchaseOrderId")
-    @JoinColumn(name = "purchaseOrderId", insertable = false, updatable = false)
+    @JoinColumn(name = "purchase_order_id", insertable = false, updatable = false)
+    @JsonBackReference
     private PurchaseOrder purchaseOrder;
 
 }

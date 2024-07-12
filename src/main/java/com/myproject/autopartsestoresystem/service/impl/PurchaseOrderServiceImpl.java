@@ -33,13 +33,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private final PurchaseOrderItemService purchaseOrderItemService;
     private final PurchaseOrderMapper purchaseOrderMapper;
     private final PurchaseOrderItemMapper purchaseOrderItemMapper;
-    private final VehicleRepository vehicleRepository;
 
 
     @Override
-    public PurchaseOrderDTO findByPurchaseOrderNumber(UUID cartNumber) {
+    public PurchaseOrderDTO findByPurchaseOrderNumber(UUID purchaseOrderNumber) {
 
-        PurchaseOrder purchaseOrder = purchaseOrderRepository.findByPurchaseOrderNumber(cartNumber)
+        PurchaseOrder purchaseOrder = purchaseOrderRepository.findByPurchaseOrderNumber(purchaseOrderNumber)
                 .orElseThrow(() -> new PurchaseOrderNotFoundException("Cart not found"));
 
         return purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(purchaseOrder);
@@ -47,8 +46,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 
     @Override
-    public void updateOrderStatus(UUID cartNumber, PurchaseOrderStatus purchaseOrderStatus) {
-        PurchaseOrder purchaseOrder = purchaseOrderRepository.findByPurchaseOrderNumber(cartNumber)
+    public void updateOrderStatus(UUID purchaseOrderNumber, PurchaseOrderStatus purchaseOrderStatus) {
+        PurchaseOrder purchaseOrder = purchaseOrderRepository.findByPurchaseOrderNumber(purchaseOrderNumber)
                 .orElseThrow(() -> new PurchaseOrderNotFoundException("Cart not found"));
 
         purchaseOrder.setStatus(purchaseOrderStatus);
@@ -79,21 +78,22 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         savedPurchaseOrder.setPurchaseOrderItems(new HashSet<>());
         purchaseOrderItems.forEach(item ->{
             item.setPurchaseOrder(savedPurchaseOrder);
+            item.setId(new PurchaseOrderItemId(savedPurchaseOrder.getId(), 0));
             savedPurchaseOrder.getPurchaseOrderItems().add(item);
         });
 
+        List<PurchaseOrderItemDTO> purchaseOrderItemDTOList = purchaseOrderItemMapper.purchaseOrderItemSetToPurchaseOrderItemDTOList(savedPurchaseOrder.getPurchaseOrderItems());
 
-
-        List<PurchaseOrderItemDTO> savedItems = purchaseOrderItemService.saveAll(savedPurchaseOrder.getId() ,purchaseOrderItemMapper.purchaseOrderItemSetToPurchaseOrderItemDTOList(savedPurchaseOrder.getPurchaseOrderItems()));
+        List<PurchaseOrderItemDTO> savedItems = purchaseOrderItemService.saveAll(savedPurchaseOrder.getId(), purchaseOrderItemDTOList);
 
         BigDecimal total = BigDecimal.ZERO;
         for (PurchaseOrderItemDTO item : savedItems)
             total = total.add(item.getTotalPrice());
 
         savedPurchaseOrder.setTotalAmount(total);
-        purchaseOrderRepository.save(savedPurchaseOrder);
+        PurchaseOrder updated =  purchaseOrderRepository.save(savedPurchaseOrder);
 
-        return purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(savedPurchaseOrder);
+        return purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(updated);
     }
 
 

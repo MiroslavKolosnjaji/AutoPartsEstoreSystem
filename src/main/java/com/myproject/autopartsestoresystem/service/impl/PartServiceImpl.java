@@ -103,9 +103,9 @@ public class PartServiceImpl implements PartService {
     @Transactional(readOnly = true)
     public PartDTO getById(Long id) {
         Part part = partRepository.findById(id).orElseThrow(() -> new PartNotFoundException("Part not found"));
-        List<PriceDTO> prices = priceService.getAllPricesByPriceId(new PriceId(part.getId(), null));
-
-        part.setPrices(priceMapper.priceDTOListToPrice(prices));
+//        List<PriceDTO> prices = priceService.getAllPricesByPriceId(new PriceId(part.getId(), null));
+//
+//        part.setPrices(priceMapper.priceDTOListToPrice(prices));
 
         return partMapper.partToPartDTO(part);
     }

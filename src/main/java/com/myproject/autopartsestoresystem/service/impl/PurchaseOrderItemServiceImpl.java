@@ -41,18 +41,12 @@ public class PurchaseOrderItemServiceImpl implements PurchaseOrderItemService {
     @Override
     public List<PurchaseOrderItemDTO> saveAll(Long purchaseOrderId, List<PurchaseOrderItemDTO> purchaseOrderItemDTOList) {
 
-        List<Long> ids = getPartIds(purchaseOrderItemDTOList);
-
-        List<PartDTO> parts = partService.getSelectedParts(ids);
-
-        Map<PartDTO, List<Price>> partMap = new HashMap<>();
-        parts.forEach(partDTO -> partMap.put(partDTO, partDTO.getPrices()));
-
-        purchaseOrderItemDTOList.forEach(orderItem -> orderItem.getPart().setPrices(partMap.get(orderItem.getPart())));
 
         updateTotalPriceAndOrdinalNumber(purchaseOrderId, purchaseOrderItemDTOList);
 
-        List<PurchaseOrderItem> savedList = purchaseOrderItemRepository.saveAll(purchaseOrderItemMapper.purchaseOrderItemDTOListToPurchaseOrderItemList(purchaseOrderItemDTOList));
+        List<PurchaseOrderItem> preparedList = purchaseOrderItemMapper.purchaseOrderItemDTOListToPurchaseOrderItemList(purchaseOrderItemDTOList);
+
+        List<PurchaseOrderItem> savedList = purchaseOrderItemRepository.saveAll(preparedList);
 
         return purchaseOrderItemMapper.purchaseOrderItemListToPurchaseOrderDTOList(savedList);
     }

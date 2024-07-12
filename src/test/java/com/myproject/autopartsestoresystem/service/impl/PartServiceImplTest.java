@@ -183,8 +183,6 @@ class PartServiceImplTest {
         List<PriceDTO> pricedtos = Arrays.asList(mock(PriceDTO.class));
 
         when(partRepository.findById(anyLong())).thenReturn(Optional.of(part));
-        when(priceService.getAllPricesByPriceId(any(PriceId.class))).thenReturn(pricedtos);
-        when(priceMapper.priceDTOListToPrice(pricedtos)).thenReturn(prices);
         when(partMapper.partToPartDTO(part)).thenReturn(partDTO);
 
         //when
@@ -196,8 +194,6 @@ class PartServiceImplTest {
         assertEquals(pricedtos.size(), foundPartDTO.getPrices().size(), "Prices size is not equal to 2");
 
         verify(partRepository).findById(anyLong());
-        verify(priceService).getAllPricesByPriceId(any(PriceId.class));
-        verify(priceMapper).priceDTOListToPrice(pricedtos);
         verify(partMapper).partToPartDTO(part);
     }
 

@@ -1,10 +1,8 @@
 package com.myproject.autopartsestoresystem.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -23,10 +21,10 @@ public class PurchaseOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "purchaseOrderId")
+    @Column(name = "purchase_order_id")
     private Long id;
 
-    @Column(name = "purchaseOrderNumber", unique = true, nullable = false)
+    @Column(name = "purchase_order_number", unique = true, nullable = false)
     private UUID purchaseOrderNumber;
 
     @Enumerated(EnumType.STRING)
@@ -35,10 +33,12 @@ public class PurchaseOrder {
     private BigDecimal totalAmount;
 
     @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @JsonManagedReference
     private Set<PurchaseOrderItem> purchaseOrderItems;
 
     @ManyToOne
-    @JoinColumn(name = "customerId")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
 }

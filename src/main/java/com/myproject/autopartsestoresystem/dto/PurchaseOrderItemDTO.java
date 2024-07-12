@@ -1,6 +1,7 @@
 package com.myproject.autopartsestoresystem.dto;
 
 import com.myproject.autopartsestoresystem.model.Part;
+import com.myproject.autopartsestoresystem.model.PurchaseOrder;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Min;
@@ -44,5 +45,7 @@ public class PurchaseOrderItemDTO {
     @NotNull(groups = Update.class, message = "Total price cannot be null")
     @Positive
     private BigDecimal totalPrice;
+
+    private PurchaseOrder purchaseOrder;
 
 }

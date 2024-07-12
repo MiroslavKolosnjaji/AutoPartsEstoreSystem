@@ -67,16 +67,20 @@ public class BootStrapData implements CommandLineRunner {
         loadCityData();
         loadCustomerData();
         loadCardData();
-//        loadPurchaseOrderData();
+        loadPurchaseOrderData();
     }
 
     private void loadPurchaseOrderData() {
 
         CustomerDTO customerDTO = customerService.getById(1L);
         PartDTO partDTO = partService.getById(1L);
+
+        if(partDTO.getPrices() == null || partDTO.getPrices().isEmpty())
+            throw new IllegalArgumentException("No part prices found");
+
         Part part = partMapper.partDTOToPart(partDTO);
 
-        System.out.println("PART DETAILS: " + part);
+
 
         PurchaseOrderItem purchaseOrderItem = PurchaseOrderItem.builder()
                 .part(part)

@@ -26,6 +26,6 @@ public class ModelId {
 
     @NotBlank(message = "Name cannot be blank")
     @Size(max = 50, message = "Name cannot be greater than 50 characters")
-    @Column(name = "name", insertable = false, updatable = false)
+    @Column(name = "name")
     private String name;
 }

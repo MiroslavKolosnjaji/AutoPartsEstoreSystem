@@ -87,6 +87,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         List<PurchaseOrderItemDTO> savedItems = purchaseOrderItemService.saveAll(savedPurchaseOrder.getId(), purchaseOrderItemDTOList);
 
         BigDecimal total = BigDecimal.ZERO;
+
         for (PurchaseOrderItemDTO item : savedItems)
             total = total.add(item.getTotalPrice());
 
@@ -132,7 +133,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public PurchaseOrderDTO getById(Long id) {
         return purchaseOrderRepository.findById(id)
                 .map(purchaseOrderMapper::purchaseOrderToPurchaseOrderDTO)
-                .orElseThrow(() -> new PurchaseOrderNotFoundException("Cart not found"));
+                .orElseThrow(() -> new PurchaseOrderNotFoundException("PurchaseOrder not found"));
     }
 
     @Override
@@ -140,7 +141,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public void delete(Long id) {
 
         if (!purchaseOrderRepository.existsById(id))
-            throw new PurchaseOrderNotFoundException("Cart not found");
+            throw new PurchaseOrderNotFoundException("PurchaseOrder not found");
 
         purchaseOrderRepository.deleteById(id);
     }

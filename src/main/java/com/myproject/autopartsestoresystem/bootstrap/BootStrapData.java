@@ -67,7 +67,7 @@ public class BootStrapData implements CommandLineRunner {
         loadCityData();
         loadCustomerData();
         loadCardData();
-        loadPurchaseOrderData();
+//        loadPurchaseOrderData();
     }
 
     private void loadPurchaseOrderData() {

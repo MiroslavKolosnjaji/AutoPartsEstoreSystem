@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Miroslav Kološnjaji
  */
-class PurchasePurchaseOrderDTOTest {
+class PurchaseOrderDTOTest {
 
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
@@ -26,7 +26,7 @@ class PurchasePurchaseOrderDTOTest {
     private ConstraintViolation<PurchaseOrderDTO> violation;
     private PurchaseOrderDTO purchaseOrderDTO;
 
-    public PurchasePurchaseOrderDTOTest() {
+    public PurchaseOrderDTOTest() {
         this.validatorFactory = Validation.buildDefaultValidatorFactory();
         this.validator = validatorFactory.getValidator();
     }

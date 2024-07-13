@@ -29,7 +29,7 @@ public class PurchaseOrderController {
     private final PurchaseOrderService purchaseOrderService;
 
     @PostMapping()
-    public ResponseEntity<PurchaseOrderDTO> addCart(@Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO) {
+    public ResponseEntity<PurchaseOrderDTO> createPurchaseOrder(@Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO) {
 
       try{
           PurchaseOrderDTO saved = purchaseOrderService.save(purchaseOrderDTO);
@@ -45,12 +45,13 @@ public class PurchaseOrderController {
     }
 
     @PutMapping(PURCHASE_ORDER_ID)
-    public ResponseEntity<PurchaseOrderDTO> updateCart(@PathVariable("purchaseOrderId") Long purchaseOrderId, @Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO) {
+    public ResponseEntity<PurchaseOrderDTO> updatePurchaseOrder(@PathVariable("purchaseOrderId") Long purchaseOrderId, @Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO) {
 
         try {
 
-            PurchaseOrderDTO updated = purchaseOrderService.update(purchaseOrderId, purchaseOrderDTO);
-            return new ResponseEntity<>(updated, HttpStatus.NO_CONTENT);
+            purchaseOrderService.update(purchaseOrderId, purchaseOrderDTO);
+
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
         } catch (PurchaseOrderNotFoundException e) {
             throw new EntityNotFoundException(e.getMessage());
@@ -59,7 +60,7 @@ public class PurchaseOrderController {
 
 
     @GetMapping()
-    public ResponseEntity<List<PurchaseOrderDTO>> getCarts() {
+    public ResponseEntity<List<PurchaseOrderDTO>> getPurchaseOrders() {
 
         List<PurchaseOrderDTO> purchaseOrderDTOList = purchaseOrderService.getAll();
 
@@ -70,7 +71,7 @@ public class PurchaseOrderController {
     }
 
     @GetMapping(PURCHASE_ORDER_ID)
-    public ResponseEntity<PurchaseOrderDTO> getCart(@PathVariable("purchaseOrderId") Long purchaseOrderId) {
+    public ResponseEntity<PurchaseOrderDTO> getPurchaseOrder(@PathVariable("purchaseOrderId") Long purchaseOrderId) {
 
         try {
 
@@ -82,7 +83,7 @@ public class PurchaseOrderController {
     }
 
     @DeleteMapping(PURCHASE_ORDER_ID)
-    public ResponseEntity<Void> deleteCart(@PathVariable("purchaseOrderId") Long purchaseOrderId) {
+    public ResponseEntity<Void> deletePurchaseOrder(@PathVariable("purchaseOrderId") Long purchaseOrderId) {
 
         try {
             purchaseOrderService.delete(purchaseOrderId);

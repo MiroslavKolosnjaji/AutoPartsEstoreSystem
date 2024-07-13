@@ -26,6 +26,8 @@ class PurchaseOrderItemIdTest {
         boolean isequal = purchaseOrderItemId1.equals(purchaseOrderItemId2);
         boolean hasCode = purchaseOrderItemId1.hashCode() == purchaseOrderItemId2.hashCode();
 
+        PurchaseOrderItemId emptyPurchaseOrderItemId = new PurchaseOrderItemId();
+
         //when
         assertAll("PurchaseOrderItemID fields validation",
                 () -> assertEquals(purchaseOrderItemId1.getPurchaseOrderId(), purchaseOrderItemId2.getPurchaseOrderId(), "Purchase Order Item ID does not equal"),
@@ -33,6 +35,7 @@ class PurchaseOrderItemIdTest {
 
         assertTrue(isequal, "Purchase Order Item ID object are not equal");
         assertTrue(hasCode, "Purchase Order Item ID hashCode are not equal");
+        assertNotNull(emptyPurchaseOrderItemId, "Empty Purchase Order Item ID object should not be null");
 
     }
 }

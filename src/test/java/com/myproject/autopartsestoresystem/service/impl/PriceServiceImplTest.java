@@ -60,6 +60,7 @@ class PriceServiceImplTest {
     }
 
 
+    @DisplayName("Save Price")
     @Test
     void testSavePrice_whenValidDetailsProvided_returnsPriceDTO() {
 
@@ -181,4 +182,31 @@ class PriceServiceImplTest {
         assertTrue(foundPrice.isEmpty(), "Price should be empty");
     }
 
+    @Test
+    void testGetAllPrices_isNotSupported() {
+
+        //given
+        UnsupportedOperationException unsupportedOperationException = assertThrows(UnsupportedOperationException.class, () -> priceService.getAll());
+
+        //when & then
+        assertEquals("Get all prices operation is not supported", unsupportedOperationException.getMessage());
+    }
+
+    @Test
+    void testGetPriceById_isNotSupported() {
+
+        //given
+        UnsupportedOperationException unsupportedOperationException = assertThrows(UnsupportedOperationException.class, () -> priceService.getById(new PriceId(1L, 0L)));
+
+        //when & then
+        assertEquals("Get price by ID operation is not supported", unsupportedOperationException.getMessage());
+    }
+
+    @Test
+    void testDeletePriceById_isNotSupported() {
+
+        UnsupportedOperationException unsupportedOperationException = assertThrows(UnsupportedOperationException.class, () -> priceService.delete(new PriceId(1L, 0L)));
+
+        assertEquals("Delete operation is not supported", unsupportedOperationException.getMessage());
+    }
 }

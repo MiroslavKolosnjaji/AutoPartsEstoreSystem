@@ -28,12 +28,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PartServiceImpl implements PartService {
 
-
     private final PartRepository partRepository;
-    private final PriceService priceService;
     private final PartMapper partMapper;
-    private final PriceMapper priceMapper;
-
 
     @Override
     @Transactional
@@ -58,12 +54,6 @@ public class PartServiceImpl implements PartService {
         updatePrice(part, partDTO.getPrices());
 
         partRepository.save(part);
-
-//
-//        Price lastPrice = getLastPriceFromPart(partMapper.partDTOToPart(partDTO));
-//        PriceId priceid = new PriceId(lastPrice.getId().getPartId(), (long) part.getPrices().size());
-//        priceService.update(priceid, priceMapper.priceToPriceDTO(lastPrice));
-
         return partMapper.partToPartDTO(part);
     }
 
@@ -103,10 +93,6 @@ public class PartServiceImpl implements PartService {
     @Transactional(readOnly = true)
     public PartDTO getById(Long id) {
         Part part = partRepository.findById(id).orElseThrow(() -> new PartNotFoundException("Part not found"));
-//        List<PriceDTO> prices = priceService.getAllPricesByPriceId(new PriceId(part.getId(), null));
-//
-//        part.setPrices(priceMapper.priceDTOListToPrice(prices));
-
         return partMapper.partToPartDTO(part);
     }
 
@@ -119,15 +105,4 @@ public class PartServiceImpl implements PartService {
 
         partRepository.deleteById(id);
     }
-
-    private Price getLastPriceFromPart(Part part) {
-
-
-        if (part.getPrices() == null || part.getPrices().isEmpty())
-            throw new NoSuchElementException("No prices found for the part");
-
-        return part.getPrices().get(part.getPrices().size() - 1);
-    }
-
-
 }

@@ -85,9 +85,6 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public Optional<PriceDTO> getPriceByPriceIdAndLastModifiedDate(PriceId priceId, LocalDateTime lastModifiedDate) {
 
-//        if (lastModifiedDate == null)
-//            return Optional.empty();
-
         Optional<Price> price = priceRepository.getPriceByIdAndDateModified(priceId, lastModifiedDate);
 
         return price.map(priceMapper::priceToPriceDTO);

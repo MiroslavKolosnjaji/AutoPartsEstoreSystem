@@ -22,14 +22,16 @@ Key functionalities include advanced search capabilities, part grouping for refi
 - __Spring Framework:__ Core Framework for building enterprise Java applications.
 - __Spring Boot DevTools:__ Tools for improving development efficiency with features like automatic restarts and live reload.
 - __Spring Boot Validation:__ Ensures that the data being processed adheres to specified rules and constraints.
-- __Spring Security:__ Provides authentication and authorization for Spring applications
+- __Spring Security: (planned)__ Provides authentication and authorization for Spring applications
 - __Spring Crypto:__ Provides utilities for cryptographic operations in Spring applications
+- __Spring Boot Test:__ Provides testing support for Spring Boot applications.
 - __Project Lombok:__ Library for reducing boilerplate code in Java.
 - __MapStruct:__ Used for mapping between domain entities and DTOs.
 - __JUnit5:__ Testing framework for unit and integration testing in Java.
-- __Mockito:__ Framework for creating mock objects in automated testing. 
-- __Spring Boot Test:__ Provides testing support for Spring Boot applications.
-- __CircleCI:__ Platform for continuous integration and automated testing.
+- __Mockito:__ Framework for creating mock objects in automated testing.
+- __Jacoco:__ A tool for measuring and reporting code coverage.
+- __Codecov:__ Tool for measuring and tracking code coverage, integrated with CI/CD pipelines to ensure code quality.
+- __CircleCI:__ CI/CD platform for continuous integration and automated testing.
 - __H2 Database:__ In-memory relational database for development and testing purposes.
 - __JSON:__ Data interchange format for communication between the client and the server.
 

@@ -39,12 +39,6 @@ class PartServiceImplTest {
     @Mock
     private PartMapper partMapper;
 
-    @Mock
-    private PriceMapper priceMapper;
-
-    @Mock
-    private PriceService priceService;
-
     @InjectMocks
     private PartServiceImpl partService;
 
@@ -157,6 +151,43 @@ class PartServiceImplTest {
         verify(partRepository).findById(anyLong());
     }
 
+    @DisplayName("Get Selected Parts By ID")
+    @Test
+    void testGetSelectedParts_whenValidIdsIsProvided_returnsListOfPartDto() {
+
+        //given
+        List<Long> ids = List.of(1L, 2L);
+        List<Part> parts = List.of(mock(Part.class), mock(Part.class));
+        List<PartDTO> partsDTO = List.of(mock(PartDTO.class), mock(PartDTO.class));
+
+        when(partRepository.getSelectedParts(ids)).thenReturn(Optional.of(parts));
+        when(partMapper.partsToPartDTOs(parts)).thenReturn(partsDTO);
+
+        //when
+        List<PartDTO> partDTOList = partService.getSelectedParts(ids);
+
+        //then
+        assertNotNull(partDTOList);
+        assertEquals(parts.size(), partDTOList.size());
+
+        verify(partRepository).getSelectedParts(ids);
+        verify(partMapper).partsToPartDTOs(parts);
+    }
+
+    @DisplayName("Get Selected Parts Failed - Invalid IDs Provided")
+    @Test
+    void testGetSelectedParts_whenPartsNotFound_throwsPartNotFoundException() {
+
+        //given
+        when(partRepository.getSelectedParts(anyList())).thenReturn(Optional.empty());
+
+        //when
+        Executable executable = () -> partService.getSelectedParts(List.of(1L));
+
+        //then
+        assertThrows(PartNotFoundException.class, executable, "Exception not match. Expected PartNotFoundException");
+    }
+
     @DisplayName("Get All Parts")
     @Test
     void testGetAllParts_whenListIsPopulated_returnsListOfPartDTO() {
@@ -168,6 +199,7 @@ class PartServiceImplTest {
         //when
         List<PartDTO> partDTOList = partService.getAll();
 
+        //then
         assertNotNull(partDTOList, "Get All Parts cannot be null");
         assertFalse(partDTOList.isEmpty(), "Get All Parts cannot be empty");
         assertEquals(3, partDTOList.size(), "Get All Parts size is not equal to 3");

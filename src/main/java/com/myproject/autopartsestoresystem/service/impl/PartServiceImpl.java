@@ -1,24 +1,19 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.PartDTO;
-import com.myproject.autopartsestoresystem.dto.PriceDTO;
 import com.myproject.autopartsestoresystem.exception.service.PartNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.PartMapper;
-import com.myproject.autopartsestoresystem.mapper.PriceMapper;
 import com.myproject.autopartsestoresystem.model.Part;
 import com.myproject.autopartsestoresystem.model.Price;
 import com.myproject.autopartsestoresystem.model.PriceId;
 import com.myproject.autopartsestoresystem.repository.PartRepository;
 import com.myproject.autopartsestoresystem.service.PartService;
-import com.myproject.autopartsestoresystem.service.PriceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 /**

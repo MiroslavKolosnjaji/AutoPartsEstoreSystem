@@ -35,15 +35,15 @@ public class PurchaseOrderItemDTO {
     private PartDTO part;
 
     @NotNull(message = "Quantity cannot be null")
-    @Min(value = 1, message = "Quantity must have at least 1")
+    @Min(value = 1, message = "Quantity cannot be less than 1")
     private Integer quantity;
 
     @NotNull(groups = Update.class, message = "Unit price cannot be null")
-    @Positive
+    @Positive(message = "Unit price cannot be negative")
     private BigDecimal unitPrice;
 
     @NotNull(groups = Update.class, message = "Total price cannot be null")
-    @Positive
+    @Positive(message = "Total price cannot be negative")
     private BigDecimal totalPrice;
 
     private PurchaseOrder purchaseOrder;

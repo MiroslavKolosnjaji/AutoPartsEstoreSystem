@@ -28,7 +28,6 @@ public class PurchaseOrderItemServiceImpl implements PurchaseOrderItemService {
 
     private final PurchaseOrderItemRepository purchaseOrderItemRepository;
     private final PurchaseOrderItemMapper purchaseOrderItemMapper;
-    private final PartService partService;
 
     private static final int DEFAULT_VALUE = 1;
 
@@ -120,14 +119,5 @@ public class PurchaseOrderItemServiceImpl implements PurchaseOrderItemService {
         purchaseOrderItemDTO.setUnitPrice(lastPrice);
         purchaseOrderItemDTO.setOrdinalNumber(itemCount);
         purchaseOrderItemDTO.setTotalPrice(purchaseOrderItemDTO.getUnitPrice().multiply(BigDecimal.valueOf(purchaseOrderItemDTO.getQuantity())));
-    }
-
-    private List<Long> getPartIds(List<PurchaseOrderItemDTO> purchaseOrderItemDTOList) {
-        List<Long> partIds = new ArrayList<>();
-
-        for (PurchaseOrderItemDTO purchaseOrderItemDTO : purchaseOrderItemDTOList)
-            partIds.add(purchaseOrderItemDTO.getPart().getId());
-
-        return partIds;
     }
 }

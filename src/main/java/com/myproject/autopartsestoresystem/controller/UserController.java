@@ -1,6 +1,9 @@
 package com.myproject.autopartsestoresystem.controller;
 
 import com.myproject.autopartsestoresystem.dto.UserDTO;
+import com.myproject.autopartsestoresystem.model.Role;
+import com.myproject.autopartsestoresystem.model.RoleName;
+import com.myproject.autopartsestoresystem.service.UserAuthorityUpdateStatus;
 import com.myproject.autopartsestoresystem.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -43,8 +46,16 @@ public class UserController {
         return new ResponseEntity<>(updated, HttpStatus.NO_CONTENT);
     }
 
+    @PatchMapping(USER_ID)
+    public ResponseEntity<UserDTO> updateUserAuthority(@RequestParam("username") String username, @RequestParam("authority") String authority, @RequestParam("updateStatus") String updateStatus) {
+
+        userService.updateUserAuthority(username, RoleName.valueOf(authority), UserAuthorityUpdateStatus.valueOf(updateStatus));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
+
         List<UserDTO> users = userService.getAll();
 
         if (users.isEmpty())
@@ -55,12 +66,14 @@ public class UserController {
 
     @GetMapping(USER_ID)
     public ResponseEntity<UserDTO> getUser(@PathVariable("userId") Long userId) {
+
         UserDTO userDTO = userService.getById(userId);
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     @DeleteMapping(USER_ID)
     public ResponseEntity<Void> deleteUser(@PathVariable("userId") Long userId) {
+
         userService.delete(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

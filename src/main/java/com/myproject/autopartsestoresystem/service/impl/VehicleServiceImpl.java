@@ -5,6 +5,7 @@ import com.myproject.autopartsestoresystem.exception.service.VehicleNotFoundExce
 import com.myproject.autopartsestoresystem.mapper.VehicleMapper;
 import com.myproject.autopartsestoresystem.model.Vehicle;
 import com.myproject.autopartsestoresystem.repository.VehicleRepository;
+import com.myproject.autopartsestoresystem.service.RoleService;
 import com.myproject.autopartsestoresystem.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,9 @@ public class VehicleServiceImpl implements VehicleService {
     private final VehicleRepository vehicleRepository;
     private final VehicleMapper vehicleMapper;
 
-
     @Override
     public VehicleDTO save(VehicleDTO vehicleDTO) {
+
 
 
         Vehicle saved =  vehicleRepository.save(vehicleMapper.vehicleDTOToVehicle(vehicleDTO));

@@ -3,8 +3,6 @@ package com.myproject.autopartsestoresystem.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.myproject.autopartsestoresystem.dto.PartDTO;
-import com.myproject.autopartsestoresystem.dto.PriceDTO;
-import com.myproject.autopartsestoresystem.exception.service.PartGroupNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.PartNotFoundException;
 import com.myproject.autopartsestoresystem.model.*;
 import com.myproject.autopartsestoresystem.service.PartService;
@@ -14,12 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -41,6 +36,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  */
 @WebMvcTest(controllers = PartController.class)
 @MockBean({PartService.class, PriceService.class})
+@AutoConfigureMockMvc(addFilters = false)
 class PartControllerTest {
 
     @Autowired

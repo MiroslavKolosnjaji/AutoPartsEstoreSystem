@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ class VehicleControllerIT {
     @DisplayName("Create Vehicle")
     @Order(3)
     @Test
+    @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     void testCreateVehicle_whenValidDetailsProvided_returns201StatusCode() throws Exception {
 
         mockMvc.perform(post(VehicleController.VEHICLE_URI)
@@ -81,6 +83,7 @@ class VehicleControllerIT {
     @DisplayName("Update Vehicle")
     @Order(4)
     @Test
+    @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     void testUpdateVehicle_whenValidDetailsProvided_returns204StatusCode() throws Exception {
 
         vehicleDTO.setEngineType("2.2I injection");
@@ -103,6 +106,7 @@ class VehicleControllerIT {
     @DisplayName("Get All Vehicles")
     @Order(2)
     @Test
+    @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     void testGetAllVehicles_whenListIsPopulated_returns200StatusCode() throws Exception {
 
         mockMvc.perform(get(VehicleController.VEHICLE_URI)
@@ -138,6 +142,7 @@ class VehicleControllerIT {
     @DisplayName("Delete Vehicle")
     @Order(5)
     @Test
+    @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     void testDeleteVehicle_whenValidIdProvided_returns204StatusCode() throws Exception {
 
         mockMvc.perform(delete(VehicleController.VEHICLE_URI_WITH_ID, 2)
@@ -147,6 +152,7 @@ class VehicleControllerIT {
 
     @DisplayName("Delete Vehicle - Invalid ID Provided - Returns Code 404")
     @Test
+    @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     void testDeleteVehicle_whenIvalidIdProvided_returns404StatusCode() throws Exception {
 
         mockMvc.perform(delete(VehicleController.VEHICLE_URI_WITH_ID, 99)

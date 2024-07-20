@@ -9,10 +9,8 @@ import com.myproject.autopartsestoresystem.model.*;
 import com.myproject.autopartsestoresystem.model.Currency;
 import com.myproject.autopartsestoresystem.repository.*;
 import com.myproject.autopartsestoresystem.service.*;
-import com.myproject.autopartsestoresystem.service.impl.CardServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,10 +45,12 @@ public class BootStrapData implements CommandLineRunner {
 
     private final VehicleService vehicleService;
     private final CardService cardService;
-
     private final PaymentMethodRepository paymentMethodRepository;
-
     private final PurchaseOrderService purchaseOrderService;
+    private final UserService userService;
+
+    private final RoleRepository roleRepository;
+    private final RoleService roleService;
 
     private final TextEncryptor textEncryptor;
 
@@ -58,6 +58,8 @@ public class BootStrapData implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
+        loadRoleData();
+//        loadUserData();
         loadPaymentMethodData();
         loadPartGroupData();
         loadBrandData();
@@ -68,6 +70,28 @@ public class BootStrapData implements CommandLineRunner {
         loadCustomerData();
         loadCardData();
 //        loadPurchaseOrderData();
+    }
+
+    private void loadUserData() {
+
+        UserDTO user1 = UserDTO.builder().
+                username("test@example.com")
+                .password("12345678")
+                .roles(Set.of(RoleDTO.builder().name(RoleName.ROLE_ADMIN).build()))
+                .enabled(true)
+                .build();
+
+        userService.save(user1);
+    }
+
+    private void loadRoleData() {
+
+        Role role1 = Role.builder().name(RoleName.ROLE_ADMIN).build();
+        Role role2 = Role.builder().name(RoleName.ROLE_USER).build();
+        Role role3 = Role.builder().name(RoleName.ROLE_MANAGER).build();
+        Role role4 = Role.builder().name(RoleName.ROLE_STAFF).build();
+
+        roleRepository.saveAll(List.of(role1, role2, role3, role4));
     }
 
     private void loadPurchaseOrderData() {

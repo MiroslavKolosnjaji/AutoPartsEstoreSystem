@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  */
 @WebMvcTest(controllers = {VehicleController.class})
 @MockBean({VehicleService.class})
+@AutoConfigureMockMvc(addFilters = false)
 class VehicleControllerTest {
 
     @Autowired
@@ -66,7 +68,8 @@ class VehicleControllerTest {
                 .build();
     }
 
-    @Disabled("Create Vehicle")
+    @Disabled
+    @DisplayName("Create Vehicle")
     @Test
     void testCreateVehicle_whenValidDetailsProvided_returnsCreatedVehicleDTO() throws Exception {
 
@@ -89,7 +92,7 @@ class VehicleControllerTest {
         verify(vehicleService).save(vehicleDTO);
     }
 
-    @DisplayName("Create Vehicle  When Ivalid Details Provided -Returns Status 400")
+    @DisplayName("Create Vehicle  When Invalid Details Provided -Returns Status 400")
     @Test
     void testCreateVehicle_whenInvalidDetailsProvided_returns400StatusCode() throws Exception {
 

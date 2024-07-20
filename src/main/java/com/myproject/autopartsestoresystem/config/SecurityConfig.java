@@ -4,8 +4,10 @@ import com.myproject.autopartsestoresystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -17,9 +19,12 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig{
 
+
     @Autowired
+    @Lazy
     private UserService userService;
 
     @Bean
@@ -39,8 +44,11 @@ public class SecurityConfig{
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> {
-                    authorizeRequests.requestMatchers("api/vehicle", "api/vehicle/").permitAll();
-                    authorizeRequests.anyRequest().authenticated();
+                    authorizeRequests.requestMatchers("/**").permitAll();
+//                    authorizeRequests.requestMatchers("/api/admin/**").hasRole("ADMIN");
+//                    authorizeRequests.requestMatchers("/api/user/**").hasRole("USER");
+//                    authorizeRequests.requestMatchers("/api/moderator/**").hasRole("MODERATOR");
+//                    authorizeRequests.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults())
                 .build();

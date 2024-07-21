@@ -25,6 +25,7 @@ Key functionalities include advanced search capabilities, part grouping for refi
 - __Spring Security: (planned)__ Provides authentication and authorization for Spring applications
 - __Spring Crypto:__ Provides utilities for cryptographic operations in Spring applications
 - __Spring Boot Test:__ Provides testing support for Spring Boot applications.
+- __Spring Security Test:__ Provides testing support for Spring Security authentication and authorization.
 - __Project Lombok:__ Library for reducing boilerplate code in Java.
 - __MapStruct:__ Used for mapping between domain entities and DTOs.
 - __JUnit5:__ Testing framework for unit and integration testing in Java.

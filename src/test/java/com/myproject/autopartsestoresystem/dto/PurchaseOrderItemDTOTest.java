@@ -204,7 +204,7 @@ class PurchaseOrderItemDTOTest {
 
 
     @Test
-    void testIsEqual_whenCopmareTwoObjextsWithSameDetails_thenIsEqual() {
+    void testIsEqual_whenCompareTwoObjectsWithSameDetails_thenIsEqual() {
 
         //given
         PurchaseOrderItemDTO purchaseOrderItemDTO2 = PurchaseOrderItemDTO.builder()
@@ -219,8 +219,14 @@ class PurchaseOrderItemDTOTest {
                 .unitPrice(new BigDecimal("124.99"))
                 .build();
 
+        boolean isEqual = purchaseOrderItemDTO2.equals(purchaseOrderItemDTO);
+        boolean hashCodeIsEqual = purchaseOrderItemDTO2.hashCode() == purchaseOrderItemDTO.hashCode();
+
         //when && then
         assertEquals(purchaseOrderItemDTO2, purchaseOrderItemDTO);
+
+        assertTrue(isEqual, "PurchaseOrderDTO2 should be equal to PurchaseOrderDTO");
+        assertTrue(hashCodeIsEqual, "PurchaseOrderDTO2 hashCode should be equal to PurchaseOrderDTO hashCode");
 
     }
 }

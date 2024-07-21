@@ -44,7 +44,8 @@ public class UserServiceImpl implements UserService {
         if (getUserByUsername(userDTO.getUsername()).isPresent())
             throw new UsernameAlreadyExistsException("Username already exists");
 
-        RoleDTO roleDTO = roleService.getRoleByName(RoleName.ROLE_USER.name());
+
+        RoleDTO roleDTO = roleService.getRoleByName(RoleName.ROLE_USER);
 
         userDTO.setRoles(Set.of(roleDTO));
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
@@ -75,12 +76,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUserAuthority(String username, RoleName authority, UserAuthorityUpdateStatus updateStatus) {
+    public void updateUserAuthority(Long userId, RoleName authority, UserAuthorityUpdateStatus updateStatus) {
 
-        User user = getUserByUsername(username)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        Role role = roleMapper.roleDTOToRole(roleService.getRoleByName(authority.name()));
+        Role role = roleMapper.roleDTOToRole(roleService.getRoleByName(authority));
 
         switch (updateStatus) {
             case GRANT_AUTHORITY -> user.getRoles().add(role);

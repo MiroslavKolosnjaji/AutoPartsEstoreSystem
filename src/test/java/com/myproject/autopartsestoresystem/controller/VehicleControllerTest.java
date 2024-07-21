@@ -47,7 +47,6 @@ class VehicleControllerTest {
     private VehicleService vehicleService;
 
     private ObjectMapper objectMapper;
-
     private VehicleDTO vehicleDTO;
 
     @BeforeEach
@@ -71,7 +70,7 @@ class VehicleControllerTest {
     @Disabled
     @DisplayName("Create Vehicle")
     @Test
-    void testCreateVehicle_whenValidDetailsProvided_returnsCreatedVehicleDTO() throws Exception {
+    void testCreateVehicle_whenValidDetailsProvided_returns200StatusCode() throws Exception {
 
         //given
         when(vehicleService.save(vehicleDTO)).thenReturn(vehicleDTO);
@@ -88,11 +87,11 @@ class VehicleControllerTest {
 
         //then
         assertNotNull(savedVehicleDTO, "Save Vehicle DTO cannot be null");
-        assertEquals(vehicleDTO, savedVehicleDTO, "Save Vehicle DTO did not match");
+        assertEquals(vehicleDTO, savedVehicleDTO, "Saved VehicleDTO did not match");
         verify(vehicleService).save(vehicleDTO);
     }
 
-    @DisplayName("Create Vehicle  When Invalid Details Provided -Returns Status 400")
+    @DisplayName("Create Vehicle Failed - Invalid Details Provided")
     @Test
     void testCreateVehicle_whenInvalidDetailsProvided_returns400StatusCode() throws Exception {
 
@@ -210,14 +209,14 @@ class VehicleControllerTest {
         //when
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         String response = result.getResponse().getContentAsString();
-        VehicleDTO foundedDTO = objectMapper.readValue(response, VehicleDTO.class);
+        VehicleDTO foundDTO = objectMapper.readValue(response, VehicleDTO.class);
 
-        assertNotNull(foundedDTO, "Founded DTO cannot be null");
-        assertEquals(vehicleDTO.getEngineType(), foundedDTO.getEngineType(), "Founded DTO did not match");
+        assertNotNull(foundDTO, "Founded DTO cannot be null");
+        assertEquals(vehicleDTO.getEngineType(), foundDTO.getEngineType(), "Founded DTO did not match");
         verify(vehicleService).getById(anyLong());
     }
 
-    @DisplayName("Get Vehicle By ID When Invalid ID Provided - Returns 404 Status Code")
+    @DisplayName("Get Vehicle By ID Failed - Invalid ID Provided")
     @Test
     void TestVehicleById_whenInvalidIdProvided_returns404StatusCode() throws Exception {
 
@@ -229,7 +228,7 @@ class VehicleControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(vehicleDTO));
 
-        //
+        //when
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
         assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 404 expected");

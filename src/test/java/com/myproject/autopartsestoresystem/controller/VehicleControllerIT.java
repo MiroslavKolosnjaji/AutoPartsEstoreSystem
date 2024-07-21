@@ -96,7 +96,7 @@ class VehicleControllerIT {
 
     @DisplayName("Update Vehicle Failed - Wrong ID Provided - Returns Code 400")
     @Test
-    void testUpdateVehicle_whenIvalidIdProvided_returns400StatusCode() throws Exception {
+    void testUpdateVehicle_whenInvalidIdProvided_returns400StatusCode() throws Exception {
 
         mockMvc.perform(put(VehicleController.VEHICLE_URI_WITH_ID, 3)
                 .contentType(MediaType.APPLICATION_JSON))

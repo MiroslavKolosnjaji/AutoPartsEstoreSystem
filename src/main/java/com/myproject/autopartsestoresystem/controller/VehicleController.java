@@ -3,12 +3,12 @@ package com.myproject.autopartsestoresystem.controller;
 import com.myproject.autopartsestoresystem.dto.VehicleDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.VehicleNotFoundException;
-import com.myproject.autopartsestoresystem.model.Vehicle;
 import com.myproject.autopartsestoresystem.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +28,7 @@ public class VehicleController {
 
     private final VehicleService vehicleService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public ResponseEntity<VehicleDTO> addVehicle(@Validated @RequestBody VehicleDTO vehicleDTO) {
 
@@ -39,6 +40,7 @@ public class VehicleController {
         return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(VEHICLE_ID)
     public ResponseEntity<VehicleDTO> updateVehicle(@PathVariable("vehicleId") Long brandId,  @Validated @RequestBody VehicleDTO vehicleDTO) {
 
@@ -52,6 +54,7 @@ public class VehicleController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @GetMapping()
     public ResponseEntity<List<VehicleDTO>> getAllVehicles() {
 
@@ -63,7 +66,8 @@ public class VehicleController {
         return new ResponseEntity<>(vehicles, HttpStatus.OK);
     }
 
-    @GetMapping(VEHICLE_ID)
+
+    @GetMapping( VEHICLE_ID)
     public ResponseEntity<VehicleDTO> getVehicle(@PathVariable("vehicleId") Long brandId) {
 
         try{
@@ -76,6 +80,7 @@ public class VehicleController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @DeleteMapping(VEHICLE_ID)
     public ResponseEntity<Void> deleteVehicle(@PathVariable("vehicleId") Long brandId) {
 

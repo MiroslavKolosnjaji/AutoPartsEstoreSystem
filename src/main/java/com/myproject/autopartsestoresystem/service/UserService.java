@@ -9,5 +9,5 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  */
 public interface UserService extends UserDetailsService, CrudService<UserDTO, Long> {
 
-    void updateUserAuthority(String username, RoleName authority, UserAuthorityUpdateStatus updateStatus);
+    void updateUserAuthority(Long userId, RoleName authority, UserAuthorityUpdateStatus updateStatus);
 }

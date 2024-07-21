@@ -4,6 +4,7 @@ import com.myproject.autopartsestoresystem.dto.RoleDTO;
 import com.myproject.autopartsestoresystem.exception.service.RoleNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.RoleMapper;
 import com.myproject.autopartsestoresystem.model.Role;
+import com.myproject.autopartsestoresystem.model.RoleName;
 import com.myproject.autopartsestoresystem.repository.RoleRepository;
 import com.myproject.autopartsestoresystem.service.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class RoleServiceImpl implements RoleService {
 
 
     @Override
-    public RoleDTO getRoleByName(String roleName) {
+    public RoleDTO getRoleByName(RoleName roleName) {
         Role role = roleRepository.findByName(roleName)
                 .orElseThrow(() -> new RoleNotFoundException("Role not found"));
 

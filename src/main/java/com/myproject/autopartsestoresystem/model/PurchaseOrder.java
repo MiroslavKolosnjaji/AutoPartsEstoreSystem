@@ -41,4 +41,7 @@ public class PurchaseOrder {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @OneToOne(mappedBy = "purchaseOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Payment payment;
+
 }

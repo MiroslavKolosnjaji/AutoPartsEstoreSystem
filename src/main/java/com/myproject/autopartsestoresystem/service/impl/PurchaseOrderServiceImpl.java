@@ -1,17 +1,16 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
+import com.myproject.autopartsestoresystem.dto.PaymentDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderItemDTO;
 import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderItemNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.PurchaseOrderItemMapper;
 import com.myproject.autopartsestoresystem.mapper.PurchaseOrderMapper;
-import com.myproject.autopartsestoresystem.model.PurchaseOrder;
-import com.myproject.autopartsestoresystem.model.PurchaseOrderItemId;
-import com.myproject.autopartsestoresystem.model.PurchaseOrderStatus;
-import com.myproject.autopartsestoresystem.model.PurchaseOrderItem;
+import com.myproject.autopartsestoresystem.model.*;
 import com.myproject.autopartsestoresystem.repository.PurchaseOrderRepository;
 import com.myproject.autopartsestoresystem.repository.VehicleRepository;
+import com.myproject.autopartsestoresystem.service.PaymentService;
 import com.myproject.autopartsestoresystem.service.PurchaseOrderItemService;
 import com.myproject.autopartsestoresystem.service.PurchaseOrderService;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +30,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     private final PurchaseOrderRepository purchaseOrderRepository;
     private final PurchaseOrderItemService purchaseOrderItemService;
+    private final PaymentService paymentService;
     private final PurchaseOrderMapper purchaseOrderMapper;
     private final PurchaseOrderItemMapper purchaseOrderItemMapper;
+
 
 
     @Override
@@ -86,15 +87,32 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         List<PurchaseOrderItemDTO> savedItems = purchaseOrderItemService.saveAll(savedPurchaseOrder.getId(), purchaseOrderItemDTOList);
 
-        BigDecimal total = BigDecimal.ZERO;
+        savedPurchaseOrder.setTotalAmount(getTotal(savedItems));
 
-        for (PurchaseOrderItemDTO item : savedItems)
-            total = total.add(item.getTotalPrice());
+        PaymentDTO paymentDTO = PaymentDTO.builder()
+                .paymentMethod( PaymentMethod.builder().paymentType(purchaseOrderDTO.getPaymentType()).build())
+                .card(purchaseOrderDTO.getCustomer().getCards().get(0))
+                .amount(savedPurchaseOrder.getTotalAmount())
+                .status(PaymentStatus.PROCESSING)
+                .build();
 
-        savedPurchaseOrder.setTotalAmount(total);
+
+        paymentService.save(paymentDTO);
+
+        savedPurchaseOrder.setStatus(PurchaseOrderStatus.COMPLETED);
+
         PurchaseOrder updated =  purchaseOrderRepository.save(savedPurchaseOrder);
 
         return purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(updated);
+    }
+
+    private BigDecimal getTotal(List<PurchaseOrderItemDTO> purchaseOrderItemDTOList) {
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (PurchaseOrderItemDTO item : purchaseOrderItemDTOList)
+            total = total.add(item.getTotalPrice());
+
+        return total;
     }
 
 

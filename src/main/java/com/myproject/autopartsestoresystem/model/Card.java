@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * @author Miroslav Kološnjaji
@@ -35,6 +36,9 @@ public class Card {
     @JoinColumn(name = "customer_id")
     @JsonBackReference
     private Customer customer;
+
+    @OneToMany(mappedBy = "card")
+    private Set<Payment> payments;
 
 
 }

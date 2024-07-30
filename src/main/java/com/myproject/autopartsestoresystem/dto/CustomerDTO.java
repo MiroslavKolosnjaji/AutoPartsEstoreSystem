@@ -1,5 +1,6 @@
 package com.myproject.autopartsestoresystem.dto;
 
+import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.model.City;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.sql.Update;
+
+import java.util.List;
 
 /**
  * @author Miroslav Kološnjaji
@@ -39,7 +42,8 @@ public class CustomerDTO {
     @Pattern(regexp = "\\+?[0-9]+", message = "Invalid phone number format")
     private String phone;
 
-    // TODO: Implement List<Long> cardIds;
+    @NotNull(message = "Cards cannot be null")
+    private List<Card> cards;
 
     @NotNull(message = "City cannot be null")
     private City city;

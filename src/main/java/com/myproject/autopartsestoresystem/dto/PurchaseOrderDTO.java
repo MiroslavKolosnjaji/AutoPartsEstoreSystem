@@ -1,5 +1,6 @@
 package com.myproject.autopartsestoresystem.dto;
 
+import com.myproject.autopartsestoresystem.model.PaymentType;
 import com.myproject.autopartsestoresystem.model.PurchaseOrderItem;
 import com.myproject.autopartsestoresystem.model.PurchaseOrderStatus;
 import jakarta.validation.constraints.NotNull;
@@ -40,4 +41,6 @@ public class PurchaseOrderDTO {
     private List<PurchaseOrderItem> items;
 
     private CustomerDTO customer;
+
+    private PaymentType paymentType;
 }

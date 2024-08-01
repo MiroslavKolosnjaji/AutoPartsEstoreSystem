@@ -1,5 +1,6 @@
 package com.myproject.autopartsestoresystem.dto;
 
+import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.model.City;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,6 +36,7 @@ class CustomerDTOTest {
                 .email("john@doe.com")
                 .phone("+381324123565")
                 .city(new City(1L, "Palo Alto", "94306"))
+                .cards(List.of(Card.builder().build()))
                 .build();
     }
 
@@ -340,6 +343,7 @@ class CustomerDTOTest {
                 .email("john@doe.com")
                 .phone("+381324123565")
                 .city(new City(1L, "Palo Alto", "94306"))
+                .cards(customerDTO.getCards())
                 .build();
 
         //when

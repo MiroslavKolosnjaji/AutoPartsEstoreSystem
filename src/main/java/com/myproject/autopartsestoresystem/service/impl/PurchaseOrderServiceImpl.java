@@ -35,7 +35,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private final PurchaseOrderItemMapper purchaseOrderItemMapper;
 
 
-
     @Override
     public PurchaseOrderDTO findByPurchaseOrderNumber(UUID purchaseOrderNumber) {
 
@@ -65,7 +64,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     @Transactional
     public PurchaseOrderDTO save(PurchaseOrderDTO purchaseOrderDTO) {
 
-        if(purchaseOrderDTO.getItems() == null || purchaseOrderDTO.getItems().isEmpty())
+        if (purchaseOrderDTO.getItems() == null || purchaseOrderDTO.getItems().isEmpty())
             throw new PurchaseOrderItemNotFoundException("PurchaseOrder items not found");
 
         purchaseOrderDTO.setPurchaseOrderNumber(generateCartNumber());
@@ -77,7 +76,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         PurchaseOrder savedPurchaseOrder = purchaseOrderRepository.save(purchaseOrderMapper.purchaseOrderDTOtoPurchaseOrder(purchaseOrderDTO));
 
         savedPurchaseOrder.setPurchaseOrderItems(new HashSet<>());
-        purchaseOrderItems.forEach(item ->{
+        purchaseOrderItems.forEach(item -> {
             item.setPurchaseOrder(savedPurchaseOrder);
             item.setId(new PurchaseOrderItemId(savedPurchaseOrder.getId(), 0));
             savedPurchaseOrder.getPurchaseOrderItems().add(item);
@@ -90,18 +89,23 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         savedPurchaseOrder.setTotalAmount(getTotal(savedItems));
 
         PaymentDTO paymentDTO = PaymentDTO.builder()
-                .paymentMethod( PaymentMethod.builder().paymentType(purchaseOrderDTO.getPaymentType()).build())
-                .card(purchaseOrderDTO.getCustomer().getCards().get(0))
+                .paymentMethod(PaymentMethod.builder().paymentType(purchaseOrderDTO.getPaymentType()).build())
+                .card(null)
                 .amount(savedPurchaseOrder.getTotalAmount())
                 .status(PaymentStatus.PROCESSING)
                 .build();
 
+        if (purchaseOrderDTO.getCustomer().getCards() != null && !purchaseOrderDTO.getCustomer().getCards().isEmpty()) {
+            paymentDTO.setCard(purchaseOrderDTO.getCustomer().getCards().get(0));
+            paymentService.save(purchaseOrderDTO.getPaymentToken(), paymentDTO);
+        }else{
+            paymentService.save(paymentDTO);
+        }
 
-        paymentService.save(paymentDTO);
 
         savedPurchaseOrder.setStatus(PurchaseOrderStatus.COMPLETED);
 
-        PurchaseOrder updated =  purchaseOrderRepository.save(savedPurchaseOrder);
+        PurchaseOrder updated = purchaseOrderRepository.save(savedPurchaseOrder);
 
         return purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(updated);
     }
@@ -114,7 +118,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         return total;
     }
-
 
 
     @Override
@@ -164,7 +167,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         purchaseOrderRepository.deleteById(id);
     }
 
-    private  void updateTotalPriceField(PurchaseOrder purchaseOrder) {
+    private void updateTotalPriceField(PurchaseOrder purchaseOrder) {
         updateTotalPriceField(purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(purchaseOrder));
     }
 

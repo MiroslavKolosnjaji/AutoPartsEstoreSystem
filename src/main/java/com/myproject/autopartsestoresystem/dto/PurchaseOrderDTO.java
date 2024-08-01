@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.sql.Update;
+import org.springframework.data.annotation.Transient;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,6 +24,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class PurchaseOrderDTO {
+
+    @Transient
+    private String paymentToken;
 
     @NotNull(groups = Update.class, message = "Id cannot be null")
     private Long id;

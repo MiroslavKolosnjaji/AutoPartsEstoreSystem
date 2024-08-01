@@ -32,10 +32,10 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentDTO save(String token, PaymentDTO paymentDTO) {
 
-        Payment payment = paymentMapper.paymentDTOToPayment(paymentDTO);
-        payment.setStatus(PaymentStatus.AWAITING_PAYMENT);
+        PaymentDTO savedPayment = save(paymentDTO);
 
-        Payment savedPayment = paymentRepository.save(payment);
+        if(token == null)
+            return savedPayment;
 
         try {
 
@@ -52,8 +52,13 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentDTO save(PaymentDTO entity) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public PaymentDTO save(PaymentDTO paymentDTO) {
+        Payment payment = paymentMapper.paymentDTOToPayment(paymentDTO);
+        payment.setStatus(PaymentStatus.AWAITING_PAYMENT);
+
+        Payment savedPayment = paymentRepository.save(payment);
+
+        return paymentMapper.paymentToPaymentDTO(savedPayment);
     }
 
     @Override

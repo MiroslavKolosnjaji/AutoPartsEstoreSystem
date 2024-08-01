@@ -1,12 +1,16 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
+import com.myproject.autopartsestoresystem.dto.CardDTO;
 import com.myproject.autopartsestoresystem.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.EmailAddressAlreadyExistsException;
+import com.myproject.autopartsestoresystem.mapper.CardMapper;
 import com.myproject.autopartsestoresystem.mapper.CustomerMapper;
+import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.model.City;
 import com.myproject.autopartsestoresystem.model.Customer;
 import com.myproject.autopartsestoresystem.repository.CustomerRepository;
+import com.myproject.autopartsestoresystem.service.CardService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,16 +41,42 @@ class CustomerServiceImplTest {
     private CustomerRepository customerRepository;
 
     @Mock
-    CustomerMapper customerMapper;
+    private CustomerMapper customerMapper;
+
+    @Mock
+    private CardMapper cardMapper;
+
+    @Mock
+    private CardService cardService;
 
     @InjectMocks
     private CustomerServiceImpl customerService;
 
 
-    CustomerDTO customerDTOExpected;
-    CustomerDTO customerDTO;
+    private CustomerDTO customerDTOExpected;
+    private CustomerDTO customerDTO;
+    private CardDTO cardDTO;
+
     @BeforeEach
     void setUp() {
+
+        Card card = Card.builder()
+                .cvv("123")
+                .cardNumber("4000056655665556")
+                .expiryDate(LocalDate.of(2035,12,1))
+                .customer(null)
+                .cardHolder("Test Card Holder")
+                .build();
+
+        cardDTO = CardDTO.builder()
+                .cvv("123")
+                .cardNumber("4000056655665556")
+                .expiryDate(LocalDate.of(2035,12,1))
+                .customerId(1L)
+                .cardHolder("Test Card Holder")
+                .build();
+
+
         customerDTO = CustomerDTO.builder()
                 .firstName("John")
                 .lastName("Doe")
@@ -53,6 +84,7 @@ class CustomerServiceImplTest {
                 .email("john@doe.com")
                 .phone("+381324123565")
                 .city(new City(1L, "Palo Alto", "94306"))
+                .cards(List.of(card))
                 .build();
 
         customerDTOExpected = CustomerDTO.builder()
@@ -62,6 +94,7 @@ class CustomerServiceImplTest {
                 .email("john@doe.com")
                 .phone("+381324123565")
                 .city(new City(1L, "Palo Alto", "94306"))
+                .cards(List.of(card))
                 .build();
     }
 
@@ -74,8 +107,9 @@ class CustomerServiceImplTest {
 
         when(customerMapper.customerDTOToCustomer(customerDTO)).thenReturn(customer);
         when(customerMapper.customerToCustomerDTO(customer)).thenReturn(customerDTOExpected);
-
         when(customerRepository.save(any(Customer.class))).thenReturn(customer);
+        when(cardMapper.cardToCardDTO(any(Card.class))).thenReturn(cardDTO);
+        when(cardService.save(cardDTO)).thenReturn(cardDTO);
 
         //when
         CustomerDTO savedDTO = customerService.save(customerDTO);
@@ -87,6 +121,8 @@ class CustomerServiceImplTest {
         verify(customerMapper).customerDTOToCustomer(customerDTO);
         verify(customerMapper).customerToCustomerDTO(customer);
         verify(customerRepository).save(any(Customer.class));
+        verify(cardMapper).cardToCardDTO(any(Card.class));
+        verify(cardService).save(cardDTO);
     }
 
     @DisplayName("Save customer - Failed -  Email Already Exists")

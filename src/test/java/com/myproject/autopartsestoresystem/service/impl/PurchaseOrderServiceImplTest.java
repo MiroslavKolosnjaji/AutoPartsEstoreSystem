@@ -1,6 +1,7 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.CustomerDTO;
+import com.myproject.autopartsestoresystem.dto.PaymentDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderItemDTO;
 import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderNotFoundException;
@@ -9,6 +10,7 @@ import com.myproject.autopartsestoresystem.mapper.PurchaseOrderMapper;
 import com.myproject.autopartsestoresystem.model.*;
 import com.myproject.autopartsestoresystem.model.Currency;
 import com.myproject.autopartsestoresystem.repository.PurchaseOrderRepository;
+import com.myproject.autopartsestoresystem.service.PaymentService;
 import com.myproject.autopartsestoresystem.service.PurchaseOrderItemService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -44,6 +46,9 @@ class PurchaseOrderServiceImplTest {
 
     @Mock
     private PurchaseOrderItemService purchaseOrderItemService;
+
+    @Mock
+    private PaymentService paymentService;
 
     @InjectMocks
     private PurchaseOrderServiceImpl purchaseOrderService;
@@ -83,7 +88,7 @@ class PurchaseOrderServiceImplTest {
         purchaseOrderDTO = PurchaseOrderDTO.builder()
                 .id(1L)
                 .purchaseOrderNumber(UUID.randomUUID())
-                .totalAmount(new BigDecimal("122.99"))
+                .totalAmount(new BigDecimal("268.98"))
                 .status(PurchaseOrderStatus.PENDING_PROCESSING)
                 .customer(CustomerDTO.builder().build())
                 .items(List.of(purchaseOrderItem))
@@ -101,17 +106,25 @@ class PurchaseOrderServiceImplTest {
     }
 
 
+    @DisplayName("Save Purchase Order")
     @Test
     void testSavePurchaseOrder_whenValidDetailsProvided_returnsPurchaseOrderDTO() {
 
         //given
         List<PurchaseOrderItemDTO> purchaseOrderItems = List.of(purchaseOrderItemDTO);
+        PaymentDTO paymentDTO = PaymentDTO.builder()
+                .paymentMethod(PaymentMethod.builder().paymentType(purchaseOrderDTO.getPaymentType()).build())
+                .card(null)
+                .amount(purchaseOrder.getTotalAmount())
+                .status(PaymentStatus.PROCESSING)
+                .build();
 
         when(purchaseOrderRepository.save(purchaseOrder)).thenReturn(purchaseOrder);
         when(purchaseOrderMapper.purchaseOrderDTOtoPurchaseOrder(purchaseOrderDTO)).thenReturn(purchaseOrder);
         when(purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(purchaseOrder)).thenReturn(purchaseOrderDTO);
         when(purchaseOrderItemMapper.purchaseOrderItemSetToPurchaseOrderItemDTOList(anySet())).thenReturn(purchaseOrderItems);
         when(purchaseOrderItemService.saveAll(purchaseOrder.getId(), purchaseOrderItems)).thenReturn(purchaseOrderItems);
+        when(paymentService.save(paymentDTO)).thenReturn(paymentDTO);
 
 
         //when
@@ -126,6 +139,7 @@ class PurchaseOrderServiceImplTest {
         verify(purchaseOrderMapper).purchaseOrderToPurchaseOrderDTO(purchaseOrder);
         verify(purchaseOrderItemMapper).purchaseOrderItemSetToPurchaseOrderItemDTOList(anySet());
         verify(purchaseOrderItemService).saveAll(purchaseOrder.getId(), purchaseOrderItems);
+        verify(paymentService).save(paymentDTO);
     }
 
     @DisplayName("Update Purchase Order")
@@ -134,7 +148,7 @@ class PurchaseOrderServiceImplTest {
 
         //given
         List<PurchaseOrderItemDTO> purchaseOrderItems = List.of(purchaseOrderItemDTO);
-        
+
         when(purchaseOrderRepository.findById(1L)).thenReturn(Optional.of(purchaseOrder));
         when(purchaseOrderMapper.purchaseOrderDTOtoPurchaseOrder(purchaseOrderDTO)).thenReturn(purchaseOrder);
         when(purchaseOrderMapper.purchaseOrderToPurchaseOrderDTO(purchaseOrder)).thenReturn(purchaseOrderDTO);

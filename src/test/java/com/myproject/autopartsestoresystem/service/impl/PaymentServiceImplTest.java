@@ -96,7 +96,7 @@ class PaymentServiceImplTest {
                 () -> assertEquals(paymentDTO.getPurchaseOrder(), savedDTO.getPurchaseOrder(), "PaymentDTO purchase order mismatch"));
 
         verify(paymentMapper).paymentDTOToPayment(paymentDTO);
-        verify(paymentMapper).paymentToPaymentDTO(payment);
+        verify(paymentMapper, times(2)).paymentToPaymentDTO(payment);
         verify(stripeService).chargeCreditCard(token, paymentDTO.getAmount());
         verify(paymentRepository, times(2)).save(payment);
         verify(paymentRepository).findById(anyLong());
@@ -123,7 +123,7 @@ class PaymentServiceImplTest {
         assertThrows(PaymentProcessingException.class, executable, "Exception mismatch. PaymentProcessingException expected");
 
         verify(paymentMapper).paymentDTOToPayment(paymentDTO);
-        verify(paymentMapper).paymentToPaymentDTO(payment);
+        verify(paymentMapper, times(2)).paymentToPaymentDTO(payment);
         verify(stripeService).chargeCreditCard(token, paymentDTO.getAmount());
         verify(paymentRepository, times(2)).save(payment);
         verify(paymentRepository).findById(anyLong());

@@ -11,6 +11,7 @@ import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.core.parameters.P;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -193,5 +194,24 @@ class PaymentDTOTest {
         assertFalse(violations.isEmpty(), "Validation should fail for negative Value");
         violation = violations.iterator().next();
         assertEquals("Amount cannot be negative", violation.getMessage());
+    }
+
+    @Test
+    void testIsEqual_whenCompareTwoObjectsWithSameDetails_thenIsEqual() {
+
+        PaymentDTO paymentDTO2 = PaymentDTO.builder()
+                .id(1L)
+                .card(Card.builder().build())
+                .paymentMethod(PaymentMethod.builder().build())
+                .purchaseOrder(PurchaseOrder.builder().build())
+                .status(PaymentStatus.PROCESSING)
+                .amount(new BigDecimal("123.00"))
+                .build();
+
+        boolean equal = paymentDTO2.equals(paymentDTO);
+        boolean hashCodeEqual = paymentDTO2.hashCode() == paymentDTO.hashCode();
+
+        assertTrue(equal, "PaymentDTO should be equal");
+        assertTrue(hashCodeEqual, "PaymentDTO hashCode should be equal");
     }
 }

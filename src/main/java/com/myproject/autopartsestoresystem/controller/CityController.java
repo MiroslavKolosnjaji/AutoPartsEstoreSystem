@@ -30,9 +30,7 @@ public class CityController {
     private final CityService cityService;
 
     @PostMapping()
-    public ResponseEntity<CityDTO> createCity(@Validated @RequestBody CityDTO cityDTO) {
-
-        try {
+    public ResponseEntity<CityDTO> createCity(@Validated @RequestBody CityDTO cityDTO) throws EntityAlreadyExistsException {
 
             CityDTO saved = cityService.save(cityDTO);
 
@@ -41,22 +39,14 @@ public class CityController {
 
             return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
 
-        } catch (CityAlreadyExistsException e) {
-            throw new EntityAlreadyExistsException(e.getMessage());
-        }
     }
 
     @PutMapping(CITY_ID)
-    public ResponseEntity<CityDTO> updateCity(@PathVariable("city_id") Long cityId, @Validated @RequestBody CityDTO cityDTO) {
-
-        try {
+    public ResponseEntity<CityDTO> updateCity(@PathVariable("city_id") Long cityId, @Validated @RequestBody CityDTO cityDTO) throws EntityNotFoundException {
 
             cityService.update(cityId, cityDTO);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-        } catch (CityNotFoundException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
     @GetMapping
@@ -71,29 +61,19 @@ public class CityController {
     }
 
     @GetMapping(CITY_ID)
-    public ResponseEntity<CityDTO> getCity(@PathVariable("city_id") Long cityId) {
-
-        try {
+    public ResponseEntity<CityDTO> getCity(@PathVariable("city_id") Long cityId) throws EntityNotFoundException {
 
             CityDTO cityDTO = cityService.getById(cityId);
             return new ResponseEntity<>(cityDTO, HttpStatus.OK);
 
-        } catch (CityNotFoundException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
     @DeleteMapping(CITY_ID)
-    public ResponseEntity<Void> deleteCity(@PathVariable("city_id") Long cityId) {
-
-        try {
+    public ResponseEntity<Void> deleteCity(@PathVariable("city_id") Long cityId) throws EntityNotFoundException {
 
             cityService.delete(cityId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-        } catch (CityNotFoundException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
 }

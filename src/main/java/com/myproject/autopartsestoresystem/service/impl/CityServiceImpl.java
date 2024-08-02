@@ -24,7 +24,7 @@ public class CityServiceImpl implements CityService {
     private final CityMapper cityMapper;
 
     @Override
-    public CityDTO save(CityDTO cityDTO) {
+    public CityDTO save(CityDTO cityDTO) throws CityAlreadyExistsException {
 
         if (cityRepository.findByNameAndZipCode(cityDTO.getName(), cityDTO.getZipCode()).isPresent())
             throw new CityAlreadyExistsException();
@@ -34,7 +34,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public CityDTO update(Long id, CityDTO cityDTO) {
+    public CityDTO update(Long id, CityDTO cityDTO) throws CityNotFoundException {
 
         City city = cityRepository.findById(id).orElseThrow(CityNotFoundException::new);
 
@@ -51,7 +51,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public CityDTO getById(Long id) {
+    public CityDTO getById(Long id) throws CityNotFoundException {
 
         City city = cityRepository.findById(id).orElseThrow(CityNotFoundException::new);
 
@@ -59,7 +59,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws CityNotFoundException {
 
         if (!cityRepository.existsById(id))
             throw new CityNotFoundException();

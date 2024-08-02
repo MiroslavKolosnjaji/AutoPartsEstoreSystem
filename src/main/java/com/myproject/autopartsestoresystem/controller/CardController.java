@@ -1,6 +1,7 @@
 package com.myproject.autopartsestoresystem.controller;
 
 import com.myproject.autopartsestoresystem.dto.CardDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.CardNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
@@ -30,69 +31,50 @@ public class CardController {
     private final CardService cardService;
 
     @PostMapping()
-    public ResponseEntity<CardDTO> createCard(@Validated @RequestBody CardDTO cardDTO) {
+    public ResponseEntity<CardDTO> createCard(@Validated @RequestBody CardDTO cardDTO) throws EntityAlreadyExistsException {
 
-       try{
+        CardDTO saved = cardService.save(cardDTO);
 
-           CardDTO saved = cardService.save(cardDTO);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", CARD_URI + "/" + saved.getId());
 
-           HttpHeaders headers = new HttpHeaders();
-           headers.add("Location", CARD_URI+ "/" + saved.getId());
+        return new ResponseEntity<>(saved, headers, HttpStatus.CREATED);
 
-           return new ResponseEntity<>(saved, headers, HttpStatus.CREATED);
-
-       }catch (CustomerNotFoundException e){
-           throw new EntityNotFoundException(e.getMessage());
-       }
     }
 
     @PutMapping(CARD_ID)
-    public ResponseEntity<CardDTO> updateCard(@PathVariable("cardId") Long cardId,  @Valid @RequestBody CardDTO cardDTO) {
+    public ResponseEntity<CardDTO> updateCard(@PathVariable("cardId") Long cardId, @Valid @RequestBody CardDTO cardDTO) throws EntityNotFoundException {
 
-        try{
+        CardDTO updated = cardService.update(cardId, cardDTO);
+        return new ResponseEntity<>(updated, HttpStatus.NO_CONTENT);
 
-            CardDTO updated = cardService.update(cardId, cardDTO);
-            return new ResponseEntity<>(updated, HttpStatus.NO_CONTENT);
-
-        }catch (CardNotFoundException | CustomerNotFoundException e){
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
     @GetMapping(CARD_ID)
-    public ResponseEntity<CardDTO> getCard(@PathVariable("cardId") Long cardId) {
+    public ResponseEntity<CardDTO> getCard(@PathVariable("cardId") Long cardId) throws EntityNotFoundException {
 
-        try{
+        CardDTO foundCard = cardService.getById(cardId);
+        return new ResponseEntity<>(foundCard, HttpStatus.OK);
 
-            CardDTO foundCard = cardService.getById(cardId);
-            return new ResponseEntity<>(foundCard, HttpStatus.OK);
-
-        }catch (CardNotFoundException e){
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
 
-    @GetMapping( "/holderName")
+    @GetMapping("/holderName")
     public ResponseEntity<List<CardDTO>> getAllCardsByHolderName(@RequestParam("holderName") String holderName) {
 
         List<CardDTO> cards = cardService.getCardsByHolderName(holderName);
 
-        if(cards.isEmpty())
+        if (cards.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
         return new ResponseEntity<>(cards, HttpStatus.OK);
     }
 
     @DeleteMapping(CARD_ID)
-    public ResponseEntity<Void> deleteCard(@PathVariable("cardId") Long cardId) {
+    public ResponseEntity<Void> deleteCard(@PathVariable("cardId") Long cardId) throws EntityNotFoundException {
 
-        try{
-            cardService.delete(cardId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-        }catch (CardNotFoundException e){
-            throw new EntityNotFoundException(e.getMessage());
-        }
+        cardService.delete(cardId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        
     }
 }

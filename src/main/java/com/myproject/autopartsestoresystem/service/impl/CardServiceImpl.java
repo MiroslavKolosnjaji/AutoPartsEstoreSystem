@@ -1,6 +1,7 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.CardDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.CardNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.CardMapper;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.smartcardio.CardException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -35,7 +37,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     @Transactional
-    public CardDTO save(CardDTO cardDTO) {
+    public CardDTO save(CardDTO cardDTO) throws CardNotFoundException {
 
         Optional<Card> foundedCard = cardRepository.findByCardNumber(encrypt(cardDTO.getCardNumber()));
 
@@ -57,7 +59,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     @Transactional
-    public CardDTO update(Long id, CardDTO cardDTO) {
+    public CardDTO update(Long id, CardDTO cardDTO) throws CardNotFoundException {
 
         Card foundedCard = cardRepository.findById(id)
                 .orElseThrow(() -> new CardNotFoundException("Card not found"));
@@ -83,7 +85,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     @Transactional(readOnly = true)
-    public CardDTO getById(Long id) {
+    public CardDTO getById(Long id) throws CardNotFoundException {
         return cardRepository.findById(id)
                 .map(card -> {
                     card.setCardNumber(decrypt(card.getCardNumber()));
@@ -93,7 +95,7 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws CardNotFoundException {
 
         if (!cardRepository.existsById(id))
             throw new CardNotFoundException("Card not found");

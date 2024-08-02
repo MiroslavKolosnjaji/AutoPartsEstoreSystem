@@ -1,6 +1,7 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.BrandDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.BrandAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.BrandNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.BrandMapper;
@@ -27,7 +28,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     @Transactional
-    public BrandDTO save(BrandDTO brandDTO) {
+    public BrandDTO save(BrandDTO brandDTO) throws BrandAlreadyExistsException {
 
         if (brandRepository.findByName(brandDTO.getName()).isPresent())
             throw new BrandAlreadyExistsException("Brand " + brandDTO.getName() + " already exists");
@@ -40,7 +41,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     @Transactional
-    public BrandDTO update(Long id, BrandDTO brandDTO) {
+    public BrandDTO update(Long id, BrandDTO brandDTO) throws BrandNotFoundException {
 
         Brand brand = brandRepository.findById(id).orElseThrow(BrandNotFoundException::new);
 
@@ -59,16 +60,17 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     @Transactional(readOnly = true)
-    public BrandDTO getById(Long id) {
+    public BrandDTO getById(Long id) throws BrandNotFoundException {
 
-        Brand brand = brandRepository.findById(id).orElseThrow(BrandNotFoundException::new);
+        Brand brand = brandRepository.findById(id)
+                .orElseThrow(BrandNotFoundException::new);
 
         return brandMapper.brandToBrandDTO(brand);
     }
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(Long id) throws BrandNotFoundException {
 
         if(!brandRepository.existsById(id))
             throw new BrandNotFoundException("Brand does not exist");

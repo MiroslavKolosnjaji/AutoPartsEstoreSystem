@@ -3,7 +3,7 @@ package com.myproject.autopartsestoresystem.exception.controller;
 /**
  * @author Miroslav Kološnjaji
  */
-public class EntityAlreadyExistsException extends RuntimeException {
+public class EntityAlreadyExistsException extends Exception{
 
     public EntityAlreadyExistsException() {
     }

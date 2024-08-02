@@ -3,7 +3,7 @@ package com.myproject.autopartsestoresystem.exception.controller;
 /**
  * @author Miroslav Kološnjaji
  */
-public class EntityNotFoundException extends RuntimeException {
+public class EntityNotFoundException extends Exception {
 
     public EntityNotFoundException() {
     }

@@ -26,7 +26,7 @@ public class RoleServiceImpl implements RoleService {
 
 
     @Override
-    public RoleDTO getRoleByName(RoleName roleName) {
+    public RoleDTO getRoleByName(RoleName roleName) throws RoleNotFoundException {
         Role role = roleRepository.findByName(roleName)
                 .orElseThrow(() -> new RoleNotFoundException("Role not found"));
 
@@ -48,7 +48,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleDTO getRoleById(Long id) {
+    public RoleDTO getRoleById(Long id) throws RoleNotFoundException {
         return roleRepository.findById(id).map(roleMapper::roleToRoleDTO)
                 .orElseThrow(() -> new RoleNotFoundException("Role not found"));
     }

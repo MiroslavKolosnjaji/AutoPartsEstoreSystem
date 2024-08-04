@@ -2,6 +2,10 @@ package com.myproject.autopartsestoresystem.controller;
 
 import com.myproject.autopartsestoresystem.dto.UpdateUserAuthorityRequest;
 import com.myproject.autopartsestoresystem.dto.UserDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.exception.service.RoleNotFoundException;
+import com.myproject.autopartsestoresystem.exception.service.UsernameAlreadyExistsException;
 import com.myproject.autopartsestoresystem.model.RoleName;
 import com.myproject.autopartsestoresystem.service.UserAuthorityUpdateStatus;
 import com.myproject.autopartsestoresystem.service.UserService;
@@ -31,9 +35,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDTO> saveUser(@Validated @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> saveUser(@Validated @RequestBody UserDTO userDTO) throws EntityAlreadyExistsException, EntityNotFoundException {
 
-        UserDTO saved = userService.save(userDTO);
+        UserDTO saved = userService.saveUser(userDTO);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add(HttpHeaders.LOCATION, USER_URI + "/" + saved.getId());
@@ -43,7 +47,7 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR', 'USER')")
     @PutMapping(USER_ID)
-    public ResponseEntity<UserDTO> updateUser(@PathVariable("userId") Long userId, @Validated @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable("userId") Long userId, @Validated @RequestBody UserDTO userDTO) throws EntityNotFoundException {
 
         UserDTO updated = userService.update(userId, userDTO);
         return new ResponseEntity<>(updated, HttpStatus.NO_CONTENT);
@@ -51,7 +55,7 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @PatchMapping(USER_ID)
-    public ResponseEntity<UserDTO> updateUserAuthority(@PathVariable("userId") Long userId, @Valid @RequestBody UpdateUserAuthorityRequest request) {
+    public ResponseEntity<UserDTO> updateUserAuthority(@PathVariable("userId") Long userId, @Valid @RequestBody UpdateUserAuthorityRequest request) throws EntityNotFoundException {
 
         userService.updateUserAuthority(userId, RoleName.valueOf(request.getAuthority()), UserAuthorityUpdateStatus.valueOf(request.getUpdateStatus()));
         return new ResponseEntity<>(HttpStatus.OK);
@@ -71,14 +75,14 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @GetMapping(USER_ID)
-    public ResponseEntity<UserDTO> getUser(@PathVariable("userId") Long userId) {
+    public ResponseEntity<UserDTO> getUser(@PathVariable("userId") Long userId) throws EntityNotFoundException {
 
         UserDTO userDTO = userService.getById(userId);
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     @DeleteMapping(USER_ID)
-    public ResponseEntity<Void> deleteUser(@PathVariable("userId") Long userId) {
+    public ResponseEntity<Void> deleteUser(@PathVariable("userId") Long userId) throws EntityNotFoundException {
 
         userService.delete(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

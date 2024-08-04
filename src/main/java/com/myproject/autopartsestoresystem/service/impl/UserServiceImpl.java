@@ -2,6 +2,8 @@ package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.RoleDTO;
 import com.myproject.autopartsestoresystem.dto.UserDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.exception.service.RoleNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.UserNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.UsernameAlreadyExistsException;
 import com.myproject.autopartsestoresystem.mapper.RoleMapper;
@@ -39,7 +41,12 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserDTO save(UserDTO userDTO) {
+    public UserDTO save(UserDTO entity) throws EntityAlreadyExistsException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public UserDTO saveUser(UserDTO userDTO) throws UsernameAlreadyExistsException, RoleNotFoundException {
 
         if (getUserByUsername(userDTO.getUsername()).isPresent())
             throw new UsernameAlreadyExistsException("Username already exists");
@@ -56,7 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO update(Long id, UserDTO userDTO) {
+    public UserDTO update(Long id, UserDTO userDTO) throws UserNotFoundException {
 
         User user = userMapper.userDTOToUser(userDTO);
 
@@ -76,7 +83,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUserAuthority(Long userId, RoleName authority, UserAuthorityUpdateStatus updateStatus) {
+    public void updateUserAuthority(Long userId, RoleName authority, UserAuthorityUpdateStatus updateStatus) throws RoleNotFoundException {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -97,7 +104,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getById(Long id) {
+    public UserDTO getById(Long id) throws UserNotFoundException {
 
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
 
@@ -105,7 +112,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws UserNotFoundException {
 
         if (!userRepository.existsById(id))
             throw new UserNotFoundException("User not found");

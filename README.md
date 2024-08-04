@@ -28,6 +28,7 @@ Key functionalities include advanced search capabilities, part grouping for refi
 - __Spring Security Test:__ Provides testing support for Spring Security authentication and authorization.
 - __Project Lombok:__ Library for reducing boilerplate code in Java.
 - __MapStruct:__ Used for mapping between domain entities and DTOs.
+- __Stripe:__ Library for handling secure online payment transactions.
 - __JUnit5:__ Testing framework for unit and integration testing in Java.
 - __Mockito:__ Framework for creating mock objects in automated testing.
 - __Jacoco:__ A tool for measuring and reporting code coverage.

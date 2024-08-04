@@ -62,7 +62,7 @@ class PartGroupServiceImplTest {
 
     @DisplayName("Save Part Group")
     @Test
-    void testSavePartGroup_whenValidDetailsProvided_returnsPartGroupDTO() {
+    void testSavePartGroup_whenValidDetailsProvided_returnsPartGroupDTO() throws PartGroupAlreadyExistsException {
 
         //given
         when(partGroupRepository.findByName(partGroupDTO.getName())).thenReturn(Optional.empty());
@@ -100,7 +100,7 @@ class PartGroupServiceImplTest {
 
     @DisplayName("Update Part Group")
     @Test
-    void testUpdatePartGroup_whenValidDetailsProvided_returnsPartGroupDTO() {
+    void testUpdatePartGroup_whenValidDetailsProvided_returnsPartGroupDTO() throws PartGroupNotFoundException {
 
         //given
         partGroupDTO.setName(PartGroupType.FUEL_SYSTEM);
@@ -174,7 +174,7 @@ class PartGroupServiceImplTest {
 
     @DisplayName("Get Part Group By ID")
     @Test
-    void testGetPartGroupById_whenValidIdProvided_returnsPartGroupDTO() {
+    void testGetPartGroupById_whenValidIdProvided_returnsPartGroupDTO() throws PartGroupNotFoundException {
 
         //given
         when(partGroupRepository.findById(anyLong())).thenReturn(Optional.of(partGroup));
@@ -206,7 +206,7 @@ class PartGroupServiceImplTest {
 
     @DisplayName("Delete Part Group")
     @Test
-    void testDeletePartGroup_whenValidIDProvided_thenSuccess() {
+    void testDeletePartGroup_whenValidIDProvided_thenSuccess() throws PartGroupNotFoundException {
 
         //given
         when(partGroupRepository.existsById(anyLong())).thenReturn(true);

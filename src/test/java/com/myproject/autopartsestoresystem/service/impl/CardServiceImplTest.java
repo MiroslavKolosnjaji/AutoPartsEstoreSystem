@@ -2,6 +2,7 @@ package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.CardDTO;
 import com.myproject.autopartsestoresystem.dto.CustomerDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.CardNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.CardMapper;
 import com.myproject.autopartsestoresystem.model.Card;
@@ -60,7 +61,7 @@ class CardServiceImplTest {
 
     @DisplayName("Save Card")
     @Test
-    void testSaveCard_whenValidDetailsProvided_returnsCardDTO() {
+    void testSaveCard_whenValidDetailsProvided_returnsCardDTO() throws EntityAlreadyExistsException {
 
         //given
         Card card = new Card();
@@ -92,7 +93,7 @@ class CardServiceImplTest {
 
     @DisplayName("Save Card - Not Saved Because Already Exists")
     @Test
-    void saveCard_whenCardAlreadyExists_returnsCardDTO() {
+    void saveCard_whenCardAlreadyExists_returnsCardDTO() throws EntityAlreadyExistsException {
 
         //given
         Card card = mock(Card.class);
@@ -114,7 +115,7 @@ class CardServiceImplTest {
 
     @DisplayName("Update Card")
     @Test
-    void testUpdateCard_whenValidDetailsProvided_returnsUpdatedDTO() {
+    void testUpdateCard_whenValidDetailsProvided_returnsUpdatedDTO() throws CardNotFoundException {
 
         //given
         Card card = new Card();
@@ -145,7 +146,7 @@ class CardServiceImplTest {
     void testUpdateCard_whenInvalidIdProvided_throwsCardNotFoundException() {
 
         //given
-        when(cardRepository.findById(anyLong())).thenThrow(CardNotFoundException.class);
+        when(cardRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         //when
         Executable executable = () -> cardService.update(anyLong(), cardDTO);
@@ -156,7 +157,7 @@ class CardServiceImplTest {
 
     @DisplayName("Get Card By ID")
     @Test
-    void testGetCardById_whenValidIdProvided_returnsCardDTO() {
+    void testGetCardById_whenValidIdProvided_returnsCardDTO() throws CardNotFoundException {
 
         //given
         Card card = new Card();
@@ -183,8 +184,7 @@ class CardServiceImplTest {
     void testGetCardById_whenInvalidIdProvided_throwsCardNotFoundException() {
 
         //given
-        when(cardRepository.findById(anyLong())).thenThrow(CardNotFoundException.class);
-
+        when(cardRepository.findById(anyLong())).thenReturn(Optional.empty());
         //when
         Executable executable = () -> cardService.getById(anyLong());
 
@@ -218,7 +218,7 @@ class CardServiceImplTest {
 
     @DisplayName("Delete Card By ID")
     @Test
-    void testDeleteCardById_whenValidIdProvided_thenCorrect() {
+    void testDeleteCardById_whenValidIdProvided_thenCorrect() throws CardNotFoundException {
 
         //given
         when(cardRepository.existsById(anyLong())).thenReturn(true);
@@ -237,7 +237,7 @@ class CardServiceImplTest {
     void testDeleteCardById_whenInvalidIdProvided_throwCardNotFoundException() {
 
         //given
-        doThrow(CardNotFoundException.class).when(cardRepository).existsById(anyLong());
+        when(cardRepository.existsById(anyLong())).thenReturn(false);
 
         //when
         Executable executable = () -> cardService.delete(anyLong());

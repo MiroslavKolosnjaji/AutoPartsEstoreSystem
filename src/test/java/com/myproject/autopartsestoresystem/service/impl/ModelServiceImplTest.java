@@ -50,7 +50,7 @@ class ModelServiceImplTest {
 
     @DisplayName("Save Model")
     @Test
-    void testSaveModel_whenValidDetailsProvided_returnsModelDTO() {
+    void testSaveModel_whenValidDetailsProvided_returnsModelDTO() throws ModelAlreadyExistsException {
 
         //given
         Model model = mock(Model.class);
@@ -89,7 +89,7 @@ class ModelServiceImplTest {
 
     @DisplayName("Update Model")
     @Test
-    void testUpdateModel_whenValidDetailsProvided_returnUpdatedDTO() {
+    void testUpdateModel_whenValidDetailsProvided_returnUpdatedDTO() throws ModelNotFoundException {
 
         //given
         ModelId modelId = new ModelId(1L, "335");
@@ -146,7 +146,7 @@ class ModelServiceImplTest {
 
     @DisplayName("Get Model By ID")
     @Test
-    void testGetModelById_whenValidIdProvided_returnsModelDTO() {
+    void testGetModelById_whenValidIdProvided_returnsModelDTO() throws ModelNotFoundException {
 
         //given
         Model model = mock(Model.class);
@@ -180,7 +180,7 @@ class ModelServiceImplTest {
 
     @DisplayName("Delete Model By ID")
     @Test
-    void testDeleteModelById_whenValidIdProvided_thenCorrect() {
+    void testDeleteModelById_whenValidIdProvided_thenCorrect() throws ModelNotFoundException {
 
         //given
         ModelId modelId = new ModelId(1L, "330");

@@ -2,6 +2,8 @@ package com.myproject.autopartsestoresystem.service.impl;
 
 
 import com.myproject.autopartsestoresystem.dto.CustomerDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.model.City;
 import com.myproject.autopartsestoresystem.repository.CityRepository;
@@ -62,7 +64,7 @@ class CustomerServiceImplTestIT {
 
     @DisplayName("Save Customer With Valid Details")
     @Test
-    void testSave_whenValidDetailsProvided() {
+    void testSave_whenValidDetailsProvided() throws EntityAlreadyExistsException {
 
         //given
 
@@ -84,7 +86,7 @@ class CustomerServiceImplTestIT {
 
     @DisplayName("Update Customer")
     @Test
-    void testUpdateCustomer_whenCustomerNameChanged_returnsUpdated() {
+    void testUpdateCustomer_whenCustomerNameChanged_returnsUpdated() throws EntityAlreadyExistsException, EntityNotFoundException {
 
         //given
         CustomerDTO savedDTO = customerService.save(customerDTO);
@@ -100,7 +102,7 @@ class CustomerServiceImplTestIT {
 
     @DisplayName("Get All Customers")
     @Test
-    void testGetAllCustomers_whenListIsNotEmpty_returnsTwoCustomers() {
+    void testGetAllCustomers_whenListIsNotEmpty_returnsTwoCustomers() throws EntityAlreadyExistsException {
 
         //given (there are already 3 customers saved because of bootstrap data)
         customerService.save(customerDTO);
@@ -115,7 +117,7 @@ class CustomerServiceImplTestIT {
 
     @DisplayName("Get Customer")
     @Test
-    void testGetCustomer_whenValidIdProvided_returnsById() {
+    void testGetCustomer_whenValidIdProvided_returnsById() throws EntityAlreadyExistsException, EntityNotFoundException {
 
         //given
         CustomerDTO savedDTO = customerService.save(customerDTO);
@@ -130,7 +132,7 @@ class CustomerServiceImplTestIT {
 
     @DisplayName("Delete Customer")
     @Test
-    void testDelete_whenValidIdProvided_thenCorrect() {
+    void testDelete_whenValidIdProvided_thenCorrect() throws EntityAlreadyExistsException, EntityNotFoundException {
 
         //given
         CustomerDTO savedCustomer = customerService.save(customerDTO);

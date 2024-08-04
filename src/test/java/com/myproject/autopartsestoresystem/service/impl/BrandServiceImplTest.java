@@ -46,7 +46,7 @@ class BrandServiceImplTest {
 
     @DisplayName("Save Brand")
     @Test
-    void testSaveBrand_whenValidInputProvided_returnsSavedBrandDTO() {
+    void testSaveBrand_whenValidInputProvided_returnsSavedBrandDTO() throws BrandAlreadyExistsException {
 
         //given
         Brand brand = mock(Brand.class);
@@ -86,7 +86,7 @@ class BrandServiceImplTest {
 
     @DisplayName("Update Brand")
     @Test
-    void testUpdateBrand_whenValidDetailsProvided_returnsUpdatedBrandDTO() {
+    void testUpdateBrand_whenValidDetailsProvided_returnsUpdatedBrandDTO() throws BrandNotFoundException {
 
         //given
         Brand brand = mock(Brand.class);
@@ -140,7 +140,7 @@ class BrandServiceImplTest {
 
     @DisplayName("Get Brand By ID")
     @Test
-    void testGetBrandById_whenValidIdProvided_returnsBrandDTO() {
+    void testGetBrandById_whenValidIdProvided_returnsBrandDTO() throws BrandNotFoundException {
 
         //given
         Brand brand = mock(Brand.class);
@@ -174,7 +174,7 @@ class BrandServiceImplTest {
 
     @DisplayName("Delete Brand")
     @Test
-    void testDeleteBrandById_whenValidIdProvided_thenCorrect() {
+    void testDeleteBrandById_whenValidIdProvided_thenCorrect() throws BrandNotFoundException {
 
         //given
         when(brandRepository.existsById(anyLong())).thenReturn(true);

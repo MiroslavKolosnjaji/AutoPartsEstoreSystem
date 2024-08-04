@@ -1,6 +1,7 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.PriceDTO;
+import com.myproject.autopartsestoresystem.exception.service.PriceNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.PriceMapper;
 import com.myproject.autopartsestoresystem.model.Currency;
 import com.myproject.autopartsestoresystem.model.Price;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -90,7 +92,7 @@ class PriceServiceImplTest {
 
     @DisplayName("Update Price - Update existing price")
     @Test
-    void testUpdatePrice_whenUpdateExistingPrice_returnsPriceDTO() {
+    void testUpdatePrice_whenUpdateExistingPrice_returnsPriceDTO() throws PriceNotFoundException {
 
         //given
         when(priceRepository.getPriceByIdAndDateModified(price.getId(), price.getDateModified())).thenReturn(Optional.of(price));
@@ -110,12 +112,12 @@ class PriceServiceImplTest {
 
     @DisplayName("Update Price - Adding new price")
     @Test
-    void testUpdatePrice_whenAddingNewPrice_returnsPriceDTO() {
+    void testUpdatePrice_whenAddingNewPrice_returnsPriceDTO() throws PriceNotFoundException {
         //given
-        when(priceRepository.getPriceByIdAndDateModified(new PriceId(1L, 1L), price.getDateModified())).thenReturn(Optional.empty());
-        when(priceRepository.findMaxPriceId(anyLong())).thenReturn(1L);
+        PriceId priceId = new PriceId(1L, 1L);
+
+        when(priceRepository.getPriceByIdAndDateModified(priceId, price.getDateModified())).thenReturn(Optional.of(price));
         when(priceMapper.priceToPriceDTO(price)).thenReturn(priceDTO);
-        when(priceMapper.priceDTOToPrice(priceDTO)).thenReturn(price);
         when(priceRepository.save(price)).thenReturn(price);
 
         //when
@@ -124,9 +126,8 @@ class PriceServiceImplTest {
         assertNotNull(updatedDTO, "Updated Price should not be null");
         assertEquals(priceDTO, updatedDTO, "Updated Price should be equal to priceDTO");
 
-        verify(priceRepository).findMaxPriceId(anyLong());
-        verify(priceMapper).priceToPriceDTO(price);
-        verify(priceMapper).priceDTOToPrice(priceDTO);
+        verify(priceRepository, times(2)).getPriceByIdAndDateModified(priceId, price.getDateModified());
+        verify(priceMapper, times(2)).priceToPriceDTO(price);
         verify(priceRepository).save(price);
     }
 
@@ -152,7 +153,7 @@ class PriceServiceImplTest {
 
     @DisplayName("Get Price By Price ID and Last Modified Date - Returns Founded Price")
     @Test
-    void testGetPriceByPriceIDAndLastModifiedDate_whenPriceExists_returnsOptionalOfPriceDTO() {
+    void testGetPriceByPriceIDAndLastModifiedDate_whenPriceExists_returnsOptionalOfPriceDTO() throws PriceNotFoundException {
 
         //given
         PriceId priceId = new PriceId(1L, 0L);
@@ -173,13 +174,17 @@ class PriceServiceImplTest {
 
     @DisplayName("Get Price By Price ID And Last Modified Date - Price Doesn't Exists")
     @Test
-    void testGetPriceByPriceIDAndLastModifiedDate_whenPriceNotFound_returnsEmptyOptional() {
+    void testGetPriceByPriceIDAndLastModifiedDate_whenPriceNotFound_throwsPriceNotFoundException() throws PriceNotFoundException {
 
         //when
-        Optional<PriceDTO> foundPrice = priceService.getPriceByPriceIdAndLastModifiedDate(new PriceId(1L, 0L), null);
+        PriceId priceId = new PriceId(1L, 0L);
+        when(priceRepository.getPriceByIdAndDateModified(priceId, null)).thenReturn(Optional.empty());
+
+        //when
+        Executable executable = () -> priceService.getPriceByPriceIdAndLastModifiedDate(priceId, null);
 
         //then
-        assertTrue(foundPrice.isEmpty(), "Price should be empty");
+        assertThrows(PriceNotFoundException.class, executable, "Price should not be found");
     }
 
     @Test

@@ -2,6 +2,8 @@ package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.RoleDTO;
 import com.myproject.autopartsestoresystem.dto.UserDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.exception.service.RoleNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.UserNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.UsernameAlreadyExistsException;
 import com.myproject.autopartsestoresystem.mapper.RoleMapper;
@@ -71,7 +73,7 @@ class UserServiceImplTest {
 
     @DisplayName("Save User")
     @Test
-    void testSaveUser_whenValidDetailsProvided_returnsUserDTO() {
+    void testSaveUser_whenValidDetailsProvided_returnsUserDTO() throws RoleNotFoundException, EntityAlreadyExistsException {
 
         //given
         User user = mock(User.class);
@@ -86,7 +88,7 @@ class UserServiceImplTest {
         when(userRepository.save(user)).thenReturn(user);
 
         //when
-        UserDTO savedDTO = userService.save(userDTO);
+        UserDTO savedDTO = userService.saveUser(userDTO);
 
         //then
         assertNotNull(savedDTO, "Saved UserDTO should not be null");
@@ -109,7 +111,7 @@ class UserServiceImplTest {
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(user));
 
         //when
-        Executable executable = () -> userService.save(userDTO);
+        Executable executable = () -> userService.saveUser(userDTO);
 
         //then
         assertThrows(UsernameAlreadyExistsException.class, executable, "Exception doesn't match. Expected UsernameAlreadyExistsException");
@@ -117,7 +119,7 @@ class UserServiceImplTest {
 
     @DisplayName("Update User")
     @Test
-    void testUpdateUser_whenValidDetailsProvided_returnsUserDTO() {
+    void testUpdateUser_whenValidDetailsProvided_returnsUserDTO() throws UserNotFoundException {
 
         //given
         User user = User.builder()
@@ -166,7 +168,7 @@ class UserServiceImplTest {
 
     @DisplayName("Update User Authority - Grant Authority")
     @Test
-    void testUpdateUserAuthority_whenValidDetailsProvided_thenGrantAuthorityToUser() {
+    void testUpdateUserAuthority_whenValidDetailsProvided_thenGrantAuthorityToUser() throws RoleNotFoundException {
 
         //given
         User user = mock(User.class);
@@ -194,7 +196,7 @@ class UserServiceImplTest {
 
     @DisplayName("Update User Authority - Revoke Authority")
     @Test
-    void testUpdateUserAuthority_whenValidDetailsProvided_thenRevokeAuthorityFromUser() {
+    void testUpdateUserAuthority_whenValidDetailsProvided_thenRevokeAuthorityFromUser() throws RoleNotFoundException {
 
         //given
         User user = mock(User.class);
@@ -253,7 +255,7 @@ class UserServiceImplTest {
 
     @DisplayName("Get User By ID")
     @Test
-    void testGetUserByID_whenValidIDProvided_returnsUserDTO() {
+    void testGetUserByID_whenValidIDProvided_returnsUserDTO() throws UserNotFoundException {
 
         //given
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(mock(User.class)));
@@ -286,7 +288,7 @@ class UserServiceImplTest {
 
     @DisplayName("Delete User By ID")
     @Test
-    void testDeleteUserByID_whenValidIDProvided_thenCorrect() {
+    void testDeleteUserByID_whenValidIDProvided_thenCorrect() throws UserNotFoundException {
 
         //given
         when(userRepository.existsById(anyLong())).thenReturn(true);

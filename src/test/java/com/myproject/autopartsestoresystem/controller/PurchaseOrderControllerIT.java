@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.autopartsestoresystem.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.dto.PartDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.PartMapper;
 import com.myproject.autopartsestoresystem.model.Part;
 import com.myproject.autopartsestoresystem.model.PurchaseOrderItem;
@@ -49,7 +50,7 @@ class PurchaseOrderControllerIT {
     private PurchaseOrderDTO purchaseOrderDTO;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws EntityNotFoundException {
 
         CustomerDTO customerDTO = customerService.getById(1L);
         PartDTO partDTO = partService.getById(1L);

@@ -2,6 +2,7 @@ package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.PartDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderItemDTO;
+import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderItemNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.PurchaseOrderItemMapper;
 import com.myproject.autopartsestoresystem.model.*;
 import com.myproject.autopartsestoresystem.model.Currency;
@@ -114,7 +115,7 @@ class PurchaseOrderItemServiceImplTest {
     }
 
     @Test
-    void testUpdateAllPurchaseOrderItems_whenValidDetailsProvided_returnsListOfPurchaseOrderItem() {
+    void testUpdateAllPurchaseOrderItems_whenValidDetailsProvided_returnsListOfPurchaseOrderItem() throws PurchaseOrderItemNotFoundException {
 
         //given
         Set<PurchaseOrderItem> purchaseOrderItemSet  = new HashSet<>();
@@ -157,7 +158,7 @@ class PurchaseOrderItemServiceImplTest {
     }
 
     @Test
-    void testGetPurchaseOrderItemById_whenValidIdProvided_returnsPurchaseOrderItemDTO() {
+    void testGetPurchaseOrderItemById_whenValidIdProvided_returnsPurchaseOrderItemDTO() throws PurchaseOrderItemNotFoundException {
 
         //given
         PurchaseOrderItemId id = PurchaseOrderItemId.builder().purchaseOrderId(2L).ordinalNumber(1).build();

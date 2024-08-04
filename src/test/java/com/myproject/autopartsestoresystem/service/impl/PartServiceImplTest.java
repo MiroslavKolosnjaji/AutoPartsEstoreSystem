@@ -2,6 +2,7 @@ package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.PartDTO;
 import com.myproject.autopartsestoresystem.dto.PriceDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.PartNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.PartMapper;
 import com.myproject.autopartsestoresystem.mapper.PriceMapper;
@@ -91,7 +92,7 @@ class PartServiceImplTest {
 
     @DisplayName("Save Part")
     @Test
-    void testSavePart_whenValidDetailsProvided_returnPartDTO() {
+    void testSavePart_whenValidDetailsProvided_returnPartDTO() throws EntityAlreadyExistsException {
 
         //given
         when(partMapper.partDTOToPart(partDTO)).thenReturn(part);
@@ -114,7 +115,7 @@ class PartServiceImplTest {
 
     @DisplayName("Update Part - Update Existing Price")
     @Test
-    void testUpdatePart_whenValidDetailsProvided_returnUpdatedPartDTO() {
+    void testUpdatePart_whenValidDetailsProvided_returnUpdatedPartDTO() throws PartNotFoundException {
 
         //given
         priceDTO.setId(new PriceId(1L, 1L));
@@ -153,7 +154,7 @@ class PartServiceImplTest {
 
     @DisplayName("Get Selected Parts By ID")
     @Test
-    void testGetSelectedParts_whenValidIdsIsProvided_returnsListOfPartDto() {
+    void testGetSelectedParts_whenValidIdsIsProvided_returnsListOfPartDto() throws PartNotFoundException {
 
         //given
         List<Long> ids = List.of(1L, 2L);
@@ -209,7 +210,7 @@ class PartServiceImplTest {
 
     @DisplayName("Get Part By ID")
     @Test
-    void testGetPartById_whenValidIdProvided_returnsPartDTO() {
+    void testGetPartById_whenValidIdProvided_returnsPartDTO() throws PartNotFoundException {
 
         //given
         List<PriceDTO> pricedtos = Arrays.asList(mock(PriceDTO.class));
@@ -246,7 +247,7 @@ class PartServiceImplTest {
 
     @DisplayName("Delete Part")
     @Test
-    void testDeletePart_whenValidIdProvided_thenSuccess() {
+    void testDeletePart_whenValidIdProvided_thenSuccess() throws PartNotFoundException {
 
         //given
         when(partRepository.existsById(anyLong())).thenReturn(true);

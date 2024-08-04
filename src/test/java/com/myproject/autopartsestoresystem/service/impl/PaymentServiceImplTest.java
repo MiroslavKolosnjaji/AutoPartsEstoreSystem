@@ -131,7 +131,7 @@ class PaymentServiceImplTest {
 
     @DisplayName("Update Payment")
     @Test
-    void testUpdatePayment_whenValidDetailsProvided_returnsPaymentDTO() {
+    void testUpdatePayment_whenValidDetailsProvided_returnsPaymentDTO() throws PaymentNotFoundException {
 
         //given
 
@@ -189,7 +189,7 @@ class PaymentServiceImplTest {
 
     @DisplayName("Get Payment By ID")
     @Test
-    void testGetByID_whenValidIDProvided_returnsPaymentDTO() {
+    void testGetByID_whenValidIDProvided_returnsPaymentDTO() throws PaymentNotFoundException {
 
         //given
         when(paymentRepository.findById(anyLong())).thenReturn(Optional.of(payment));
@@ -222,7 +222,7 @@ class PaymentServiceImplTest {
 
     @DisplayName("Delete Payment")
     @Test
-    void testDeletePaymentByID_whenValidIDProvided_thenCorrect() {
+    void testDeletePaymentByID_whenValidIDProvided_thenCorrect() throws PaymentNotFoundException {
 
         //given
         when(paymentRepository.existsById(anyLong())).thenReturn(true);

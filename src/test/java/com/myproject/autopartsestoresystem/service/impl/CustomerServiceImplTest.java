@@ -2,6 +2,7 @@ package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.CardDTO;
 import com.myproject.autopartsestoresystem.dto.CustomerDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.EmailAddressAlreadyExistsException;
 import com.myproject.autopartsestoresystem.mapper.CardMapper;
@@ -100,7 +101,7 @@ class CustomerServiceImplTest {
 
     @DisplayName("Save customer")
     @Test
-    void testSaveCustomer_whenValidDetailsProvided_returnsCustomerDTO() {
+    void testSaveCustomer_whenValidDetailsProvided_returnsCustomerDTO() throws EntityAlreadyExistsException {
 
         //given
         Customer customer = mock(Customer.class);
@@ -143,7 +144,7 @@ class CustomerServiceImplTest {
 
     @DisplayName("Update Customer")
     @Test
-    void testUpdateCustomer_whenValidDetailsProvided_returnsUpdateDTO() {
+    void testUpdateCustomer_whenValidDetailsProvided_returnsUpdateDTO() throws CustomerNotFoundException {
         //given
         Customer customer = mock(Customer.class);
 
@@ -219,7 +220,7 @@ class CustomerServiceImplTest {
 
     @DisplayName("Get Customer")
     @Test
-    void testGetCustomer_whenValidIdIsProvided_returnsCustomerDTO() {
+    void testGetCustomer_whenValidIdIsProvided_returnsCustomerDTO() throws CustomerNotFoundException {
 
         //given
         Customer customer = Customer.builder().firstName(customerDTO.getFirstName())
@@ -268,7 +269,7 @@ class CustomerServiceImplTest {
 
     @DisplayName("Delete Customer")
     @Test
-    void testDelete_whenValidIdProvided_thenSuccess() {
+    void testDelete_whenValidIdProvided_thenSuccess() throws CustomerNotFoundException {
 
         //given
         when(customerRepository.existsById(anyLong())).thenReturn(true);

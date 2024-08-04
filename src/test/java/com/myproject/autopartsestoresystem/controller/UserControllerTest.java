@@ -60,7 +60,7 @@ class UserControllerTest {
     void testCreateUser_whenValidDetailsProvided_returns200StatusCode() throws Exception {
 
         //given
-        when(userService.save(userDTO)).thenReturn(userDTO);
+        when(userService.saveUser(userDTO)).thenReturn(userDTO);
 
         RequestBuilder requestBuilder = post(UserController.USER_URI)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -75,7 +75,7 @@ class UserControllerTest {
         //then
         assertNotNull(savedUserDTO, "Saved UserDTO should not be null");
         assertEquals(userDTO, savedUserDTO, "Saved UserDTO did not match");
-        verify(userService).save(userDTO);
+        verify(userService).saveUser(userDTO);
     }
 
     @DisplayName("Create User Failed - Invalid Details Provided")

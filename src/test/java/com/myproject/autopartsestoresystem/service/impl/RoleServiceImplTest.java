@@ -48,7 +48,7 @@ class RoleServiceImplTest {
 
     @DisplayName("Get Role By Name")
     @Test
-    void testGetRoleByName_whenValidDetailsProvided_returnsRoleDTO() {
+    void testGetRoleByName_whenValidDetailsProvided_returnsRoleDTO() throws RoleNotFoundException {
 
         //given
         Role role = mock(Role.class);
@@ -115,7 +115,7 @@ class RoleServiceImplTest {
 
     @DisplayName("Get Role By ID")
     @Test
-    void testGetRoleByID_whenValidIdProvided_returnsRoleDTO() {
+    void testGetRoleByID_whenValidIdProvided_returnsRoleDTO() throws RoleNotFoundException {
 
         //given
         Role role = mock(Role.class);

@@ -85,7 +85,7 @@ class VehicleServiceImplTest {
 
     @DisplayName("Update Vehicle")
     @Test
-    void testUpdateVehicle_whenValidDetailsProvided_returnsVehicleDTO() {
+    void testUpdateVehicle_whenValidDetailsProvided_returnsVehicleDTO() throws VehicleNotFoundException {
 
         //given
         Vehicle vehicle = mock(Vehicle.class);
@@ -139,7 +139,7 @@ class VehicleServiceImplTest {
 
     @DisplayName("Get Vehicle By ID")
     @Test
-    void testGetVehicleById_whenValidIdProvided_returnsVehicleDTO() {
+    void testGetVehicleById_whenValidIdProvided_returnsVehicleDTO() throws VehicleNotFoundException {
 
         //given
         Vehicle vehicle = mock(Vehicle.class);
@@ -162,7 +162,7 @@ class VehicleServiceImplTest {
     void testGetVehicleById_whenInvalidIdProvided_throwsVehicleNotFoundException() {
 
         //given
-        doThrow(VehicleNotFoundException.class).when(vehicleRepository).findById(anyLong());
+        when(vehicleRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         //when
         Executable executable = () -> vehicleService.getById(anyLong());
@@ -173,7 +173,7 @@ class VehicleServiceImplTest {
 
     @DisplayName("Delete Vehicle")
     @Test
-    void testDeleteVehicle_whenValidIdProvided_thenCorrect() {
+    void testDeleteVehicle_whenValidIdProvided_thenCorrect() throws VehicleNotFoundException {
 
         //given
         when(vehicleRepository.existsById(anyLong())).thenReturn(true);

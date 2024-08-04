@@ -1,6 +1,7 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.RoleDTO;
+import com.myproject.autopartsestoresystem.exception.service.RoleNotFoundException;
 import com.myproject.autopartsestoresystem.model.RoleName;
 import com.myproject.autopartsestoresystem.service.RoleService;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +34,7 @@ class RoleServiceImplTestIT {
     }
 
     @Test
-    void testGetRoleByName_whenValidInputProvided_returnsRoleDTO() {
+    void testGetRoleByName_whenValidInputProvided_returnsRoleDTO() throws RoleNotFoundException {
 
         //given
 
@@ -72,7 +73,7 @@ class RoleServiceImplTestIT {
     }
 
     @Test
-    void testGetRoleById_whenValidIDProvided_returnsRoleDTO() {
+    void testGetRoleById_whenValidIDProvided_returnsRoleDTO() throws RoleNotFoundException {
 
         //given
 

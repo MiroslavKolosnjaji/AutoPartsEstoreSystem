@@ -4,6 +4,9 @@ import com.myproject.autopartsestoresystem.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.dto.PaymentDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderItemDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.exception.service.PaymentProcessingException;
+import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderItemNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.PurchaseOrderItemMapper;
 import com.myproject.autopartsestoresystem.mapper.PurchaseOrderMapper;
@@ -108,7 +111,7 @@ class PurchaseOrderServiceImplTest {
 
     @DisplayName("Save Purchase Order")
     @Test
-    void testSavePurchaseOrder_whenValidDetailsProvided_returnsPurchaseOrderDTO() {
+    void testSavePurchaseOrder_whenValidDetailsProvided_returnsPurchaseOrderDTO() throws PaymentProcessingException, PurchaseOrderItemNotFoundException {
 
         //given
         List<PurchaseOrderItemDTO> purchaseOrderItems = List.of(purchaseOrderItemDTO);
@@ -128,7 +131,7 @@ class PurchaseOrderServiceImplTest {
 
 
         //when
-        PurchaseOrderDTO savedDTO = purchaseOrderService.save(purchaseOrderDTO);
+        PurchaseOrderDTO savedDTO = purchaseOrderService.savePurchaseOrder(purchaseOrderDTO);
 
         //then
         assertNotNull(savedDTO);
@@ -144,7 +147,7 @@ class PurchaseOrderServiceImplTest {
 
     @DisplayName("Update Purchase Order")
     @Test
-    void testUpdatePurchaseOrder_whenValidDetailsProvided_returnsUpdatedPurchaseOrderDTO() {
+    void testUpdatePurchaseOrder_whenValidDetailsProvided_returnsUpdatedPurchaseOrderDTO() throws PurchaseOrderItemNotFoundException, PurchaseOrderNotFoundException {
 
         //given
         List<PurchaseOrderItemDTO> purchaseOrderItems = List.of(purchaseOrderItemDTO);
@@ -176,7 +179,7 @@ class PurchaseOrderServiceImplTest {
     void testUpdatePurchaseOrder_whenInvalidIDProvided_throwsPurchaseOrderNotFoundException() {
 
         //given
-        when(purchaseOrderRepository.findById(anyLong())).thenThrow(PurchaseOrderNotFoundException.class);
+        when(purchaseOrderRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         //when
         Executable executable = () -> purchaseOrderService.update(anyLong(), purchaseOrderDTO);
@@ -232,7 +235,7 @@ class PurchaseOrderServiceImplTest {
     void testGetPurchaseOrderById_whenInvalidIdProvided_throwsPurchaseOrderNotFoundException() {
 
         //given
-        when(purchaseOrderRepository.findById(anyLong())).thenThrow(PurchaseOrderNotFoundException.class);
+        when(purchaseOrderRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         //when
         Executable executable = () -> purchaseOrderService.getById(anyLong());
@@ -244,7 +247,7 @@ class PurchaseOrderServiceImplTest {
 
     @DisplayName("Delete Purchase Order By ID")
     @Test
-    void testDeletePurchaseOrderByID_whenValidIDProvided_thenCorrect() {
+    void testDeletePurchaseOrderByID_whenValidIDProvided_thenCorrect() throws PurchaseOrderNotFoundException {
 
         //given
         when(purchaseOrderRepository.existsById(anyLong())).thenReturn(true);

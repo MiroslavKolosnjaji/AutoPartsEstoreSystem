@@ -50,7 +50,7 @@ class CityServiceImplTest {
 
     @DisplayName("Save City")
     @Test
-    void testSaveCity_whenValidDetailsProvided_returnsCityDTO() {
+    void testSaveCity_whenValidDetailsProvided_returnsCityDTO() throws CityAlreadyExistsException {
 
         //given
         City city = mock(City.class);
@@ -89,7 +89,7 @@ class CityServiceImplTest {
 
     @DisplayName("Update City")
     @Test
-    void testUpdateCity_whenValidDetailsProvided_returnsUpdatedDTO() {
+    void testUpdateCity_whenValidDetailsProvided_returnsUpdatedDTO() throws CityNotFoundException {
 
         //given
         City city = mock(City.class);
@@ -165,7 +165,7 @@ class CityServiceImplTest {
 
     @DisplayName("Get City By ID")
     @Test
-    void testGetCity_whenValidIdProvided_returnsCityDTO() {
+    void testGetCity_whenValidIdProvided_returnsCityDTO() throws CityNotFoundException {
 
         //given
         City city = City.builder()
@@ -209,7 +209,7 @@ class CityServiceImplTest {
 
     @DisplayName("Delete City")
     @Test
-    void testDeleteCity_whenValidIdProvided_thenSuccess() {
+    void testDeleteCity_whenValidIdProvided_thenSuccess() throws CityNotFoundException {
 
         //given
         City city = mock(City.class);

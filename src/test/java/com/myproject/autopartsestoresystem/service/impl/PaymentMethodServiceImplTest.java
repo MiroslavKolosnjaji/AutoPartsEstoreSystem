@@ -66,7 +66,7 @@ class PaymentMethodServiceImplTest {
 
     @DisplayName("Get Payment Method By ID")
     @Test
-    void testGetPaymentMethodById_whenValidIdProvided_returnPaymentMethodDTO() {
+    void testGetPaymentMethodById_whenValidIdProvided_returnPaymentMethodDTO() throws PaymentMethodNotFoundException {
 
         //given
         PaymentMethod paymentMethod = PaymentMethod.builder().paymentType(PaymentType.DEBIT_CARD).build();
@@ -89,7 +89,7 @@ class PaymentMethodServiceImplTest {
     void testGetPaymentMethodById_whenInvalidIdProvided_throwsPaymentMethodNotFoundException() {
 
         //given
-        when(paymentMethodRepository.findById(anyLong())).thenThrow(PaymentMethodNotFoundException.class);
+        when(paymentMethodRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         //when
         Executable executable = () -> paymentMethodService.getById(anyLong());
@@ -102,7 +102,7 @@ class PaymentMethodServiceImplTest {
 
     @DisplayName("Get Payment Method By Payment Type")
     @Test
-    void testGetPaymentMethodByPaymentType_whenValidPaymentTypeProvided_returnsPaymentMethodDTO() {
+    void testGetPaymentMethodByPaymentType_whenValidPaymentTypeProvided_returnsPaymentMethodDTO() throws PaymentMethodNotFoundException {
 
         //given
         PaymentMethod paymentMethod = PaymentMethod.builder().paymentType(PaymentType.DEBIT_CARD).build();
@@ -124,10 +124,10 @@ class PaymentMethodServiceImplTest {
     void testGetPaymentMethodByPaymentType_whenInvalidPaymentTypeProvided_throwsPaymentMethodNotFoundException() {
 
         //given
-        when(paymentMethodRepository.findPaymentMethodByPaymentType(anyString())).thenThrow(PaymentMethodNotFoundException.class);
+        when(paymentMethodRepository.findPaymentMethodByPaymentType(anyString())).thenReturn(Optional.empty());
 
         //when
-        Executable executable = () -> paymentMethodService.getByPaymentType(anyString());
+        Executable executable = () -> paymentMethodService.getByPaymentType("Invalid Type");
 
         //then
         assertThrows(PaymentMethodNotFoundException.class, executable, "Exception mismatch. Expected PaymentMethodNotFoundException");

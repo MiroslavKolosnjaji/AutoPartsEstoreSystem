@@ -26,18 +26,16 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public VehicleDTO save(VehicleDTO vehicleDTO) {
 
-
-
-        Vehicle saved =  vehicleRepository.save(vehicleMapper.vehicleDTOToVehicle(vehicleDTO));
-
+        Vehicle saved = vehicleRepository.save(vehicleMapper.vehicleDTOToVehicle(vehicleDTO));
 
         return vehicleMapper.vehicleToVehicleDTO(saved);
     }
 
     @Override
-    public VehicleDTO update(Long id, VehicleDTO vehicleDTO) {
+    public VehicleDTO update(Long id, VehicleDTO vehicleDTO) throws VehicleNotFoundException {
 
-        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
+        Vehicle vehicle = vehicleRepository.findById(id)
+                .orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
 
         vehicle.setEngineType(vehicleDTO.getEngineType());
         vehicle.setSeries(vehicleDTO.getSeries());
@@ -57,17 +55,18 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public VehicleDTO getById(Long id) {
+    public VehicleDTO getById(Long id) throws VehicleNotFoundException {
 
-        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
+        Vehicle vehicle = vehicleRepository.findById(id)
+                .orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
 
         return vehicleMapper.vehicleToVehicleDTO(vehicle);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws VehicleNotFoundException {
 
-        if(!vehicleRepository.existsById(id))
+        if (!vehicleRepository.existsById(id))
             throw new VehicleNotFoundException("Vehicle not found");
 
         vehicleRepository.deleteById(id);

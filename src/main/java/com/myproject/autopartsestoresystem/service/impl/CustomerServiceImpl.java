@@ -2,6 +2,8 @@ package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.CardDTO;
 import com.myproject.autopartsestoresystem.dto.CustomerDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.EmailAddressAlreadyExistsException;
 import com.myproject.autopartsestoresystem.mapper.CardMapper;
@@ -30,7 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public CustomerDTO save(CustomerDTO customerDTO) {
+    public CustomerDTO save(CustomerDTO customerDTO) throws EmailAddressAlreadyExistsException, EntityAlreadyExistsException {
 
         if (customerRepository.findByEmail(customerDTO.getEmail()).isPresent())
             throw new EmailAddressAlreadyExistsException("Email address already exists");
@@ -48,7 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO update(Long customer_id, CustomerDTO customerDTO) {
+    public CustomerDTO update(Long customer_id, CustomerDTO customerDTO) throws CustomerNotFoundException{
         Customer customer = customerRepository.findById(customer_id)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
 
@@ -73,13 +75,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO getById(Long id) {
+    public CustomerDTO getById(Long id) throws CustomerNotFoundException {
         Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
         return customerMapper.customerToCustomerDTO(customer);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws CustomerNotFoundException {
 
         if (!customerRepository.existsById(id))
             throw new CustomerNotFoundException(id);

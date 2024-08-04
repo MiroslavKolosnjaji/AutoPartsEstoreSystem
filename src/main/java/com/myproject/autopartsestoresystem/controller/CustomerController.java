@@ -30,31 +30,23 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping()
-    public ResponseEntity<CustomerDTO> createCustomer(@Validated @RequestBody CustomerDTO customerDTO) {
+    public ResponseEntity<CustomerDTO> createCustomer(@Validated @RequestBody CustomerDTO customerDTO) throws EntityAlreadyExistsException{
 
-        try {
             CustomerDTO saved = customerService.save(customerDTO);
 
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.add("Location", CUSTOMER_URI + "/" + saved.getId());
 
             return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
-        } catch (EmailAddressAlreadyExistsException e) {
-            throw new EntityAlreadyExistsException(e.getMessage());
-        }
+
     }
 
     @PutMapping(CUSTOMER_ID)
-    public ResponseEntity<Void> updateCustomer(@PathVariable("customer_id") Long customerId, @Validated @RequestBody CustomerDTO updateCustomerDTO) {
-
-        try {
+    public ResponseEntity<Void> updateCustomer(@PathVariable("customer_id") Long customerId, @Validated @RequestBody CustomerDTO updateCustomerDTO) throws EntityNotFoundException, EntityAlreadyExistsException {
 
             customerService.update(customerId, updateCustomerDTO);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-        } catch (CustomerNotFoundException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
     @GetMapping()
@@ -70,28 +62,18 @@ public class CustomerController {
     }
 
     @GetMapping(CUSTOMER_ID)
-    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable("customer_id") Long customerId) {
-
-        try {
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable("customer_id") Long customerId) throws EntityNotFoundException {
 
             CustomerDTO customerDTO = customerService.getById(customerId);
             return ResponseEntity.ok(customerDTO);
 
-        } catch (CustomerNotFoundException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
     @DeleteMapping(CUSTOMER_ID)
-    public ResponseEntity<Void> deleteCustomer(@PathVariable("customer_id") Long customerId) {
-
-        try {
+    public ResponseEntity<Void> deleteCustomer(@PathVariable("customer_id") Long customerId) throws EntityNotFoundException {
 
             customerService.delete(customerId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-        } catch (CustomerNotFoundException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 }

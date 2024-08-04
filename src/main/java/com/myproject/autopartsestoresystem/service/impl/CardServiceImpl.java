@@ -1,25 +1,20 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.CardDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.CardNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.CardMapper;
-import com.myproject.autopartsestoresystem.mapper.CustomerMapper;
 import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.model.Customer;
 import com.myproject.autopartsestoresystem.repository.CardRepository;
-import com.myproject.autopartsestoresystem.repository.CustomerRepository;
 import com.myproject.autopartsestoresystem.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.smartcardio.CardException;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
@@ -37,7 +32,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     @Transactional
-    public CardDTO save(CardDTO cardDTO) throws CardNotFoundException {
+    public CardDTO save(CardDTO cardDTO) throws EntityAlreadyExistsException {
 
         Optional<Card> foundedCard = cardRepository.findByCardNumber(encrypt(cardDTO.getCardNumber()));
 

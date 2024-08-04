@@ -1,6 +1,8 @@
 package com.myproject.autopartsestoresystem.bootstrap;
 
 import com.myproject.autopartsestoresystem.dto.*;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.BrandMapper;
 import com.myproject.autopartsestoresystem.mapper.CityMapper;
 import com.myproject.autopartsestoresystem.mapper.ModelMapper;
@@ -72,7 +74,7 @@ public class BootStrapData implements CommandLineRunner {
 //        loadPurchaseOrderData();
     }
 
-    private void loadUserData() {
+    private void loadUserData() throws EntityAlreadyExistsException {
 
         UserDTO user1 = UserDTO.builder().
                 username("test@example.com")
@@ -94,7 +96,7 @@ public class BootStrapData implements CommandLineRunner {
         roleRepository.saveAll(List.of(role1, role2, role3, role4));
     }
 
-    private void loadPurchaseOrderData() {
+    private void loadPurchaseOrderData() throws EntityNotFoundException, EntityAlreadyExistsException {
 
         CustomerDTO customerDTO = customerService.getById(1L);
         PartDTO partDTO = partService.getById(1L);
@@ -129,7 +131,7 @@ public class BootStrapData implements CommandLineRunner {
         paymentMethodRepository.saveAll(List.of(paymentMethod1, paymentMethod2));
     }
 
-    private void loadCardData() {
+    private void loadCardData() throws EntityNotFoundException, EntityAlreadyExistsException {
 
         CustomerDTO customer = customerService.getById(1L);
 
@@ -146,7 +148,7 @@ public class BootStrapData implements CommandLineRunner {
         cardService.save(card);
     }
 
-    private void loadVehicleData() {
+    private void loadVehicleData() throws EntityNotFoundException, EntityAlreadyExistsException {
 
         ModelDTO modelDTO = modelService.getById(new ModelId(1L, "316"));
         Model model = modelMapper.modelDtoToModel(modelDTO);
@@ -169,7 +171,7 @@ public class BootStrapData implements CommandLineRunner {
         vehicleService.save(vehicle1);
     }
 
-    private void loadPartData() {
+    private void loadPartData() throws EntityAlreadyExistsException {
 
         List<Price> prices = Arrays.asList(Price.builder().id(new PriceId(1L, 0L)).price(new BigDecimal("122.99")).dateModified(LocalDateTime.now()).currency(Currency.USD).build(),
                 Price.builder().id(new PriceId(2L, 0L)).price(new BigDecimal("131.99")).dateModified(LocalDateTime.now()).currency(Currency.USD).build(),
@@ -230,7 +232,7 @@ public class BootStrapData implements CommandLineRunner {
         partGroupRepository.saveAll(List.of(partGroup1, partGroup2, partGroup3));
     }
 
-    private void loadModelData() {
+    private void loadModelData() throws EntityNotFoundException, EntityAlreadyExistsException {
 
 
         BrandDTO bmwDTO = brandService.getById(1L);
@@ -257,7 +259,7 @@ public class BootStrapData implements CommandLineRunner {
         modelService.save(model3);
     }
 
-    private void loadBrandData() {
+    private void loadBrandData() throws EntityAlreadyExistsException {
         BrandDTO brand1 = BrandDTO.builder()
                 .name("BMW")
                 .build();
@@ -275,7 +277,7 @@ public class BootStrapData implements CommandLineRunner {
         brandService.save(brand3);
     }
 
-    private void loadCityData() {
+    private void loadCityData() throws EntityAlreadyExistsException {
         CityDTO city1 = CityDTO.builder()
                 .name("Avon")
                 .zipCode("44011")
@@ -296,7 +298,7 @@ public class BootStrapData implements CommandLineRunner {
         cityService.save(city3);
     }
 
-    private void loadCustomerData() {
+    private void loadCustomerData() throws EntityNotFoundException, EntityAlreadyExistsException {
 
         CityDTO city1 = cityService.getById(1L);
         CityDTO city2 = cityService.getById(2L);

@@ -75,6 +75,6 @@ public class CardController {
 
         cardService.delete(cardId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        
+
     }
 }

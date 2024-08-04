@@ -1,7 +1,6 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.BrandDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.BrandAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.BrandNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.BrandMapper;

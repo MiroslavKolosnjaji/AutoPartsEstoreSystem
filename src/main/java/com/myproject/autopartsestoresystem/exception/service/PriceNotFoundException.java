@@ -1,9 +1,11 @@
 package com.myproject.autopartsestoresystem.exception.service;
 
+import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+
 /**
  * @author Miroslav Kološnjaji
  */
-public class PriceNotFoundException extends RuntimeException {
+public class PriceNotFoundException extends EntityNotFoundException {
 
     public PriceNotFoundException() {
     }

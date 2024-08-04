@@ -1,9 +1,11 @@
 package com.myproject.autopartsestoresystem.exception.service;
 
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+
 /**
  * @author Miroslav Kološnjaji
  */
-public class ModelAlreadyExistsException extends RuntimeException {
+public class ModelAlreadyExistsException extends EntityAlreadyExistsException {
 
     public ModelAlreadyExistsException() {
     }

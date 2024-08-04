@@ -1,6 +1,7 @@
 package com.myproject.autopartsestoresystem.service;
 
 import com.myproject.autopartsestoresystem.dto.PartDTO;
+import com.myproject.autopartsestoresystem.exception.service.PartNotFoundException;
 
 import java.util.List;
 
@@ -9,5 +10,5 @@ import java.util.List;
  */
 public interface PartService extends CrudService<PartDTO, Long> {
 
-    List<PartDTO> getSelectedParts(List<Long> selectedPartIds);
+    List<PartDTO> getSelectedParts(List<Long> selectedPartIds) throws PartNotFoundException;
 }

@@ -38,29 +38,19 @@ public class PaymentMethodController {
     }
 
     @GetMapping(PAYMENT_METHOD_ID)
-    public ResponseEntity<PaymentMethodDTO> getPaymentMethodById(@PathVariable("paymentMethodId") Long paymentMethodId) {
+    public ResponseEntity<PaymentMethodDTO> getPaymentMethodById(@PathVariable("paymentMethodId") Long paymentMethodId) throws EntityNotFoundException {
 
-        try {
+        PaymentMethodDTO paymentMethodDTO = paymentMethodService.getById(paymentMethodId);
+        return new ResponseEntity<>(paymentMethodDTO, HttpStatus.OK);
 
-            PaymentMethodDTO paymentMethodDTO = paymentMethodService.getById(paymentMethodId);
-            return new ResponseEntity<>(paymentMethodDTO, HttpStatus.OK);
-
-        } catch (PaymentMethodNotFoundException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
     @GetMapping("/payment_type")
-    public ResponseEntity<PaymentMethodDTO> getPaymentMethodType(@RequestParam("payment_type") String paymentType) {
+    public ResponseEntity<PaymentMethodDTO> getPaymentMethodType(@RequestParam("payment_type") String paymentType) throws EntityNotFoundException {
 
-        try{
+        PaymentMethodDTO paymentMethodDTO = paymentMethodService.getByPaymentType(paymentType);
+        return new ResponseEntity<>(paymentMethodDTO, HttpStatus.OK);
 
-            PaymentMethodDTO paymentMethodDTO = paymentMethodService.getByPaymentType(paymentType);
-            return new ResponseEntity<>(paymentMethodDTO, HttpStatus.OK);
-
-        }catch (PaymentMethodNotFoundException e){
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
 

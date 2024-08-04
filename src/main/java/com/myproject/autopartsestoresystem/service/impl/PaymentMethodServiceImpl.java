@@ -30,14 +30,14 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     }
 
     @Override
-    public PaymentMethodDTO getById(Long id) {
+    public PaymentMethodDTO getById(Long id) throws PaymentMethodNotFoundException {
         return paymentMethodRepository.findById(id)
                 .map(paymentMethodMapper::paymentMethodToPaymentMethodDTO)
                 .orElseThrow(() -> new PaymentMethodNotFoundException("Payment method not found"));
     }
 
     @Override
-    public PaymentMethodDTO getByPaymentType(String paymentType) {
+    public PaymentMethodDTO getByPaymentType(String paymentType) throws PaymentMethodNotFoundException {
         return paymentMethodRepository.findPaymentMethodByPaymentType(paymentType)
                 .map(paymentMethodMapper::paymentMethodToPaymentMethodDTO)
                 .orElseThrow(() -> new PaymentMethodNotFoundException("Payment method not found"));

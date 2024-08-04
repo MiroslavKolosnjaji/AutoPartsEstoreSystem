@@ -1,9 +1,11 @@
 package com.myproject.autopartsestoresystem.exception.service;
 
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+
 /**
  * @author Miroslav Kološnjaji
  */
-public class EmailAddressAlreadyExistsException extends RuntimeException {
+public class EmailAddressAlreadyExistsException extends EntityAlreadyExistsException {
 
     public EmailAddressAlreadyExistsException() {
     }

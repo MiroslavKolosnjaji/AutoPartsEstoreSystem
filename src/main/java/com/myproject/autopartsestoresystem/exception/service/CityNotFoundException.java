@@ -1,9 +1,11 @@
 package com.myproject.autopartsestoresystem.exception.service;
 
+import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+
 /**
  * @author Miroslav Kološnjaji
  */
-public class CityNotFoundException extends RuntimeException{
+public class CityNotFoundException extends EntityNotFoundException {
 
     public CityNotFoundException() {
     }

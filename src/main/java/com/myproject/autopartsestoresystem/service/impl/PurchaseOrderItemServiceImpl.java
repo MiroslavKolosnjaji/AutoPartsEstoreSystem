@@ -53,7 +53,7 @@ public class PurchaseOrderItemServiceImpl implements PurchaseOrderItemService {
 
 
     @Override
-    public List<PurchaseOrderItemDTO> updateItemList(Long purchaseOrderId, List<PurchaseOrderItemDTO> purchaseOrderItemDTOList) {
+    public List<PurchaseOrderItemDTO> updateItemList(Long purchaseOrderId, List<PurchaseOrderItemDTO> purchaseOrderItemDTOList) throws PurchaseOrderItemNotFoundException {
 
         Set<PurchaseOrderItem> purchaseOrderItems = purchaseOrderItemRepository.findByPurchaseOrderId(purchaseOrderId)
                 .orElseThrow(PurchaseOrderItemNotFoundException::new);
@@ -91,7 +91,7 @@ public class PurchaseOrderItemServiceImpl implements PurchaseOrderItemService {
     }
 
     @Override
-    public PurchaseOrderItemDTO getById(PurchaseOrderItemId purchaseOrderItemId) {
+    public PurchaseOrderItemDTO getById(PurchaseOrderItemId purchaseOrderItemId) throws PurchaseOrderItemNotFoundException {
 
         return purchaseOrderItemRepository.findById(purchaseOrderItemId)
                 .map(purchaseOrderItemMapper::purchaseOrderItemToPurchaseOrderItemDTO)

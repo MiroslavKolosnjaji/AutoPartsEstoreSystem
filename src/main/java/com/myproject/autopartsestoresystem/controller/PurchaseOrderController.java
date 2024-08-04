@@ -1,7 +1,9 @@
 package com.myproject.autopartsestoresystem.controller;
 
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.exception.service.PaymentProcessingException;
 import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderItemNotFoundException;
 import com.myproject.autopartsestoresystem.service.PurchaseOrderService;
@@ -29,33 +31,26 @@ public class PurchaseOrderController {
     private final PurchaseOrderService purchaseOrderService;
 
     @PostMapping()
-    public ResponseEntity<PurchaseOrderDTO> createPurchaseOrder(@Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO) {
+    public ResponseEntity<PurchaseOrderDTO> createPurchaseOrder(@Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO) throws EntityNotFoundException, PaymentProcessingException {
 
-      try{
-          PurchaseOrderDTO saved = purchaseOrderService.save(purchaseOrderDTO);
 
-          HttpHeaders headers = new HttpHeaders();
-          headers.add("Location", PURCHASE_ORDER_URI + "/" + saved.getId());
+        PurchaseOrderDTO saved = purchaseOrderService.savePurchaseOrder(purchaseOrderDTO);
 
-          return new ResponseEntity<>(saved, headers, HttpStatus.CREATED);
-      }catch(PurchaseOrderItemNotFoundException e){
-          throw new EntityNotFoundException(e.getMessage());
-      }
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", PURCHASE_ORDER_URI + "/" + saved.getId());
+
+        return new ResponseEntity<>(saved, headers, HttpStatus.CREATED);
+
 
     }
 
     @PutMapping(PURCHASE_ORDER_ID)
-    public ResponseEntity<PurchaseOrderDTO> updatePurchaseOrder(@PathVariable("purchaseOrderId") Long purchaseOrderId, @Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO) {
+    public ResponseEntity<PurchaseOrderDTO> updatePurchaseOrder(@PathVariable("purchaseOrderId") Long purchaseOrderId, @Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO) throws EntityNotFoundException {
 
-        try {
+        purchaseOrderService.update(purchaseOrderId, purchaseOrderDTO);
 
-            purchaseOrderService.update(purchaseOrderId, purchaseOrderDTO);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-        } catch (PurchaseOrderNotFoundException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
 
@@ -71,26 +66,19 @@ public class PurchaseOrderController {
     }
 
     @GetMapping(PURCHASE_ORDER_ID)
-    public ResponseEntity<PurchaseOrderDTO> getPurchaseOrder(@PathVariable("purchaseOrderId") Long purchaseOrderId) {
+    public ResponseEntity<PurchaseOrderDTO> getPurchaseOrder(@PathVariable("purchaseOrderId") Long purchaseOrderId) throws EntityNotFoundException {
 
-        try {
+        PurchaseOrderDTO purchaseOrderDTO = purchaseOrderService.getById(purchaseOrderId);
+        return new ResponseEntity<>(purchaseOrderDTO, HttpStatus.OK);
 
-            PurchaseOrderDTO purchaseOrderDTO = purchaseOrderService.getById(purchaseOrderId);
-            return new ResponseEntity<>(purchaseOrderDTO, HttpStatus.OK);
-        } catch (PurchaseOrderNotFoundException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
     @DeleteMapping(PURCHASE_ORDER_ID)
-    public ResponseEntity<Void> deletePurchaseOrder(@PathVariable("purchaseOrderId") Long purchaseOrderId) {
+    public ResponseEntity<Void> deletePurchaseOrder(@PathVariable("purchaseOrderId") Long purchaseOrderId) throws EntityNotFoundException {
 
-        try {
-            purchaseOrderService.delete(purchaseOrderId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch (PurchaseOrderNotFoundException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
+        purchaseOrderService.delete(purchaseOrderId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 
 

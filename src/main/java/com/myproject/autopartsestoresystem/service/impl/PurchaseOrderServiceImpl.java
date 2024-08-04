@@ -3,13 +3,14 @@ package com.myproject.autopartsestoresystem.service.impl;
 import com.myproject.autopartsestoresystem.dto.PaymentDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderItemDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.exception.service.PaymentProcessingException;
 import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderItemNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.PurchaseOrderItemMapper;
 import com.myproject.autopartsestoresystem.mapper.PurchaseOrderMapper;
 import com.myproject.autopartsestoresystem.model.*;
 import com.myproject.autopartsestoresystem.repository.PurchaseOrderRepository;
-import com.myproject.autopartsestoresystem.repository.VehicleRepository;
 import com.myproject.autopartsestoresystem.service.PaymentService;
 import com.myproject.autopartsestoresystem.service.PurchaseOrderItemService;
 import com.myproject.autopartsestoresystem.service.PurchaseOrderService;
@@ -36,7 +37,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 
     @Override
-    public PurchaseOrderDTO findByPurchaseOrderNumber(UUID purchaseOrderNumber) {
+    public PurchaseOrderDTO findByPurchaseOrderNumber(UUID purchaseOrderNumber) throws PurchaseOrderNotFoundException {
 
         PurchaseOrder purchaseOrder = purchaseOrderRepository.findByPurchaseOrderNumber(purchaseOrderNumber)
                 .orElseThrow(() -> new PurchaseOrderNotFoundException("Cart not found"));
@@ -46,7 +47,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 
     @Override
-    public void updateOrderStatus(UUID purchaseOrderNumber, PurchaseOrderStatus purchaseOrderStatus) {
+    public void updateOrderStatus(UUID purchaseOrderNumber, PurchaseOrderStatus purchaseOrderStatus) throws PurchaseOrderNotFoundException {
         PurchaseOrder purchaseOrder = purchaseOrderRepository.findByPurchaseOrderNumber(purchaseOrderNumber)
                 .orElseThrow(() -> new PurchaseOrderNotFoundException("Cart not found"));
 
@@ -61,13 +62,18 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
+    public PurchaseOrderDTO save(PurchaseOrderDTO entity) throws EntityAlreadyExistsException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     @Transactional
-    public PurchaseOrderDTO save(PurchaseOrderDTO purchaseOrderDTO) {
+    public PurchaseOrderDTO savePurchaseOrder(PurchaseOrderDTO purchaseOrderDTO) throws PurchaseOrderItemNotFoundException, PaymentProcessingException {
 
         if (purchaseOrderDTO.getItems() == null || purchaseOrderDTO.getItems().isEmpty())
             throw new PurchaseOrderItemNotFoundException("PurchaseOrder items not found");
 
-        purchaseOrderDTO.setPurchaseOrderNumber(generateCartNumber());
+        purchaseOrderDTO.setPurchaseOrderNumber(generatePurchaseOrderNumber());
         purchaseOrderDTO.setStatus(PurchaseOrderStatus.PENDING_PROCESSING);
 
         List<PurchaseOrderItem> purchaseOrderItems = purchaseOrderDTO.getItems();
@@ -95,13 +101,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 .status(PaymentStatus.PROCESSING)
                 .build();
 
+
         if (purchaseOrderDTO.getCustomer().getCards() != null && !purchaseOrderDTO.getCustomer().getCards().isEmpty()) {
             paymentDTO.setCard(purchaseOrderDTO.getCustomer().getCards().get(0));
             paymentService.save(purchaseOrderDTO.getPaymentToken(), paymentDTO);
-        }else{
+        } else {
             paymentService.save(paymentDTO);
         }
-
 
         savedPurchaseOrder.setStatus(PurchaseOrderStatus.COMPLETED);
 
@@ -122,7 +128,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     @Override
     @Transactional
-    public PurchaseOrderDTO update(Long id, PurchaseOrderDTO purchaseOrderDTO) {
+    public PurchaseOrderDTO update(Long id, PurchaseOrderDTO purchaseOrderDTO) throws PurchaseOrderNotFoundException, PurchaseOrderItemNotFoundException {
 
         PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(id)
                 .orElseThrow(() -> new PurchaseOrderNotFoundException("Cart not found"));
@@ -151,7 +157,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-    public PurchaseOrderDTO getById(Long id) {
+    public PurchaseOrderDTO getById(Long id) throws PurchaseOrderNotFoundException {
         return purchaseOrderRepository.findById(id)
                 .map(purchaseOrderMapper::purchaseOrderToPurchaseOrderDTO)
                 .orElseThrow(() -> new PurchaseOrderNotFoundException("PurchaseOrder not found"));
@@ -159,7 +165,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(Long id) throws PurchaseOrderNotFoundException {
 
         if (!purchaseOrderRepository.existsById(id))
             throw new PurchaseOrderNotFoundException("PurchaseOrder not found");
@@ -180,7 +186,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         purchaseOrderDTO.setTotalAmount(totalPrice);
     }
 
-    private UUID generateCartNumber() {
+    private UUID generatePurchaseOrderNumber() {
         return UUID.randomUUID();
     }
 

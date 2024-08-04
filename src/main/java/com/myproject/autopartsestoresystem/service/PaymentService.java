@@ -7,5 +7,7 @@ import com.myproject.autopartsestoresystem.exception.service.PaymentProcessingEx
  * @author Miroslav Kološnjaji
  */
 public interface PaymentService extends CrudService<PaymentDTO, Long>{
+
+    PaymentDTO save(PaymentDTO paymentDTO);
     PaymentDTO save(String token, PaymentDTO entity) throws PaymentProcessingException;
 }

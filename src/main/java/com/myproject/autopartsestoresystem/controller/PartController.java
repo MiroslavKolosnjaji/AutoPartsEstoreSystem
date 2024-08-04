@@ -30,34 +30,24 @@ public class PartController {
     private final PartService partService;
 
     @PostMapping()
-    public ResponseEntity<PartDTO> addPart(@Validated @RequestBody PartDTO partDTO) {
+    public ResponseEntity<PartDTO> addPart(@Validated @RequestBody PartDTO partDTO) throws EntityAlreadyExistsException {
 
-        try{
+        PartDTO saved = partService.save(partDTO);
 
-           PartDTO saved = partService.save(partDTO);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.add(HttpHeaders.LOCATION, PART_URI + "/" + saved.getId());
 
-           HttpHeaders responseHeaders = new HttpHeaders();
-           responseHeaders.add(HttpHeaders.LOCATION, PART_URI + "/" + saved.getId());
+        return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
 
-           return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
-
-        }catch (PartAlreadyExistsException e){
-            throw new EntityAlreadyExistsException(e.getMessage());
-        }
     }
 
 
     @PutMapping(PART_ID)
-    private ResponseEntity<Void> updatePart(@PathVariable("partId") Long id, @Validated @RequestBody PartDTO partDTO) {
+    private ResponseEntity<Void> updatePart(@PathVariable("partId") Long id, @Validated @RequestBody PartDTO partDTO) throws EntityNotFoundException {
 
-        try{
+        partService.update(id, partDTO);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-            partService.update(id, partDTO);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-        }catch (PartNotFoundException e){
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
     @GetMapping()
@@ -65,7 +55,7 @@ public class PartController {
 
         List<PartDTO> parts = partService.getAll();
 
-        if(parts.isEmpty())
+        if (parts.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
         return new ResponseEntity<>(parts, HttpStatus.OK);
@@ -73,28 +63,18 @@ public class PartController {
     }
 
     @GetMapping(PART_ID)
-    public ResponseEntity<PartDTO> getPart(@PathVariable("partId") Long id) {
+    public ResponseEntity<PartDTO> getPart(@PathVariable("partId") Long id) throws EntityNotFoundException {
 
-        try{
+        PartDTO partDTO = partService.getById(id);
+        return new ResponseEntity<>(partDTO, HttpStatus.OK);
 
-            PartDTO partDTO = partService.getById(id);
-            return new ResponseEntity<>(partDTO, HttpStatus.OK);
-
-        }catch (PartNotFoundException e){
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
     @DeleteMapping(PART_ID)
-    public ResponseEntity<Void> deletePart(@PathVariable("partId") Long id) {
+    public ResponseEntity<Void> deletePart(@PathVariable("partId") Long id) throws EntityNotFoundException {
 
-        try{
-
-            partService.delete(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-        }catch (PartNotFoundException e){
-            throw new EntityNotFoundException(e.getMessage());
-        }
+        partService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            
     }
 }

@@ -1,6 +1,7 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.PartDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.PartNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.PartMapper;
 import com.myproject.autopartsestoresystem.model.Part;
@@ -28,8 +29,7 @@ public class PartServiceImpl implements PartService {
 
     @Override
     @Transactional
-    public PartDTO save(PartDTO partDTO) {
-
+    public PartDTO save(PartDTO partDTO) throws EntityAlreadyExistsException {
 
         Part saved = partRepository.save(partMapper.partDTOToPart(partDTO));
 
@@ -38,9 +38,10 @@ public class PartServiceImpl implements PartService {
 
     @Override
     @Transactional
-    public PartDTO update(Long id, PartDTO partDTO) {
+    public PartDTO update(Long id, PartDTO partDTO) throws PartNotFoundException {
 
-        Part part = partRepository.findById(id).orElseThrow(() -> new PartNotFoundException("Part not found"));
+        Part part = partRepository.findById(id)
+                .orElseThrow(() -> new PartNotFoundException("Part not found"));
 
         part.setPartName(partDTO.getPartName());
         part.setPartGroup(partDTO.getPartGroup());
@@ -70,7 +71,7 @@ public class PartServiceImpl implements PartService {
     }
 
     @Override
-    public List<PartDTO> getSelectedParts(List<Long> selectedPartIds) {
+    public List<PartDTO> getSelectedParts(List<Long> selectedPartIds) throws PartNotFoundException {
 
         List<Part> parts = partRepository.getSelectedParts(selectedPartIds)
                 .orElseThrow(() -> new PartNotFoundException("Selected parts not found"));
@@ -86,14 +87,16 @@ public class PartServiceImpl implements PartService {
 
     @Override
     @Transactional(readOnly = true)
-    public PartDTO getById(Long id) {
-        Part part = partRepository.findById(id).orElseThrow(() -> new PartNotFoundException("Part not found"));
+    public PartDTO getById(Long id) throws PartNotFoundException {
+        Part part = partRepository.findById(id)
+                .orElseThrow(() -> new PartNotFoundException("Part not found"));
+
         return partMapper.partToPartDTO(part);
     }
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(Long id) throws PartNotFoundException {
 
         if (!partRepository.existsById(id))
             throw new PartNotFoundException("Part not found");

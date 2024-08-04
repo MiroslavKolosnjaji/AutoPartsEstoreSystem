@@ -75,7 +75,7 @@ public class PartGroupController {
 
         partGroupService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            
+
     }
 
 }

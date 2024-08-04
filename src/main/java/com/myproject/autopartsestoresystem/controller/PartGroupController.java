@@ -30,31 +30,23 @@ public class PartGroupController {
     private final PartGroupService partGroupService;
 
     @PostMapping()
-    public ResponseEntity<PartGroupDTO> createPartGroup(@Validated @RequestBody PartGroupDTO partGroupDTO) {
+    public ResponseEntity<PartGroupDTO> createPartGroup(@Validated @RequestBody PartGroupDTO partGroupDTO) throws EntityAlreadyExistsException {
 
-        try{
-            PartGroupDTO saved = partGroupService.save(partGroupDTO);
+        PartGroupDTO saved = partGroupService.save(partGroupDTO);
 
-            HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.add(HttpHeaders.LOCATION, PARTGROUP_URI + "/" + saved.getId());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.add(HttpHeaders.LOCATION, PARTGROUP_URI + "/" + saved.getId());
 
-            return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
-        } catch (PartGroupAlreadyExistsException e) {
-            throw new EntityAlreadyExistsException(e.getMessage());
-        }
+        return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
+
     }
 
     @PutMapping(PARTGROUP_ID)
-    public ResponseEntity<PartGroupDTO> updatePartGroup(@PathVariable("partGroupId") Long id, @Validated @RequestBody PartGroupDTO partGroupDTO) {
+    public ResponseEntity<PartGroupDTO> updatePartGroup(@PathVariable("partGroupId") Long id, @Validated @RequestBody PartGroupDTO partGroupDTO) throws EntityNotFoundException, EntityAlreadyExistsException {
 
-        try{
+        partGroupService.update(id, partGroupDTO);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-            partGroupService.update(id, partGroupDTO);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-        }catch (PartGroupNotFoundException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
     @GetMapping()
@@ -62,7 +54,7 @@ public class PartGroupController {
 
         List<PartGroupDTO> partgroups = partGroupService.getAll();
 
-        if(partgroups.isEmpty())
+        if (partgroups.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
         return new ResponseEntity<>(partgroups, HttpStatus.OK);
@@ -71,29 +63,19 @@ public class PartGroupController {
 
 
     @GetMapping(PARTGROUP_ID)
-    public ResponseEntity<PartGroupDTO> getPartGroup(@PathVariable("partGroupId") Long id) {
+    public ResponseEntity<PartGroupDTO> getPartGroup(@PathVariable("partGroupId") Long id) throws EntityNotFoundException {
 
-        try{
+        PartGroupDTO partGroupDTO = partGroupService.getById(id);
+        return new ResponseEntity<>(partGroupDTO, HttpStatus.OK);
 
-            PartGroupDTO partGroupDTO = partGroupService.getById(id);
-            return new ResponseEntity<>(partGroupDTO, HttpStatus.OK);
-
-        }catch (PartGroupNotFoundException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
     @DeleteMapping(PARTGROUP_ID)
-    public ResponseEntity<Void> deletePartGroup(@PathVariable("partGroupId") Long id) {
+    public ResponseEntity<Void> deletePartGroup(@PathVariable("partGroupId") Long id) throws EntityNotFoundException {
 
-        try{
-
-            partGroupService.delete(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-        }catch (PartGroupNotFoundException e){
-            throw new EntityNotFoundException(e.getMessage());
-        }
+        partGroupService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            
     }
 
 }

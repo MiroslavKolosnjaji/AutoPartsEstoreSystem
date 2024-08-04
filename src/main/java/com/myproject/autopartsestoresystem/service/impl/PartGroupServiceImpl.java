@@ -25,9 +25,9 @@ public class PartGroupServiceImpl implements PartGroupService {
     private final PartGroupMapper partGroupMapper;
 
     @Override
-    public PartGroupDTO save(PartGroupDTO partGroupDTO) {
+    public PartGroupDTO save(PartGroupDTO partGroupDTO) throws PartGroupAlreadyExistsException {
 
-        if(partGroupRepository.findByName(partGroupDTO.getName()).isPresent())
+        if (partGroupRepository.findByName(partGroupDTO.getName()).isPresent())
             throw new PartGroupAlreadyExistsException("Part group already exists!");
 
         PartGroup saved = partGroupRepository.save(partGroupMapper.partGroupDTOToPartGroup(partGroupDTO));
@@ -36,9 +36,10 @@ public class PartGroupServiceImpl implements PartGroupService {
     }
 
     @Override
-    public PartGroupDTO update(Long id, PartGroupDTO partGroupDTO) {
+    public PartGroupDTO update(Long id, PartGroupDTO partGroupDTO) throws PartGroupNotFoundException {
 
-        PartGroup found = partGroupRepository.findById(id).orElseThrow(() -> new PartGroupNotFoundException("Part group not found"));
+        PartGroup found = partGroupRepository.findById(id)
+                .orElseThrow(() -> new PartGroupNotFoundException("Part group not found"));
 
         found.setName(partGroupDTO.getName());
         found.setParts(partGroupDTO.getParts());
@@ -54,15 +55,17 @@ public class PartGroupServiceImpl implements PartGroupService {
     }
 
     @Override
-    public PartGroupDTO getById(Long id) {
-        PartGroup partGroup = partGroupRepository.findById(id).orElseThrow(() -> new PartGroupNotFoundException("Part group not found"));
+    public PartGroupDTO getById(Long id) throws PartGroupNotFoundException {
+        PartGroup partGroup = partGroupRepository.findById(id)
+                .orElseThrow(() -> new PartGroupNotFoundException("Part group not found"));
+
         return partGroupMapper.partGroupToPartGroupDTO(partGroup);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws PartGroupNotFoundException {
 
-        if(!partGroupRepository.existsById(id))
+        if (!partGroupRepository.existsById(id))
             throw new PartGroupNotFoundException("Part group not found");
 
         partGroupRepository.deleteById(id);

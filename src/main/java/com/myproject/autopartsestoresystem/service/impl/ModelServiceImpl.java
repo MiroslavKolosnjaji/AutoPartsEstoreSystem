@@ -26,7 +26,7 @@ public class ModelServiceImpl implements ModelService {
     private final ModelMapper modelMapper;
 
     @Override
-    public ModelDTO save(ModelDTO modelDTO) {
+    public ModelDTO save(ModelDTO modelDTO) throws ModelAlreadyExistsException {
 
         if (modelRepository.findById(modelDTO.getId()).isPresent())
             throw new ModelAlreadyExistsException("Model already exists");
@@ -38,7 +38,7 @@ public class ModelServiceImpl implements ModelService {
 
 
     @Override
-    public ModelDTO update(ModelId id, ModelDTO modelDTO) {
+    public ModelDTO update(ModelId id, ModelDTO modelDTO) throws ModelNotFoundException {
 
         Model model = modelRepository.findById(id)
                 .orElseThrow(() -> new ModelNotFoundException("Model not found"));
@@ -56,16 +56,16 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public ModelDTO getById(ModelId id) {
+    public ModelDTO getById(ModelId id) throws ModelNotFoundException {
         Model model = modelRepository.findById(id).orElseThrow(() -> new ModelNotFoundException("Model not found"));
         return modelMapper.modelToModelDTO(model);
     }
 
     @Override
     @Transactional
-    public void delete(ModelId id) {
+    public void delete(ModelId id) throws ModelNotFoundException {
 
-        if(!modelRepository.existsById(id))
+        if (!modelRepository.existsById(id))
             throw new ModelNotFoundException("Model not found");
 
         modelRepository.deleteById(id);

@@ -31,9 +31,7 @@ public class ModelController {
     private final ModelService modelService;
 
     @PostMapping()
-    public ResponseEntity<ModelDTO> createModel(@Validated @RequestBody ModelDTO modelDTO) {
-
-        try {
+    public ResponseEntity<ModelDTO> createModel(@Validated @RequestBody ModelDTO modelDTO) throws EntityAlreadyExistsException {
 
             ModelDTO saved = modelService.save(modelDTO);
 
@@ -41,22 +39,15 @@ public class ModelController {
             responseHeaders.add("Location", MODEL_URI + "/" + saved.getId().getId() + "/" + saved.getId().getName());
 
             return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
-        } catch (ModelAlreadyExistsException e) {
-            throw new EntityAlreadyExistsException(e.getMessage());
-        }
+
     }
 
     @PutMapping(MODEL_ID)
-    public ResponseEntity<Void> updateModel(@PathVariable("brandId") Long brandId, @PathVariable("name") String name, @Validated @RequestBody ModelDTO modelDTO) {
-
-        try {
+    public ResponseEntity<Void> updateModel(@PathVariable("brandId") Long brandId, @PathVariable("name") String name, @Validated @RequestBody ModelDTO modelDTO) throws EntityNotFoundException, EntityAlreadyExistsException {
 
             modelService.update(new ModelId(brandId, name), modelDTO);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-        } catch (ModelNotFoundException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
     @GetMapping()
@@ -71,29 +62,19 @@ public class ModelController {
     }
 
     @GetMapping(MODEL_ID)
-    public ResponseEntity<ModelDTO> getModel(@PathVariable("brandId") Long brandId, @PathVariable("name") String name) {
-
-        try {
+    public ResponseEntity<ModelDTO> getModel(@PathVariable("brandId") Long brandId, @PathVariable("name") String name) throws EntityNotFoundException {
 
             ModelDTO modelDTO = modelService.getById(new ModelId(brandId, name));
             return new ResponseEntity<>(modelDTO, HttpStatus.OK);
 
-        } catch (ModelNotFoundException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
     @DeleteMapping(MODEL_ID)
-    public ResponseEntity<Void> deleteModel(@PathVariable("brandId") Long brandId, @PathVariable("name") String name) {
-
-        try{
+    public ResponseEntity<Void> deleteModel(@PathVariable("brandId") Long brandId, @PathVariable("name") String name) throws EntityNotFoundException {
 
             modelService.delete(new ModelId(brandId, name));
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-        }catch (ModelNotFoundException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
     }
 
 

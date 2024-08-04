@@ -1,6 +1,7 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.PaymentDTO;
+import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.PaymentNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.PaymentProcessingException;
 import com.myproject.autopartsestoresystem.mapper.PaymentMapper;
@@ -30,11 +31,11 @@ public class PaymentServiceImpl implements PaymentService {
     private final StripeService stripeService;
 
     @Override
-    public PaymentDTO save(String token, PaymentDTO paymentDTO) {
+    public PaymentDTO save(String token, PaymentDTO paymentDTO) throws PaymentProcessingException {
 
         PaymentDTO savedPayment = save(paymentDTO);
 
-        if(token == null)
+        if (token == null)
             return savedPayment;
 
         try {
@@ -43,16 +44,22 @@ public class PaymentServiceImpl implements PaymentService {
             paymentDTO.setStatus(PaymentStatus.PAID);
             return update(savedPayment.getId(), paymentDTO);
 
-        } catch (StripeException e) {
+        } catch (StripeException | PaymentNotFoundException e) {
 
             paymentDTO.setStatus(PaymentStatus.FAILED);
-            update(savedPayment.getId(), paymentDTO);
+
+            try {
+                update(savedPayment.getId(), paymentDTO);
+            } catch (PaymentNotFoundException e1) {
+                throw new PaymentProcessingException("Payment processing failed", e1);
+            }
             throw new PaymentProcessingException("Payment processing failed", e);
+
         }
     }
 
     @Override
-    public PaymentDTO save(PaymentDTO paymentDTO) {
+    public PaymentDTO save(PaymentDTO paymentDTO){
         Payment payment = paymentMapper.paymentDTOToPayment(paymentDTO);
         payment.setStatus(PaymentStatus.AWAITING_PAYMENT);
 
@@ -62,7 +69,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentDTO update(Long id, PaymentDTO paymentDTO) {
+    public PaymentDTO update(Long id, PaymentDTO paymentDTO) throws PaymentNotFoundException {
 
         Payment payment = paymentRepository.findById(id)
                 .orElseThrow(() -> new PaymentNotFoundException("Payment not found"));
@@ -84,7 +91,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentDTO getById(Long id) {
+    public PaymentDTO getById(Long id) throws PaymentNotFoundException {
         Payment payment = paymentRepository.findById(id)
                 .orElseThrow(() -> new PaymentNotFoundException("Payment not found"));
 
@@ -92,7 +99,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws PaymentNotFoundException {
         if (!paymentRepository.existsById(id))
             throw new PaymentNotFoundException("Payment not found");
 

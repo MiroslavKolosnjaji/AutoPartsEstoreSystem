@@ -3,7 +3,7 @@ package com.myproject.autopartsestoresystem.exception.service;
 /**
  * @author Miroslav Kološnjaji
  */
-public class PaymentProcessingException extends RuntimeException {
+public class PaymentProcessingException extends Exception {
 
     public PaymentProcessingException() {
     }

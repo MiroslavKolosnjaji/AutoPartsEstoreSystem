@@ -8,6 +8,7 @@ import com.myproject.autopartsestoresystem.exception.service.PaymentProcessingEx
  */
 public interface PaymentService extends CrudService<PaymentDTO, Long>{
 
+    @Override
     PaymentDTO save(PaymentDTO paymentDTO);
     PaymentDTO save(String token, PaymentDTO entity) throws PaymentProcessingException;
 }

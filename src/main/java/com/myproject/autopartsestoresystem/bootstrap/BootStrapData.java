@@ -53,6 +53,7 @@ public class BootStrapData implements CommandLineRunner {
 
     private final RoleRepository roleRepository;
     private final RoleService roleService;
+    private final StoreService storeService;
 
     private final TextEncryptor textEncryptor;
 
@@ -69,9 +70,24 @@ public class BootStrapData implements CommandLineRunner {
         loadPartData();
         loadVehicleData();
         loadCityData();
+        loadStoreData();
         loadCustomerData();
         loadCardData();
 //        loadPurchaseOrderData();
+    }
+
+    private void loadStoreData() throws EntityNotFoundException {
+
+        CityDTO cityDTO = cityService.getById(1L);
+
+        StoreDTO storeDTO = StoreDTO.builder()
+                .name("Test")
+                .phoneNumber("3123123213")
+                .email("test@example.com")
+                .city(cityMapper.cityDTOToCity(cityDTO))
+                .build();
+
+        storeService.save(storeDTO);
     }
 
     private void loadUserData() throws EntityAlreadyExistsException {

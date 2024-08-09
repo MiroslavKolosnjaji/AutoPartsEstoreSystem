@@ -29,11 +29,10 @@ public class StoreDTO {
     @NotBlank(message = "Store name required")
     private String name;
 
-    @NotNull(message = "Phone number cannot be null")
     @Pattern(regexp = "\\+?[0-9]+", message = "Invalid phone number format")
     private String phoneNumber;
 
-    @NotBlank(message = "Email cannot be blank")
+    @NotBlank(message = "Email required")
     @Email(message = "Invalid email format")
     private String email;
 

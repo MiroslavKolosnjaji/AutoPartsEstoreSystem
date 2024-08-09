@@ -86,7 +86,7 @@ class VehicleControllerTest {
         VehicleDTO savedVehicleDTO = objectMapper.readValue(response, VehicleDTO.class);
 
         //then
-        assertNotNull(savedVehicleDTO, "Save Vehicle DTO cannot be null");
+        assertNotNull(savedVehicleDTO, "Saved Vehicle DTO cannot be null");
         assertEquals(vehicleDTO, savedVehicleDTO, "Saved VehicleDTO did not match");
         verify(vehicleService).save(vehicleDTO);
     }
@@ -132,9 +132,9 @@ class VehicleControllerTest {
 
     }
 
-    @DisplayName("Update Vehicle When Invalid Details Provided - Returns Status 400")
+    @DisplayName("Update Vehicle Failed - Invalid Details Provided")
     @Test
-    void testUpdateVehicle_whenInvalidDetailsProvided_returns404StatusCode() throws Exception {
+    void testUpdateVehicle_whenInvalidDetailsProvided_returns400StatusCode() throws Exception {
 
         //given
         vehicleDTO.setModel(null);
@@ -148,7 +148,7 @@ class VehicleControllerTest {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
         //then
-        assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 404 expected");
+        assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 400 expected");
     }
 
     @DisplayName("Get All Vehicles")
@@ -167,9 +167,9 @@ class VehicleControllerTest {
 
         //when
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-
+        int size = objectMapper.readValue(result.getResponse().getContentAsString(), List.class).size();
         //then
-        assertEquals(2, objectMapper.readValue(result.getResponse().getContentAsString(), List.class).size(), "Expected list of 2 objects returned");
+        assertEquals(2, size, "Expected 2 elements returned");
         verify(vehicleService).getAll();
     }
 
@@ -211,7 +211,7 @@ class VehicleControllerTest {
         String response = result.getResponse().getContentAsString();
         VehicleDTO foundDTO = objectMapper.readValue(response, VehicleDTO.class);
 
-        assertNotNull(foundDTO, "Founded DTO cannot be null");
+        assertNotNull(foundDTO, "Found DTO cannot be null");
         assertEquals(vehicleDTO.getEngineType(), foundDTO.getEngineType(), "Founded DTO did not match");
         verify(vehicleService).getById(anyLong());
     }

@@ -153,7 +153,7 @@ class VehicleControllerIT {
     @DisplayName("Delete Vehicle - Invalid ID Provided - Returns Code 404")
     @Test
     @WithMockUser(username = "admin@example.com", roles = "ADMIN")
-    void testDeleteVehicle_whenIvalidIdProvided_returns404StatusCode() throws Exception {
+    void testDeleteVehicle_whenInvalidIdProvided_returns404StatusCode() throws Exception {
 
         mockMvc.perform(delete(VehicleController.VEHICLE_URI_WITH_ID, 99)
                 .contentType(MediaType.APPLICATION_JSON))

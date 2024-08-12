@@ -24,4 +24,7 @@ public class Invoice {
     @ManyToOne
     @JoinColumn(name = "store_id")
     private Store store;
+
+    @OneToOne
+    private PurchaseOrder purchaseOrder;
 }

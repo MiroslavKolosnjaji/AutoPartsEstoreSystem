@@ -30,12 +30,13 @@ public class InvoiceDTO {
     @NotNull(message = "Store is required")
     private Store store;
 
-    @NotNull(message = "Purchase order is required")
+    @NotNull(message = "Purchase Order is required")
     private PurchaseOrder purchaseOrder;
 
-    @NotEmpty(message = "Item list cannot be empty")
+    @NotEmpty(message = "Invoice Items are required")
     private List<InvoiceItem> invoiceItems;
 
-    @PositiveOrZero(message = "Total amount must be zero or above")
+    @NotNull(message = "Total Amount required")
+    @PositiveOrZero(message = "Total Amount must be zero or above")
     private BigDecimal totalAmount;
 }

@@ -25,19 +25,24 @@ public class InvoiceItemDTO {
     @NotBlank(message = "Product name required")
     private String productName;
 
+    @NotNull(message = "Quantity required")
     @Positive(message = "Quantity must be greater than zero")
     private Integer quantity;
 
+    @NotNull(message = "Unit price required")
     @PositiveOrZero(message = "Unit price must be zero or above")
     private BigDecimal unitPrice;
 
+    @NotNull(message = "Total price required")
     @PositiveOrZero(message = "Total price must be zero or above")
     private BigDecimal totalPrice;
 
+    @NotNull(message = "Discount percentage required")
     @DecimalMin(value = "0.0", message = "Discount must be at least 0")
     @DecimalMax(value = "100.0", message = "Discount must be at most 100")
     private BigDecimal discountPercentage;
 
+    @NotNull(message = "Tax percentage required")
     @DecimalMin(value = "0.0", message = "Tax must be at least 0")
     @DecimalMax(value = "100.0", message = "Tax must be at most 100")
     private BigDecimal taxPercentage;

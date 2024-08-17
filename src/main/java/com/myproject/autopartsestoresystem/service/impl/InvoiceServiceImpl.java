@@ -36,11 +36,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
     private final InvoiceMapper invoiceMapper;
+    private final InvoiceItemRepository invoiceItemRepository;
     private final PurchaseOrderService purchaseOrderService;
     private final PurchaseOrderMapper purchaseOrderMapper;
     private final StoreService storeService;
     private final StoreMapper storeMapper;
-    private final InvoiceItemRepository invoiceItemRepository;
 
     @Override
     public void createInvoice(Long purchaseOrderId, Long storeId) throws InvoiceCreationException {

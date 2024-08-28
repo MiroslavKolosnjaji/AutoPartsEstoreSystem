@@ -10,6 +10,6 @@ import java.io.IOException;
  */
 public interface InvoicePDFService {
 
-    byte[] generateInvoicePDF(InvoiceDTO invoiceDTO) throws InvoicePDFGenerationFailedException;
-    void generatePDFToFile(InvoiceDTO invoiceDTO) throws InvoicePDFGenerationFailedException, IOException;
+    void generateAndSendInvoicePDF(Long invoiceId, String recipientEmail) throws InvoicePDFGenerationFailedException;
+
 }

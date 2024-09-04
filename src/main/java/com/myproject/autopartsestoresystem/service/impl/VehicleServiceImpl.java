@@ -1,10 +1,13 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
+import com.myproject.autopartsestoresystem.dto.PartDTO;
 import com.myproject.autopartsestoresystem.dto.VehicleDTO;
 import com.myproject.autopartsestoresystem.exception.service.VehicleNotFoundException;
+import com.myproject.autopartsestoresystem.mapper.PartMapper;
 import com.myproject.autopartsestoresystem.mapper.VehicleMapper;
 import com.myproject.autopartsestoresystem.model.Vehicle;
 import com.myproject.autopartsestoresystem.repository.VehicleRepository;
+import com.myproject.autopartsestoresystem.search.specification.VehicleSpecification;
 import com.myproject.autopartsestoresystem.service.RoleService;
 import com.myproject.autopartsestoresystem.service.VehicleService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,24 @@ public class VehicleServiceImpl implements VehicleService {
 
     private final VehicleRepository vehicleRepository;
     private final VehicleMapper vehicleMapper;
+    private final PartMapper partMapper;
+
+    @Override
+    public List<PartDTO> searchParts(String brand, String model, String series) {
+
+        VehicleSpecification specification = VehicleSpecification.builder()
+                .brand(brand)
+                .model(model)
+                .series(series)
+                .build();
+
+        List<Vehicle> vehicles = vehicleRepository.findAll(specification);
+
+        return vehicles.stream()
+                .flatMap(vehicle -> vehicle.getParts().stream())
+                .map(partMapper::partToPartDTO)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public VehicleDTO save(VehicleDTO vehicleDTO) {

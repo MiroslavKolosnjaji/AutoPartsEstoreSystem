@@ -15,7 +15,7 @@ Key functionalities include advanced search capabilities, part grouping for refi
 - Secure payment processing with various payment methods
 - Invoice generation for order transactions
 - PDF invoice emailing to automatically send invoices to customers
-- User registration and login system
+- User registration and login system (planned)
 - Secure checkout process supporting various payment methods
 
 

@@ -52,7 +52,8 @@ public class BootStrapData implements CommandLineRunner {
     private final UserService userService;
 
     private final RoleRepository roleRepository;
-    private final RoleService roleService;
+    private final AuthorityRepository authorityRepository;
+
     private final StoreService storeService;
 
     private final TextEncryptor textEncryptor;
@@ -76,18 +77,14 @@ public class BootStrapData implements CommandLineRunner {
 //        loadPurchaseOrderData();
     }
 
-    private void loadStoreData() throws EntityNotFoundException {
+    private void loadRoleData() {
+        Role role1 = Role.builder().name(RoleName.ROLE_ADMIN).build();
+        Role role2 = Role.builder().name(RoleName.ROLE_USER).build();
+        Role role3 = Role.builder().name(RoleName.ROLE_MANAGER).build();
+        Role role4 = Role.builder().name(RoleName.ROLE_STAFF).build();
 
-        CityDTO cityDTO = cityService.getById(1L);
+        roleRepository.saveAll(List.of(role1, role2, role3, role4));
 
-        StoreDTO storeDTO = StoreDTO.builder()
-                .name("Test")
-                .phoneNumber("3123123213")
-                .email("test@example.com")
-                .city(cityMapper.cityDTOToCity(cityDTO))
-                .build();
-
-        storeService.save(storeDTO);
     }
 
     private void loadUserData() throws EntityAlreadyExistsException {
@@ -102,15 +99,28 @@ public class BootStrapData implements CommandLineRunner {
         userService.save(user1);
     }
 
-    private void loadRoleData() {
+    private void loadPaymentMethodData() {
+        PaymentMethod paymentMethod1 = PaymentMethod.builder().paymentType(PaymentType.DEBIT_CARD).build();
+        PaymentMethod paymentMethod2 = PaymentMethod.builder().paymentType(PaymentType.CREDIT_CARD).build();
 
-        Role role1 = Role.builder().name(RoleName.ROLE_ADMIN).build();
-        Role role2 = Role.builder().name(RoleName.ROLE_USER).build();
-        Role role3 = Role.builder().name(RoleName.ROLE_MANAGER).build();
-        Role role4 = Role.builder().name(RoleName.ROLE_STAFF).build();
-
-        roleRepository.saveAll(List.of(role1, role2, role3, role4));
+        paymentMethodRepository.saveAll(List.of(paymentMethod1, paymentMethod2));
     }
+
+    private void loadStoreData() throws EntityNotFoundException {
+
+        CityDTO cityDTO = cityService.getById(1L);
+
+        StoreDTO storeDTO = StoreDTO.builder()
+                .name("Test")
+                .phoneNumber("3123123213")
+                .email("test@example.com")
+                .city(cityMapper.cityDTOToCity(cityDTO))
+                .build();
+
+        storeService.save(storeDTO);
+    }
+
+
 
     private void loadPurchaseOrderData() throws EntityNotFoundException, EntityAlreadyExistsException {
 
@@ -140,12 +150,7 @@ public class BootStrapData implements CommandLineRunner {
         purchaseOrderService.save(purchaseOrderDTO);
     }
 
-    private void loadPaymentMethodData() {
-        PaymentMethod paymentMethod1 = PaymentMethod.builder().paymentType(PaymentType.DEBIT_CARD).build();
-        PaymentMethod paymentMethod2 = PaymentMethod.builder().paymentType(PaymentType.CREDIT_CARD).build();
 
-        paymentMethodRepository.saveAll(List.of(paymentMethod1, paymentMethod2));
-    }
 
     private void loadCardData() throws EntityNotFoundException, EntityAlreadyExistsException {
 

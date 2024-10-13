@@ -5,6 +5,10 @@ import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExi
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.CityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.CityNotFoundException;
+import com.myproject.autopartsestoresystem.security.permission.city.CityCreatePermission;
+import com.myproject.autopartsestoresystem.security.permission.city.CityDeletePermission;
+import com.myproject.autopartsestoresystem.security.permission.city.CityReadPermission;
+import com.myproject.autopartsestoresystem.security.permission.city.CityUpdatePermission;
 import com.myproject.autopartsestoresystem.service.CityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -29,6 +33,7 @@ public class CityController {
 
     private final CityService cityService;
 
+    @CityCreatePermission
     @PostMapping()
     public ResponseEntity<CityDTO> createCity(@Validated @RequestBody CityDTO cityDTO) throws EntityAlreadyExistsException {
 
@@ -41,6 +46,7 @@ public class CityController {
 
     }
 
+    @CityUpdatePermission
     @PutMapping(CITY_ID)
     public ResponseEntity<CityDTO> updateCity(@PathVariable("city_id") Long cityId, @Validated @RequestBody CityDTO cityDTO) throws EntityNotFoundException {
 
@@ -49,6 +55,7 @@ public class CityController {
 
     }
 
+    @CityReadPermission
     @GetMapping
     public ResponseEntity<List<CityDTO>> getAllCities() {
 
@@ -60,6 +67,7 @@ public class CityController {
         return new ResponseEntity<>(cities, HttpStatus.OK);
     }
 
+    @CityReadPermission
     @GetMapping(CITY_ID)
     public ResponseEntity<CityDTO> getCity(@PathVariable("city_id") Long cityId) throws EntityNotFoundException {
 
@@ -68,6 +76,7 @@ public class CityController {
 
     }
 
+    @CityDeletePermission
     @DeleteMapping(CITY_ID)
     public ResponseEntity<Void> deleteCity(@PathVariable("city_id") Long cityId) throws EntityNotFoundException {
 

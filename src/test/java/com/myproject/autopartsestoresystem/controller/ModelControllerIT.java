@@ -74,7 +74,7 @@ class ModelControllerIT extends BaseIT {
 
         ModelDTO modelDTO = getTestModelDTO();
                 modelDTO.getId().setName("350");
-                
+
         mockMvc.perform(post(ModelController.MODEL_URI)
                         .with(httpBasic(user, password))
                         .contentType(MediaType.APPLICATION_JSON)

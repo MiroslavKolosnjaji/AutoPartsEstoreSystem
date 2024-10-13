@@ -92,17 +92,27 @@ public class BootStrapData implements CommandLineRunner {
         Authority updateModel = Authority.builder().permission("model.update").build();
         Authority deleteModel = Authority.builder().permission("model.delete").build();
 
+        Authority createCity = Authority.builder().permission("city.create").build();
+        Authority readCity = Authority.builder().permission("city.read").build();
+        Authority updateCity = Authority.builder().permission("city.update").build();
+        Authority deleteCity = Authority.builder().permission("city.delete").build();
 
-        authorityRepository.saveAll(List.of(createBrand, updateBrand, readBrand, deleteBrand, createModel, updateModel, readModel,deleteModel));
+
+        authorityRepository.saveAll(List.of(createBrand, updateBrand, readBrand, deleteBrand,
+                createModel, updateModel, readModel,deleteModel,
+                createCity, updateCity, readCity, deleteCity));
 
 
 
         Role admin = Role.builder().name(RoleName.ROLE_ADMIN).authorities(Set.of(createBrand, readBrand, updateBrand, deleteBrand,
-                createModel, updateModel, readModel, deleteModel)).build();
+                createModel, updateModel, readModel, deleteModel,
+                createCity, updateCity, readCity, deleteCity)).build();
 
-        Role moderator = Role.builder().name(RoleName.ROLE_MODERATOR).authorities(Set.of(createBrand, readBrand, updateBrand, createModel, updateModel, readModel)).build();
+        Role moderator = Role.builder().name(RoleName.ROLE_MODERATOR).authorities(Set.of(createBrand, readBrand, updateBrand,
+                createModel, updateModel, readModel,
+                createCity, updateCity, readCity)).build();
 
-        Role user = Role.builder().name(RoleName.ROLE_USER).authorities(Set.of(readBrand, readModel)).build();
+        Role user = Role.builder().name(RoleName.ROLE_USER).authorities(Set.of(readBrand, readModel, readCity)).build();
 
         roleRepository.saveAll(List.of(admin, moderator, user));
 

@@ -13,6 +13,7 @@ import com.myproject.autopartsestoresystem.repository.*;
 import com.myproject.autopartsestoresystem.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +51,7 @@ public class BootStrapData implements CommandLineRunner {
     private final PaymentMethodRepository paymentMethodRepository;
     private final PurchaseOrderService purchaseOrderService;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     private final RoleRepository roleRepository;
     private final AuthorityRepository authorityRepository;
@@ -57,13 +59,14 @@ public class BootStrapData implements CommandLineRunner {
     private final StoreService storeService;
 
     private final TextEncryptor textEncryptor;
+    private final BCryptPasswordEncoder passwordEncoder;
 
 
     @Override
     @Transactional
     public void run(String... args) throws Exception {
         loadRoleData();
-//        loadUserData();
+        loadUserData();
         loadPaymentMethodData();
         loadPartGroupData();
         loadBrandData();
@@ -78,25 +81,60 @@ public class BootStrapData implements CommandLineRunner {
     }
 
     private void loadRoleData() {
-        Role role1 = Role.builder().name(RoleName.ROLE_ADMIN).build();
-        Role role2 = Role.builder().name(RoleName.ROLE_USER).build();
-        Role role3 = Role.builder().name(RoleName.ROLE_MANAGER).build();
-        Role role4 = Role.builder().name(RoleName.ROLE_STAFF).build();
 
-        roleRepository.saveAll(List.of(role1, role2, role3, role4));
+        Authority createBrand = Authority.builder().permission("brand.create").build();
+        Authority readBrand = Authority.builder().permission("brand.read").build();
+        Authority updateBrand = Authority.builder().permission("brand.update").build();
+        Authority deleteBrand = Authority.builder().permission("brand.delete").build();
+
+        authorityRepository.saveAll(List.of(createBrand, updateBrand, readBrand, deleteBrand));
+
+
+
+        Role admin = Role.builder().name(RoleName.ROLE_ADMIN).authorities(Set.of(createBrand, readBrand, updateBrand, deleteBrand)).build();
+        Role moderator = Role.builder().name(RoleName.ROLE_MODERATOR).authorities(Set.of(createBrand, readBrand, updateBrand)).build();
+        Role user = Role.builder().name(RoleName.ROLE_USER).authority(readBrand).build();
+        Role staff = Role.builder().name(RoleName.ROLE_STAFF).build();
+
+        roleRepository.saveAll(List.of(admin, moderator, user, staff));
 
     }
 
     private void loadUserData() throws EntityAlreadyExistsException {
 
-        UserDTO user1 = UserDTO.builder().
-                username("test@example.com")
-                .password("12345678")
-                .roles(Set.of(RoleDTO.builder().name(RoleName.ROLE_ADMIN).build()))
+
+
+
+
+        List<Role> roles = roleRepository.findAll();
+
+
+
+
+        User admin = User.builder().
+                username("admin")
+                .password(passwordEncoder.encode("admin"))
+                .role(roles.get(0))
                 .enabled(true)
                 .build();
 
-        userService.save(user1);
+        User moderator = User.builder().
+                username("moderator")
+                .password(passwordEncoder.encode("password"))
+                .role(roles.get(1))
+                .enabled(true)
+                .build();
+
+        User user = User.builder().
+                username("user")
+                .password(passwordEncoder.encode("password"))
+                .role(roles.get(2))
+                .enabled(true)
+                .build();
+
+        userRepository.saveAll(List.of(admin, moderator, user));
+
+//        userService.save(user1);
     }
 
     private void loadPaymentMethodData() {

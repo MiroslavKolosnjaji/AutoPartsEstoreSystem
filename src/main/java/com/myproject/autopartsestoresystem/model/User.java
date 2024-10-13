@@ -8,12 +8,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Miroslav Kološnjaji
  */
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -37,10 +40,26 @@ public class User implements UserDetails {
     @Transient
     private Set<Authority> authorities;
 
+    public Set<GrantedAuthority> getAuthorities(){
+        return this.roles.stream()
+                .map(Role::getAuthorities)
+                .flatMap(Set::stream)
+                .map(authority -> new SimpleGrantedAuthority(authority.getPermission()))
+                .collect(Collectors.toSet());
+    }
+
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        roles.forEach( role -> authorities.add(new SimpleGrantedAuthority(role.getName().name())));
-        return authorities;
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+
+        return Objects.equals(id, user.id) && Objects.equals(username, user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(id);
+        result = 31 * result + Objects.hashCode(username);
+        return result;
     }
 }

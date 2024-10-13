@@ -44,12 +44,10 @@ public class SecurityConfig{
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> {
-                    authorizeRequests.requestMatchers("/**").permitAll();
-//                    authorizeRequests.requestMatchers("/api/admin/**").hasRole("ADMIN");
-//                    authorizeRequests.requestMatchers("/api/user/**").hasRole("USER");
-//                    authorizeRequests.requestMatchers("/api/moderator/**").hasRole("MODERATOR");
-//                    authorizeRequests.anyRequest().authenticated();
+                    authorizeRequests.requestMatchers("/h2-console/**").permitAll();
+                    authorizeRequests.anyRequest().authenticated();
                 })
+                .headers(headers -> headers.frameOptions().sameOrigin())
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }

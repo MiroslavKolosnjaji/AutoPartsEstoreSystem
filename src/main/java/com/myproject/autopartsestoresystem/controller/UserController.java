@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +44,6 @@ public class UserController {
         return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR', 'USER')")
     @PutMapping(USER_ID)
     public ResponseEntity<UserDTO> updateUser(@PathVariable("userId") Long userId, @Validated @RequestBody UserDTO userDTO) throws EntityNotFoundException {
 
@@ -53,7 +51,6 @@ public class UserController {
         return new ResponseEntity<>(updated, HttpStatus.NO_CONTENT);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @PatchMapping(USER_ID)
     public ResponseEntity<UserDTO> updateUserAuthority(@PathVariable("userId") Long userId, @Valid @RequestBody UpdateUserAuthorityRequest request) throws EntityNotFoundException {
 
@@ -61,7 +58,6 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
 
@@ -73,7 +69,6 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @GetMapping(USER_ID)
     public ResponseEntity<UserDTO> getUser(@PathVariable("userId") Long userId) throws EntityNotFoundException {
 

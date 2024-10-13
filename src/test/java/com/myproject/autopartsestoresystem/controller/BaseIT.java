@@ -9,12 +9,14 @@ import java.util.stream.Stream;
  */
 public abstract class BaseIT {
 
-    public static final String IDX_WITH_ARGS = "#{index} with [{arguments}]";
     private static final String SOURCE_PATH = "com.myproject.autopartsestoresystem.controller.BrandControllerIT#";
+    public static final String IDX_WITH_ARGS = "#{index} with [{arguments}]";
+
     public static final String GET_ADMIN_USER = SOURCE_PATH + "getStreamAdminUser";
-    public static final String GET_ADMIN_AND_MODERATOR_USERS = SOURCE_PATH + "getStreamAdminUser";
+    public static final String GET_ADMIN_AND_MODERATOR_USERS = SOURCE_PATH + "getStreamAdminAndModeratorUsers";
     public static final String GET_MODERATOR_USER = SOURCE_PATH + "getStreamModeratorUser";
     public static final String GET_USER = SOURCE_PATH + "getStreamUser";
+    public static final String GET_MODERATOR_AND_USER = SOURCE_PATH + "getStreamModeratorAndUser";
     public static final String GET_ALL_USERS = SOURCE_PATH + "getStreamAllUsers";
 
 
@@ -34,10 +36,16 @@ public abstract class BaseIT {
         return Stream.of(getAdmin(), getModerator());
     }
 
+    public static Stream<Arguments> getStreamModeratorAndUser(){
+        return Stream.of(getModerator(), getUser());
+    }
+
     public static Stream<Arguments> getStreamAllUsers(){
         return Stream.of(getAdmin(), getModerator(), getUser());
 
     }
+
+
 
     private static Arguments getAdmin(){
         return Arguments.of("admin", "admin");

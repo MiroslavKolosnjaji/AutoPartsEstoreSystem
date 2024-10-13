@@ -6,6 +6,10 @@ import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundEx
 import com.myproject.autopartsestoresystem.exception.service.ModelAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.ModelNotFoundException;
 import com.myproject.autopartsestoresystem.model.ModelId;
+import com.myproject.autopartsestoresystem.security.permission.model.ModelCreatePermission;
+import com.myproject.autopartsestoresystem.security.permission.model.ModelDeletePermission;
+import com.myproject.autopartsestoresystem.security.permission.model.ModelReadPermission;
+import com.myproject.autopartsestoresystem.security.permission.model.ModelUpdatePermission;
 import com.myproject.autopartsestoresystem.service.ModelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +34,7 @@ public class ModelController {
 
     private final ModelService modelService;
 
+    @ModelCreatePermission
     @PostMapping()
     public ResponseEntity<ModelDTO> createModel(@Validated @RequestBody ModelDTO modelDTO) throws EntityAlreadyExistsException {
 
@@ -42,6 +47,7 @@ public class ModelController {
 
     }
 
+    @ModelUpdatePermission
     @PutMapping(MODEL_ID)
     public ResponseEntity<Void> updateModel(@PathVariable("brandId") Long brandId, @PathVariable("name") String name, @Validated @RequestBody ModelDTO modelDTO) throws EntityNotFoundException, EntityAlreadyExistsException {
 
@@ -50,6 +56,7 @@ public class ModelController {
 
     }
 
+    @ModelReadPermission
     @GetMapping()
     public ResponseEntity<List<ModelDTO>> getAllModels() {
 
@@ -61,6 +68,7 @@ public class ModelController {
         return new ResponseEntity<>(models, HttpStatus.OK);
     }
 
+    @ModelReadPermission
     @GetMapping(MODEL_ID)
     public ResponseEntity<ModelDTO> getModel(@PathVariable("brandId") Long brandId, @PathVariable("name") String name) throws EntityNotFoundException {
 
@@ -69,6 +77,7 @@ public class ModelController {
 
     }
 
+    @ModelDeletePermission
     @DeleteMapping(MODEL_ID)
     public ResponseEntity<Void> deleteModel(@PathVariable("brandId") Long brandId, @PathVariable("name") String name) throws EntityNotFoundException {
 

@@ -87,16 +87,24 @@ public class BootStrapData implements CommandLineRunner {
         Authority updateBrand = Authority.builder().permission("brand.update").build();
         Authority deleteBrand = Authority.builder().permission("brand.delete").build();
 
-        authorityRepository.saveAll(List.of(createBrand, updateBrand, readBrand, deleteBrand));
+        Authority createModel = Authority.builder().permission("model.create").build();
+        Authority readModel = Authority.builder().permission("model.read").build();
+        Authority updateModel = Authority.builder().permission("model.update").build();
+        Authority deleteModel = Authority.builder().permission("model.delete").build();
+
+
+        authorityRepository.saveAll(List.of(createBrand, updateBrand, readBrand, deleteBrand, createModel, updateModel, readModel,deleteModel));
 
 
 
-        Role admin = Role.builder().name(RoleName.ROLE_ADMIN).authorities(Set.of(createBrand, readBrand, updateBrand, deleteBrand)).build();
-        Role moderator = Role.builder().name(RoleName.ROLE_MODERATOR).authorities(Set.of(createBrand, readBrand, updateBrand)).build();
-        Role user = Role.builder().name(RoleName.ROLE_USER).authority(readBrand).build();
-        Role staff = Role.builder().name(RoleName.ROLE_STAFF).build();
+        Role admin = Role.builder().name(RoleName.ROLE_ADMIN).authorities(Set.of(createBrand, readBrand, updateBrand, deleteBrand,
+                createModel, updateModel, readModel, deleteModel)).build();
 
-        roleRepository.saveAll(List.of(admin, moderator, user, staff));
+        Role moderator = Role.builder().name(RoleName.ROLE_MODERATOR).authorities(Set.of(createBrand, readBrand, updateBrand, createModel, updateModel, readModel)).build();
+
+        Role user = Role.builder().name(RoleName.ROLE_USER).authorities(Set.of(readBrand, readModel)).build();
+
+        roleRepository.saveAll(List.of(admin, moderator, user));
 
     }
 

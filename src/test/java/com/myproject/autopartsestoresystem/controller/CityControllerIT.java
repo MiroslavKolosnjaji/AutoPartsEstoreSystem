@@ -72,7 +72,6 @@ class CityControllerIT extends BaseIT {
 
         CityDTO cityDTO = getTestCityDTO();
         cityDTO.setName("ABC");
-        
 
         mockMvc.perform(post(CityController.CITY_URI)
                         .with(httpBasic(user, password))

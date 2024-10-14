@@ -13,6 +13,7 @@ public abstract class BaseIT {
     public static final String IDX_WITH_ARGS = "#{index} with [{arguments}]";
 
     public static final String GET_ADMIN_USER = SOURCE_PATH + "getStreamAdminUser";
+    public static final String GET_ADMIN_AND_USER = SOURCE_PATH + "getStreamAdminAndUser";
     public static final String GET_ADMIN_AND_MODERATOR_USERS = SOURCE_PATH + "getStreamAdminAndModeratorUsers";
     public static final String GET_MODERATOR_USER = SOURCE_PATH + "getStreamModeratorUser";
     public static final String GET_USER = SOURCE_PATH + "getStreamUser";
@@ -22,6 +23,10 @@ public abstract class BaseIT {
 
     public static Stream<Arguments> getStreamAdminUser(){
         return Stream.of(getAdmin());
+    }
+
+    public static Stream<Arguments> getStreamAdminAndUser(){
+        return Stream.of(getAdmin(), getUser());
     }
 
     public static Stream<Arguments> getStreamModeratorUser(){

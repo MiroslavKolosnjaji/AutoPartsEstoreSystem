@@ -5,6 +5,10 @@ import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExi
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.EmailAddressAlreadyExistsException;
+import com.myproject.autopartsestoresystem.security.permission.customer.CustomerCreatePermission;
+import com.myproject.autopartsestoresystem.security.permission.customer.CustomerDeletePermission;
+import com.myproject.autopartsestoresystem.security.permission.customer.CustomerReadPermission;
+import com.myproject.autopartsestoresystem.security.permission.customer.CustomerUpdatePermission;
 import com.myproject.autopartsestoresystem.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -29,6 +33,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
+    @CustomerCreatePermission
     @PostMapping()
     public ResponseEntity<CustomerDTO> createCustomer(@Validated @RequestBody CustomerDTO customerDTO) throws EntityAlreadyExistsException{
 
@@ -41,6 +46,7 @@ public class CustomerController {
 
     }
 
+    @CustomerUpdatePermission
     @PutMapping(CUSTOMER_ID)
     public ResponseEntity<Void> updateCustomer(@PathVariable("customer_id") Long customerId, @Validated @RequestBody CustomerDTO updateCustomerDTO) throws EntityNotFoundException, EntityAlreadyExistsException {
 
@@ -49,6 +55,7 @@ public class CustomerController {
 
     }
 
+    @CustomerReadPermission
     @GetMapping()
     public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
 
@@ -61,6 +68,7 @@ public class CustomerController {
 
     }
 
+    @CustomerReadPermission
     @GetMapping(CUSTOMER_ID)
     public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable("customer_id") Long customerId) throws EntityNotFoundException {
 
@@ -69,6 +77,7 @@ public class CustomerController {
 
     }
 
+    @CustomerDeletePermission
     @DeleteMapping(CUSTOMER_ID)
     public ResponseEntity<Void> deleteCustomer(@PathVariable("customer_id") Long customerId) throws EntityNotFoundException {
 

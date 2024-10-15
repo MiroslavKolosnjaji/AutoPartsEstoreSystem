@@ -102,23 +102,31 @@ public class BootStrapData implements CommandLineRunner {
         Authority updateCustomer = Authority.builder().permission("customer.update").build();
         Authority deleteCustomer = Authority.builder().permission("customer.delete").build();
 
+        Authority createStore = Authority.builder().permission("store.create").build();
+        Authority readStore = Authority.builder().permission("store.read").build();
+        Authority updateStore = Authority.builder().permission("store.update").build();
+        Authority deleteStore = Authority.builder().permission("store.delete").build();
+
 
         authorityRepository.saveAll(List.of(createBrand, updateBrand, readBrand, deleteBrand,
                 createModel, updateModel, readModel,deleteModel,
                 createCity, updateCity, readCity, deleteCity,
-                createCustomer, updateCustomer, readCustomer, deleteCustomer));
+                createCustomer, updateCustomer, readCustomer, deleteCustomer,
+                createStore, updateStore, readStore, deleteStore));
 
 
 
         Role admin = Role.builder().name(RoleName.ROLE_ADMIN).authorities(Set.of(createBrand, readBrand, updateBrand, deleteBrand,
                 createModel, updateModel, readModel, deleteModel,
                 createCity, updateCity, readCity, deleteCity,
-                createCustomer, updateCustomer, readCustomer, deleteCustomer)).build();
+                createCustomer, updateCustomer, readCustomer, deleteCustomer,
+                createStore, updateStore, readStore, deleteStore)).build();
 
         Role moderator = Role.builder().name(RoleName.ROLE_MODERATOR).authorities(Set.of(createBrand, readBrand, updateBrand,
                 createModel, updateModel, readModel,
                 createCity, updateCity, readCity,
-                createCustomer, updateCustomer, readCustomer)).build();
+                createCustomer, updateCustomer, readCustomer,
+                createStore, updateStore, readStore)).build();
 
         Role user = Role.builder().name(RoleName.ROLE_USER).authorities(Set.of(readBrand, readModel, readCity,
                 updateCustomer, deleteCustomer)).build();

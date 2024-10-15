@@ -3,6 +3,10 @@ package com.myproject.autopartsestoresystem.controller;
 import com.myproject.autopartsestoresystem.dto.StoreDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.model.Store;
+import com.myproject.autopartsestoresystem.security.permission.store.StoreCreatePermission;
+import com.myproject.autopartsestoresystem.security.permission.store.StoreDeletePermission;
+import com.myproject.autopartsestoresystem.security.permission.store.StoreReadPermission;
+import com.myproject.autopartsestoresystem.security.permission.store.StoreUpdatePermission;
 import com.myproject.autopartsestoresystem.service.StoreService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +31,7 @@ public class StoreController {
 
     private final StoreService storeService;
 
+    @StoreCreatePermission
     @PostMapping()
     public ResponseEntity<StoreDTO> saveStore(@Valid @RequestBody StoreDTO storeDTO) {
 
@@ -38,6 +43,7 @@ public class StoreController {
         return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
     }
 
+    @StoreUpdatePermission
     @PutMapping(STORE_ID)
     public ResponseEntity<StoreDTO> updateStore(@PathVariable("storeId") Long storeId, @Valid @RequestBody StoreDTO storeDTO) throws EntityNotFoundException {
 
@@ -46,6 +52,7 @@ public class StoreController {
         return new ResponseEntity<>(updated, HttpStatus.NO_CONTENT);
     }
 
+    @StoreReadPermission
     @GetMapping(STORE_ID)
     public ResponseEntity<StoreDTO> getStore(@PathVariable("storeId") Long storeId) throws EntityNotFoundException {
 
@@ -53,6 +60,7 @@ public class StoreController {
         return new ResponseEntity<>(storeDTO, HttpStatus.OK);
     }
 
+    @StoreReadPermission
     @GetMapping
     public ResponseEntity<List<StoreDTO>> getAllStores() {
 
@@ -64,6 +72,7 @@ public class StoreController {
         return new ResponseEntity<>(storeDTOS, HttpStatus.OK);
     }
 
+    @StoreDeletePermission
     @DeleteMapping(STORE_ID)
     public ResponseEntity<Void> deleteStore(@PathVariable("storeId") Long storeId) throws EntityNotFoundException {
 

@@ -7,6 +7,10 @@ import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundEx
 import com.myproject.autopartsestoresystem.exception.service.RoleNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.UsernameAlreadyExistsException;
 import com.myproject.autopartsestoresystem.model.RoleName;
+import com.myproject.autopartsestoresystem.security.permission.user.UserCreatePermission;
+import com.myproject.autopartsestoresystem.security.permission.user.UserDeletePermission;
+import com.myproject.autopartsestoresystem.security.permission.user.UserReadPermission;
+import com.myproject.autopartsestoresystem.security.permission.user.UserUpdatePermission;
 import com.myproject.autopartsestoresystem.service.UserAuthorityUpdateStatus;
 import com.myproject.autopartsestoresystem.service.UserService;
 import jakarta.validation.Valid;
@@ -33,6 +37,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @UserCreatePermission
     @PostMapping
     public ResponseEntity<UserDTO> saveUser(@Validated @RequestBody UserDTO userDTO) throws EntityAlreadyExistsException, EntityNotFoundException {
 
@@ -44,6 +49,7 @@ public class UserController {
         return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
     }
 
+    @UserUpdatePermission
     @PutMapping(USER_ID)
     public ResponseEntity<UserDTO> updateUser(@PathVariable("userId") Long userId, @Validated @RequestBody UserDTO userDTO) throws EntityNotFoundException {
 
@@ -51,6 +57,9 @@ public class UserController {
         return new ResponseEntity<>(updated, HttpStatus.NO_CONTENT);
     }
 
+
+    //TODO - Update this method
+    @UserUpdatePermission
     @PatchMapping(USER_ID)
     public ResponseEntity<UserDTO> updateUserAuthority(@PathVariable("userId") Long userId, @Valid @RequestBody UpdateUserAuthorityRequest request) throws EntityNotFoundException {
 
@@ -58,6 +67,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @UserReadPermission
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
 
@@ -69,6 +79,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @UserReadPermission
     @GetMapping(USER_ID)
     public ResponseEntity<UserDTO> getUser(@PathVariable("userId") Long userId) throws EntityNotFoundException {
 
@@ -76,6 +87,7 @@ public class UserController {
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
+    @UserReadPermission
     @DeleteMapping(USER_ID)
     public ResponseEntity<Void> deleteUser(@PathVariable("userId") Long userId) throws EntityNotFoundException {
 

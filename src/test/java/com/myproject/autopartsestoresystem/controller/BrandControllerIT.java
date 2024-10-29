@@ -201,7 +201,7 @@ class BrandControllerIT extends BaseIT {
 
     @DisplayName("Delete Brand Failed - Invalid ID Provided 0 Returns 404 Status Code")
     @ParameterizedTest(name = IDX_WITH_ARGS)
-    @MethodSource(GET_ADMIN_AND_MODERATOR_USERS)
+    @MethodSource(GET_ADMIN_USER)
     void testDeleteBrand_whenInvalidIdProvided_returns404StatusCode(String user, String password) throws Exception {
         mockMvc.perform(delete(BrandController.BRAND_URI_WITH_ID, 99)
                         .with(httpBasic(user, password))

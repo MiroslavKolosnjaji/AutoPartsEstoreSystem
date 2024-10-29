@@ -4,6 +4,10 @@ import com.myproject.autopartsestoresystem.dto.VehicleDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.VehicleNotFoundException;
+import com.myproject.autopartsestoresystem.security.permission.vehicle.VehicleCreatePermission;
+import com.myproject.autopartsestoresystem.security.permission.vehicle.VehicleDeletePermission;
+import com.myproject.autopartsestoresystem.security.permission.vehicle.VehicleReadPermission;
+import com.myproject.autopartsestoresystem.security.permission.vehicle.VehicleUpdatePermission;
 import com.myproject.autopartsestoresystem.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -29,7 +33,7 @@ public class VehicleController {
 
     private final VehicleService vehicleService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @VehicleCreatePermission
     @PostMapping()
     public ResponseEntity<VehicleDTO> addVehicle(@Validated @RequestBody VehicleDTO vehicleDTO) throws EntityAlreadyExistsException {
 
@@ -41,7 +45,7 @@ public class VehicleController {
         return new ResponseEntity<>(saved, responseHeaders, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @VehicleUpdatePermission
     @PutMapping(VEHICLE_ID)
     public ResponseEntity<VehicleDTO> updateVehicle(@PathVariable("vehicleId") Long brandId, @Validated @RequestBody VehicleDTO vehicleDTO) throws EntityNotFoundException {
 
@@ -50,7 +54,7 @@ public class VehicleController {
 
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+    @VehicleReadPermission
     @GetMapping()
     public ResponseEntity<List<VehicleDTO>> getAllVehicles() {
 
@@ -62,7 +66,7 @@ public class VehicleController {
         return new ResponseEntity<>(vehicles, HttpStatus.OK);
     }
 
-
+    @VehicleReadPermission
     @GetMapping(VEHICLE_ID)
     public ResponseEntity<VehicleDTO> getVehicle(@PathVariable("vehicleId") Long brandId) throws EntityNotFoundException {
 
@@ -71,7 +75,7 @@ public class VehicleController {
 
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+    @VehicleDeletePermission
     @DeleteMapping(VEHICLE_ID)
     public ResponseEntity<Void> deleteVehicle(@PathVariable("vehicleId") Long brandId) throws EntityNotFoundException {
 

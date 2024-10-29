@@ -69,7 +69,7 @@ class RoleServiceImplTestIT {
 
         //then
         assertNotNull(foundRoleDTOList);
-        assertEquals(4, foundRoleDTOList.size());
+        assertEquals(3, foundRoleDTOList.size());
     }
 
     @Test

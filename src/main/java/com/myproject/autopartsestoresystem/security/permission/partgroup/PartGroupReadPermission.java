@@ -9,6 +9,6 @@ import java.lang.annotation.RetentionPolicy;
  * @author Miroslav Kološnjaji
  */
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasAuthority('partgroup.read')")
+@PreAuthorize("hasAuthority('partGroup.read')")
 public @interface PartGroupReadPermission {
 }

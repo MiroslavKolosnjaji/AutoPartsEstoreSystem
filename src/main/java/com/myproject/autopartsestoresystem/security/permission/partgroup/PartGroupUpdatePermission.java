@@ -9,6 +9,6 @@ import java.lang.annotation.RetentionPolicy;
  * @author Miroslav Kološnjaji
  */
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasAuthority('partgroup.update')")
+@PreAuthorize("hasAuthority('partGroup.update')")
 public @interface PartGroupUpdatePermission {
 }

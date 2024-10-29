@@ -5,6 +5,10 @@ import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExi
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.PartGroupAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.PartGroupNotFoundException;
+import com.myproject.autopartsestoresystem.security.permission.partgroup.PartGroupCreatePermission;
+import com.myproject.autopartsestoresystem.security.permission.partgroup.PartGroupDeletePermission;
+import com.myproject.autopartsestoresystem.security.permission.partgroup.PartGroupReadPermission;
+import com.myproject.autopartsestoresystem.security.permission.partgroup.PartGroupUpdatePermission;
 import com.myproject.autopartsestoresystem.service.PartGroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -29,6 +33,7 @@ public class PartGroupController {
 
     private final PartGroupService partGroupService;
 
+    @PartGroupCreatePermission
     @PostMapping()
     public ResponseEntity<PartGroupDTO> createPartGroup(@Validated @RequestBody PartGroupDTO partGroupDTO) throws EntityAlreadyExistsException {
 
@@ -41,6 +46,7 @@ public class PartGroupController {
 
     }
 
+    @PartGroupUpdatePermission
     @PutMapping(PARTGROUP_ID)
     public ResponseEntity<PartGroupDTO> updatePartGroup(@PathVariable("partGroupId") Long id, @Validated @RequestBody PartGroupDTO partGroupDTO) throws EntityNotFoundException, EntityAlreadyExistsException {
 
@@ -49,6 +55,7 @@ public class PartGroupController {
 
     }
 
+    @PartGroupReadPermission
     @GetMapping()
     public ResponseEntity<List<PartGroupDTO>> getAllPartGroups() {
 
@@ -62,6 +69,7 @@ public class PartGroupController {
     }
 
 
+    @PartGroupReadPermission
     @GetMapping(PARTGROUP_ID)
     public ResponseEntity<PartGroupDTO> getPartGroup(@PathVariable("partGroupId") Long id) throws EntityNotFoundException {
 
@@ -70,6 +78,7 @@ public class PartGroupController {
 
     }
 
+    @PartGroupDeletePermission
     @DeleteMapping(PARTGROUP_ID)
     public ResponseEntity<Void> deletePartGroup(@PathVariable("partGroupId") Long id) throws EntityNotFoundException {
 

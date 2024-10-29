@@ -117,6 +117,11 @@ public class BootStrapData implements CommandLineRunner {
         Authority updateVehicle = Authority.builder().permission("vehicle.update").build();
         Authority deleteVehicle = Authority.builder().permission("vehicle.delete").build();
 
+        Authority createPG = Authority.builder().permission("partGroup.create").build();
+        Authority readPG = Authority.builder().permission("partGroup.read").build();
+        Authority updatePG = Authority.builder().permission("partGroup.update").build();
+        Authority deletePG = Authority.builder().permission("partGroup.delete").build();
+
 
         authorityRepository.saveAll(List.of(createBrand, updateBrand, readBrand, deleteBrand,
                 createModel, updateModel, readModel,deleteModel,
@@ -124,7 +129,8 @@ public class BootStrapData implements CommandLineRunner {
                 createCustomer, updateCustomer, readCustomer, deleteCustomer,
                 createStore, updateStore, readStore, deleteStore,
                 createUser, updateUser, readUser, deleteUser,
-                createVehicle, updateVehicle, readVehicle, deleteVehicle));
+                createVehicle, updateVehicle, readVehicle, deleteVehicle,
+                createPG, updatePG, readPG, deletePG));
 
 
 
@@ -134,7 +140,8 @@ public class BootStrapData implements CommandLineRunner {
                 createCustomer, updateCustomer, readCustomer, deleteCustomer,
                 createStore, updateStore, readStore, deleteStore,
                 createUser, updateUser, readUser, deleteUser,
-                createVehicle, updateVehicle, readVehicle, deleteVehicle)).build();
+                createVehicle, updateVehicle, readVehicle, deleteVehicle,
+                createPG, updatePG, readPG, deletePG)).build();
 
         Role moderator = Role.builder().name(RoleName.ROLE_MODERATOR).authorities(Set.of(createBrand, readBrand, updateBrand,
                 createModel, updateModel, readModel,
@@ -142,11 +149,12 @@ public class BootStrapData implements CommandLineRunner {
                 createCustomer, updateCustomer, readCustomer,
                 createStore, updateStore, readStore,
                 createUser, updateUser, readUser, deleteUser,
-                createVehicle, updateVehicle, readVehicle, deleteVehicle)).build();
+                createVehicle, updateVehicle, readVehicle, deleteVehicle,
+                createPG, updatePG, readPG, deletePG)).build();
 
         Role user = Role.builder().name(RoleName.ROLE_USER).authorities(Set.of(readBrand, readModel, readCity,
                 updateCustomer, deleteCustomer,
-                updateUser, readVehicle)).build();
+                updateUser, readVehicle, readPG)).build();
 
         roleRepository.saveAll(List.of(admin, moderator, user));
 

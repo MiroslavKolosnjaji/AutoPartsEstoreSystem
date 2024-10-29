@@ -7,10 +7,7 @@ import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundEx
 import com.myproject.autopartsestoresystem.exception.service.RoleNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.UsernameAlreadyExistsException;
 import com.myproject.autopartsestoresystem.model.RoleName;
-import com.myproject.autopartsestoresystem.security.permission.user.UserCreatePermission;
-import com.myproject.autopartsestoresystem.security.permission.user.UserDeletePermission;
-import com.myproject.autopartsestoresystem.security.permission.user.UserReadPermission;
-import com.myproject.autopartsestoresystem.security.permission.user.UserUpdatePermission;
+import com.myproject.autopartsestoresystem.security.permission.user.*;
 import com.myproject.autopartsestoresystem.service.UserAuthorityUpdateStatus;
 import com.myproject.autopartsestoresystem.service.UserService;
 import jakarta.validation.Valid;
@@ -57,16 +54,6 @@ public class UserController {
         return new ResponseEntity<>(updated, HttpStatus.NO_CONTENT);
     }
 
-
-    //TODO - Update this method
-    @UserUpdatePermission
-    @PatchMapping(USER_ID)
-    public ResponseEntity<UserDTO> updateUserAuthority(@PathVariable("userId") Long userId, @Valid @RequestBody UpdateUserAuthorityRequest request) throws EntityNotFoundException {
-
-        userService.updateUserAuthority(userId, RoleName.valueOf(request.getAuthority()), UserAuthorityUpdateStatus.valueOf(request.getUpdateStatus()));
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @UserReadPermission
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
@@ -87,7 +74,7 @@ public class UserController {
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
-    @UserReadPermission
+    @UserDeletePermission
     @DeleteMapping(USER_ID)
     public ResponseEntity<Void> deleteUser(@PathVariable("userId") Long userId) throws EntityNotFoundException {
 

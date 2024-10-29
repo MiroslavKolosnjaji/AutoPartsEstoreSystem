@@ -3,29 +3,31 @@ package com.myproject.autopartsestoresystem.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.autopartsestoresystem.dto.UpdateUserAuthorityRequest;
 import com.myproject.autopartsestoresystem.dto.UserDTO;
+import com.myproject.autopartsestoresystem.model.User;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author Miroslav Kološnjaji
  */
-@Disabled("Class is disabled pending security updates")
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class UserControllerIT {
+class UserControllerIT extends BaseIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -49,125 +51,221 @@ class UserControllerIT {
 
     @DisplayName("Create User")
     @Order(1)
-    @Test
-    void testCreateUser_whenValidDetailsProvided_return201StatusCode() throws Exception {
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_USER)
+    void testCreateUser_whenValidDetailsProvided_return201StatusCode(String user, String password) throws Exception {
 
         mockMvc.perform(post(UserController.USER_URI)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userDTO)))
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", UserController.USER_URI + "/" + 1))
+                .andExpect(header().string("Location", UserController.USER_URI + "/" + 4))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.username").value(userDTO.getUsername()));
     }
 
     @DisplayName("Create User Failed - Invalid Details Provided")
-    @Test
-    void testCreateUser_whenInvalidDetailsProvided_returns400StatusCode() throws Exception {
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_USER)
+    void testCreateUser_whenInvalidDetailsProvided_returns400StatusCode(String user, String password) throws Exception {
 
         userDTO.setUsername("123123");
 
         mockMvc.perform(post(UserController.USER_URI)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userDTO)))
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDTO)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("Create User Failed - User Role - Returns Code 403")
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_USER)
+    void testCreateUser_withUserRole_return403StatusCode(String user, String password) throws Exception {
+
+        mockMvc.perform(post(UserController.USER_URI)
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDTO)))
+                .andExpect(status().isForbidden());
+    }
+
+    @DisplayName("Create User Failed - No Role - Returns Code 401")
+    @Test
+    void testCreateUser_withoutAnyRole_returns401StatusCode() throws Exception {
+
+        mockMvc.perform(post(UserController.USER_URI)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
     }
 
     @DisplayName("Update User")
     @Order(2)
-    @Test
-    @WithMockUser(roles = "ADMIN")
-    void testUpdateUser_whenValidDetailsProvided_returns204StatusCode() throws Exception {
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_AND_MODERATOR_USERS)
+    void testUpdateUser_whenValidDetailsProvided_returns204StatusCode(String user, String password) throws Exception {
+
+        userDTO.setId(1L);
+        userDTO.setPassword("asdfzcxv");
+
+        mockMvc.perform(put(UserController.USER_URI_WITH_ID, 4)
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDTO)))
+                .andExpect(status().isNoContent());
+    }
+
+    @DisplayName("Update User Failed - Invalid Details Provided")
+    @Order(3)
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_USER)
+    void testUpdateUser_whenInvalidDetailsProvided_returns400StatusCode(String user, String password) throws Exception {
+
+        userDTO.setUsername("1443");
+
+        mockMvc.perform(put(UserController.USER_URI_WITH_ID, 4)
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("Update User Failed - User Role - Returns Code 403")
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_USER)
+    void testUpdateUser_withUserRole_returns403StatusCode(String user, String password) throws Exception {
 
         userDTO.setId(1L);
         userDTO.setPassword("asdfzcxv");
 
         mockMvc.perform(put(UserController.USER_URI_WITH_ID, 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userDTO)))
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userDTO)))
                 .andExpect(status().isNoContent());
-    }
-
-    @DisplayName("Update User Failed - Invalid Details Provided")
-    @Test
-    void testUpdateUser_whenInvalidDetailsProvided_returns400StatusCode() throws Exception {
-
-        userDTO.setUsername("1443");
-
-        mockMvc.perform(put(UserController.USER_URI_WITH_ID,  1)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
-    }
-
-    @DisplayName("Update User Authority")
-    @Test
-    @Order(3)
-    @WithMockUser(roles = {"ADMIN", "MODERATOR"})
-    void testUpdateUserAuthority_whenValidInputProvided_returns200StatusCode() throws Exception {
-
-        UpdateUserAuthorityRequest updateUserAuthorityRequest = new UpdateUserAuthorityRequest();
-        updateUserAuthorityRequest.setAuthority("ROLE_ADMIN");
-        updateUserAuthorityRequest.setUpdateStatus("GRANT_AUTHORITY");
-
-        mockMvc.perform(patch(UserController.USER_URI_WITH_ID, 1L)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updateUserAuthorityRequest)))
-                .andExpect(status().isOk());
     }
 
     @DisplayName("Get All Users")
     @Order(4)
-    @Test
-    @WithMockUser(roles = {"ADMIN", "MODERATOR"})
-    void testGetAllUsers_whenListIsPopulated_returns200StatusCode() throws Exception {
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_AND_MODERATOR_USERS)
+    void testGetAllUsers_whenListIsPopulated_returns200StatusCode(String user, String password) throws Exception {
 
         mockMvc.perform(get(UserController.USER_URI)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.length()").value(1));
+                .andExpect(jsonPath("$.length()").value(4));
+    }
+
+    @DisplayName("Get All Users Failed - User Role - Returns Code 403")
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_USER)
+    void testGetAllUsers_withUserRole_returns403StatusCode(String user, String password) throws Exception {
+
+        mockMvc.perform(get(UserController.USER_URI)
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @DisplayName("Get All Users Failed - No Role - Returns Code 401")
+    @Test
+    void testGetAllUsers_withoutAnyRole_returns401StatusCode() throws Exception {
+
+        mockMvc.perform(get(UserController.USER_URI)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
     }
 
     @DisplayName("Get User By ID")
     @Order(5)
-    @Test
-    @WithMockUser(roles = {"ADMIN", "MODERATOR"})
-    void testGetUserById_whenValidIdProvided_returns200StatusCode() throws Exception {
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_AND_MODERATOR_USERS)
+    void testGetUserById_whenValidIdProvided_returns200StatusCode(String user, String password) throws Exception {
 
         mockMvc.perform(get(UserController.USER_URI_WITH_ID, 1)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(header().string("Content-type", "application/json"))
-                .andExpect(jsonPath("$.username").value(userDTO.getUsername()))
-                .andExpect(jsonPath("$.roles.length()").value(2));
+                .andExpect(jsonPath("$.username").value("admin"))
+                .andExpect(jsonPath("$.roles.length()").value(1));
     }
 
     @DisplayName("Get User By ID Failed - Invalid ID Provided")
-    @Test
-    @WithMockUser(roles = {"ADMIN", "MODERATOR"})
-    void testGetUserById_whenInvalidIdProvided_returns404StatusCode() throws Exception {
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_AND_MODERATOR_USERS)
+    void testGetUserById_whenInvalidIdProvided_returns404StatusCode(String user, String password) throws Exception {
 
         mockMvc.perform(get(UserController.USER_URI_WITH_ID, 99)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+    }
+
+    @DisplayName("Get User By ID Failed - User Role - Returns Code 403")
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_USER)
+    void testGetUserById_withUserRole_returns403StatusCode(String user, String password) throws Exception {
+
+        mockMvc.perform(get(UserController.USER_URI_WITH_ID, 1)
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @DisplayName("Get User By ID Failed - No Role - Returns Code 401")
+    @Test
+    void testGetUserByID_withoutAnyRole_returns401StatusCode() throws Exception {
+
+        mockMvc.perform(get(UserController.USER_URI_WITH_ID, 1)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
     }
 
     @DisplayName("Delete User")
-    @Order(6)
-    @Test
-    void testDeleteUserById_whenValidIdProvided_returns204StatusCode() throws Exception {
+    @Order(99)
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_USER)
+    void testDeleteUserById_whenValidIdProvided_returns204StatusCode(String user, String password) throws Exception {
 
-        mockMvc.perform(delete(UserController.USER_URI_WITH_ID, 1)
-                .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete(UserController.USER_URI_WITH_ID, 4)
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
 
-    @Test
-    void testDeleteUserById_whenInvalidIdProvided_returns404StatusCode() throws Exception {
+    @DisplayName("Delete User Failed - Invalid ID Provided - Returns Code 404")
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_AND_MODERATOR_USERS)
+    void testDeleteUserById_whenInvalidIdProvided_returns404StatusCode(String user, String password) throws Exception {
 
         mockMvc.perform(delete(UserController.USER_URI_WITH_ID, 99)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+    }
+
+    @DisplayName("Delete User Failed - User Role - Returns Code 403")
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_USER)
+    void testDeleteUserById_withUserRole_returns403StatusCode(String user, String password) throws Exception {
+
+        mockMvc.perform(delete(UserController.USER_URI_WITH_ID, 4)
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @DisplayName("Delete User Failed - No Role - Returns Code 401")
+    @Test
+    void testDeleteUser_withoutAnyRole_returns401StatusCode() throws Exception {
+
+        mockMvc.perform(delete(UserController.USER_URI_WITH_ID, 4)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
     }
 }

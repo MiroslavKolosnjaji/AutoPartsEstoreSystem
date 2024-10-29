@@ -15,6 +15,7 @@ import com.myproject.autopartsestoresystem.repository.UserRepository;
 import com.myproject.autopartsestoresystem.service.RoleService;
 import com.myproject.autopartsestoresystem.service.UserAuthorityUpdateStatus;
 import com.myproject.autopartsestoresystem.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,6 +46,7 @@ public class UserServiceImpl implements UserService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Transactional
     @Override
     public UserDTO saveUser(UserDTO userDTO) throws UsernameAlreadyExistsException, RoleNotFoundException {
 
@@ -82,6 +84,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.userToUserDTO(updatedUser);
     }
 
+    @Transactional
     @Override
     public void updateUserAuthority(Long userId, RoleName authority, UserAuthorityUpdateStatus updateStatus) throws RoleNotFoundException {
 

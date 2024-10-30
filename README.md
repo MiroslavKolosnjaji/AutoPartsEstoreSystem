@@ -15,7 +15,7 @@ Key functionalities include advanced search capabilities, part grouping for refi
 - Secure payment processing with various payment methods
 - Invoice generation for order transactions
 - PDF invoice emailing to automatically send invoices to customers
-- User registration and login system (planned)
+- User registration and login system
 - Secure checkout process supporting various payment methods
 
 
@@ -23,7 +23,7 @@ Key functionalities include advanced search capabilities, part grouping for refi
 - __Spring Framework:__ Core Framework for building enterprise Java applications.
 - __Spring Boot DevTools:__ Tools for improving development efficiency with features like automatic restarts and live reload.
 - __Spring Boot Validation:__ Ensures that the data being processed adheres to specified rules and constraints.
-- __Spring Security: (planned)__ Provides authentication and authorization for Spring applications
+- __Spring Security:__ Provides authentication and authorization for Spring applications
 - __Spring Crypto:__ Provides utilities for cryptographic operations in Spring applications
 - __Spring Boot Test:__ Provides testing support for Spring Boot applications.
 - __Spring Security Test:__ Provides testing support for Spring Security authentication and authorization.

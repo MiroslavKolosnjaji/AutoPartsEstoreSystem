@@ -5,6 +5,10 @@ import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExi
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.PartAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.PartNotFoundException;
+import com.myproject.autopartsestoresystem.security.permission.part.PartCreatePermission;
+import com.myproject.autopartsestoresystem.security.permission.part.PartDeletePermission;
+import com.myproject.autopartsestoresystem.security.permission.part.PartReadPermission;
+import com.myproject.autopartsestoresystem.security.permission.part.PartUpdatePermission;
 import com.myproject.autopartsestoresystem.service.PartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -29,6 +33,7 @@ public class PartController {
 
     private final PartService partService;
 
+    @PartCreatePermission
     @PostMapping()
     public ResponseEntity<PartDTO> addPart(@Validated @RequestBody PartDTO partDTO) throws EntityAlreadyExistsException {
 
@@ -42,6 +47,7 @@ public class PartController {
     }
 
 
+    @PartUpdatePermission
     @PutMapping(PART_ID)
     private ResponseEntity<Void> updatePart(@PathVariable("partId") Long id, @Validated @RequestBody PartDTO partDTO) throws EntityNotFoundException {
 
@@ -50,6 +56,7 @@ public class PartController {
 
     }
 
+    @PartReadPermission
     @GetMapping()
     public ResponseEntity<List<PartDTO>> getParts() {
 
@@ -62,6 +69,7 @@ public class PartController {
 
     }
 
+    @PartReadPermission
     @GetMapping(PART_ID)
     public ResponseEntity<PartDTO> getPart(@PathVariable("partId") Long id) throws EntityNotFoundException {
 
@@ -70,6 +78,7 @@ public class PartController {
 
     }
 
+    @PartDeletePermission
     @DeleteMapping(PART_ID)
     public ResponseEntity<Void> deletePart(@PathVariable("partId") Long id) throws EntityNotFoundException {
 

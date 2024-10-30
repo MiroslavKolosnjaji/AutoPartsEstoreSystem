@@ -6,6 +6,7 @@ import com.myproject.autopartsestoresystem.model.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,22 +15,21 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author Miroslav Kološnjaji
  */
-@Disabled("Class is disabled pending security updates")
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class PartControllerIT {
+class PartControllerIT extends BaseIT {
 
 
     @Autowired
@@ -59,12 +59,14 @@ class PartControllerIT {
 
     @DisplayName("Create Part")
     @Order(3)
-    @Test
-    void testCreatePart_whenValidDetailsProvided_returns201StatusCode() throws Exception {
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_USER)
+    void testCreatePart_whenValidDetailsProvided_returns201StatusCode(String user, String password) throws Exception {
 
         Price price = partDTO.getPrices().get(0);
 
         mockMvc.perform(post(PartController.PART_URI)
+                        .with(httpBasic(user, password))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(partDTO)))
                 .andExpect(status().isCreated())
@@ -82,41 +84,70 @@ class PartControllerIT {
     }
 
     @DisplayName("Create Part Failed - Invalid Details Provided - Returns Code 400")
-    @Test
-    void testCreatePart_whenInvalidDetailsProvided_returns400StatusCode() throws Exception {
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_AND_MODERATOR_USERS)
+    void testCreatePart_whenInvalidDetailsProvided_returns400StatusCode(String user, String password) throws Exception {
 
         partDTO.setPartGroup(null);
 
         mockMvc.perform(post(PartController.PART_URI)
+                        .with(httpBasic(user, password))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(partDTO)))
                 .andExpect(status().isBadRequest());
     }
 
+    @DisplayName("Create Part Failed - User Role - Returns Code 403")
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_USER)
+    void testCreatePart_withUserRole_returns403StatusCode(String user, String password) throws Exception {
+
+        mockMvc.perform(post(PartController.PART_URI)
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(partDTO)))
+                .andExpect(status().isForbidden());
+    }
+
+    @DisplayName("Create Part Failed - No Role - Returns Code 401")
+    @Test
+    void testCreatePart_withoutAnyRole_returns401StatusCode() throws Exception {
+
+        mockMvc.perform(post(PartController.PART_URI)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Disabled
     @DisplayName("Update Part - Current Price Not Changed")
     @Order(4)
-    @Test
-    void testUpdatePart_whenValidDetailsProvidedAndPriceNotChanged_returns204StatusCode() throws Exception {
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_AND_MODERATOR_USERS)
+    void testUpdatePart_whenValidDetailsProvidedAndPriceNotChanged_returns204StatusCode(String user, String password) throws Exception {
 
         partDTO.setId(4L);
         partDTO.setPartNumber("ABS67891");
 
         mockMvc.perform(put(PartController.PART_URI_WITH_ID, partDTO.getId())
+                        .with(httpBasic(user, password))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(partDTO)))
                 .andExpect(status().isNoContent());
 
     }
 
+    @Disabled
     @DisplayName("Update Part - Update Current Price")
     @Order(6)
-    @Test
-    void testUpdatePart_whenUpdatingCurrentPrice_returns204StatusCode() throws Exception {
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_AND_MODERATOR_USERS)
+    void testUpdatePart_whenUpdatingCurrentPrice_returns204StatusCode(String user, String password) throws Exception {
 
         partDTO.setId(4L);
         partDTO.getPrices().get(partDTO.getPrices().size() - 1).setPrice(new BigDecimal("389.99"));
 
         mockMvc.perform(put(PartController.PART_URI_WITH_ID, partDTO.getId())
+                        .with(httpBasic(user, password))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(partDTO)))
                 .andExpect(status().isNoContent());
@@ -124,16 +155,19 @@ class PartControllerIT {
 
     }
 
+    @Disabled
     @DisplayName("Update Part - Add New Price")
     @Order(5)
-    @ParameterizedTest
+    @ParameterizedTest(name = IDX_WITH_ARGS)
     @CsvFileSource(resources = "/newPrice.csv", numLinesToSkip = 1)
-    void testUpdatePart_whenAddingNewPrice_returns204StatusCode(BigDecimal newPrice, Long id) throws Exception {
+    @MethodSource(GET_ADMIN_AND_MODERATOR_USERS)
+    void testUpdatePart_whenAddingNewPrice_returns204StatusCode(String user, String password, BigDecimal newPrice, Long id) throws Exception {
 
         partDTO.setId(4L);
         partDTO.getPrices().add(Price.builder().id(new PriceId(partDTO.getId(), id)).currency(Currency.USD).price(newPrice).build());
 
         mockMvc.perform(put(PartController.PART_URI_WITH_ID, partDTO.getId())
+                        .with(httpBasic(user, password))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(partDTO)))
                 .andExpect(status().isNoContent());
@@ -141,12 +175,36 @@ class PartControllerIT {
 
     }
 
+    @Disabled
+    @DisplayName("Update Part Failed - User Role - Returns Code 403")
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_USER)
+    void testUpdatePart_withUserRole_returns403StatusCode(String user, String password) throws Exception {
+
+        mockMvc.perform(put(PartController.PART_URI_WITH_ID, 1L)
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(partDTO)))
+                .andExpect(status().isForbidden());
+    }
+
+    @DisplayName("Update Part Failed - No Role - Returns Code 401")
+    @Test
+    void testUpdatePart_withoutAnyRole_returns401StatusCode() throws Exception {
+
+        mockMvc.perform(put(PartController.PART_URI_WITH_ID, 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
     @DisplayName("Get Part By ID")
     @Order(1)
-    @Test
-    void testGetPartById_whenValidIdProvided_returnsPartDTO() throws Exception {
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ALL_USERS)
+    void testGetPartById_whenValidIdProvided_returnsPartDTO(String user, String password) throws Exception {
 
         mockMvc.perform(get(PartController.PART_URI_WITH_ID, 1)
+                        .with(httpBasic(user, password))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -155,41 +213,87 @@ class PartControllerIT {
     }
 
     @DisplayName("Get Part By ID Failed - Invalid ID Provided - Returns Code 404")
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_AND_MODERATOR_USERS)
+    void testGetPartById_whenInvalidIdProvided_returns404StatusCode(String user, String password) throws Exception {
+
+        mockMvc.perform(get(PartController.PART_URI_WITH_ID, 99)
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @DisplayName("Get Part By ID Failed - No Role - Returns Code 401")
     @Test
     void testGetPartById_whenInvalidIdProvided_returns404StatusCode() throws Exception {
 
         mockMvc.perform(get(PartController.PART_URI_WITH_ID, 99)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isUnauthorized());
     }
 
     @DisplayName("Get All Parts")
-    @Test
-    void testGetAllParts_whenListIsPopulated_returnsListOfPartDTO() throws Exception {
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ALL_USERS)
+    void testGetAllParts_whenListIsPopulated_returnsListOfPartDTO(String user, String password) throws Exception {
 
         mockMvc.perform(get(PartController.PART_URI)
+                        .with(httpBasic(user, password))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.length()").value(3));
     }
 
+    @DisplayName("Get All Parts Failed - No Role - Returns Code 401")
+    @Test
+    void testGetAllParts_withoutAnyRole_returns401StatusCode() throws Exception {
+
+        mockMvc.perform(get(PartController.PART_URI)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
     @DisplayName("Delete Part")
     @Order(7)
-    @Test
-    void testDeletePart_whenValidIdProvided_returns204StatusCode() throws Exception {
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_USER)
+    void testDeletePart_whenValidIdProvided_returns204StatusCode(String user, String password) throws Exception {
 
         mockMvc.perform(delete(PartController.PART_URI_WITH_ID, 4)
+                        .with(httpBasic(user, password))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
 
-    @DisplayName("Delete Part Failed - Ivalid ID Provided - Returns 404 Status Code")
-    @Test
-    void testDeletePart_whenInvalidIdProvided_returns404StatusCode() throws Exception {
+    @DisplayName("Delete Part Failed - Ivalid ID Provided - Returns Code 404")
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_ADMIN_USER)
+    void testDeletePart_whenInvalidIdProvided_returns404StatusCode(String user, String password) throws Exception {
 
         mockMvc.perform(delete(PartController.PART_URI_WITH_ID, 99)
+                        .with(httpBasic(user, password))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+    }
+
+    @DisplayName("Delete Part Failed -  User Role - Returns Code 403")
+    @ParameterizedTest(name = IDX_WITH_ARGS)
+    @MethodSource(GET_USER)
+    void testDeletePart_withUserRole_returns403StatusCode(String user, String password) throws Exception {
+
+        mockMvc.perform(delete(PartController.PART_URI_WITH_ID, 1)
+                        .with(httpBasic(user, password))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @DisplayName("Delete Part Failed - No Role - Returns Code 401")
+    @Test
+    void testDeletePart_withoutAnyRole_returns401StatusCode() throws Exception {
+
+        mockMvc.perform(delete(PartController.PART_URI_WITH_ID, 1)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
     }
 }

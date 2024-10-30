@@ -92,6 +92,11 @@ public class BootStrapData implements CommandLineRunner {
         Authority updateModel = Authority.builder().permission("model.update").build();
         Authority deleteModel = Authority.builder().permission("model.delete").build();
 
+        Authority createPart = Authority.builder().permission("part.create").build();
+        Authority readPart = Authority.builder().permission("part.read").build();
+        Authority updatePart = Authority.builder().permission("part.update").build();
+        Authority deletePart = Authority.builder().permission("part.delete").build();
+
         Authority createCity = Authority.builder().permission("city.create").build();
         Authority readCity = Authority.builder().permission("city.read").build();
         Authority updateCity = Authority.builder().permission("city.update").build();
@@ -127,6 +132,7 @@ public class BootStrapData implements CommandLineRunner {
 
         authorityRepository.saveAll(List.of(createBrand, updateBrand, readBrand, deleteBrand,
                 createModel, updateModel, readModel,deleteModel,
+                createPart, updatePart, readPart, deletePart,
                 createCity, updateCity, readCity, deleteCity,
                 createCustomer, updateCustomer, readCustomer, deleteCustomer,
                 createStore, updateStore, readStore, deleteStore,
@@ -139,6 +145,7 @@ public class BootStrapData implements CommandLineRunner {
 
         Role admin = Role.builder().name(RoleName.ROLE_ADMIN).authorities(Set.of(createBrand, readBrand, updateBrand, deleteBrand,
                 createModel, updateModel, readModel, deleteModel,
+                createPart, updatePart, readPart, deletePart,
                 createCity, updateCity, readCity, deleteCity,
                 createCustomer, updateCustomer, readCustomer, deleteCustomer,
                 createStore, updateStore, readStore, deleteStore,
@@ -149,6 +156,7 @@ public class BootStrapData implements CommandLineRunner {
 
         Role moderator = Role.builder().name(RoleName.ROLE_MODERATOR).authorities(Set.of(createBrand, readBrand, updateBrand,
                 createModel, updateModel, readModel,
+                createPart, updatePart, readPart,
                 createCity, updateCity, readCity,
                 createCustomer, updateCustomer, readCustomer,
                 createStore, updateStore, readStore,
@@ -157,7 +165,8 @@ public class BootStrapData implements CommandLineRunner {
                 createPG, updatePG, readPG, deletePG,
                 readPaymentMethod)).build();
 
-        Role user = Role.builder().name(RoleName.ROLE_USER).authorities(Set.of(readBrand, readModel, readCity,
+        Role user = Role.builder().name(RoleName.ROLE_USER).authorities(Set.of(readBrand, readModel,
+                readPart, readCity,
                 updateCustomer, deleteCustomer,
                 updateUser, readVehicle, readPG)).build();
 

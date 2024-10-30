@@ -3,6 +3,7 @@ package com.myproject.autopartsestoresystem.controller;
 import com.myproject.autopartsestoresystem.dto.PaymentMethodDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.PaymentMethodNotFoundException;
+import com.myproject.autopartsestoresystem.security.permission.paymentmethod.PaymentMethodReadPermission;
 import com.myproject.autopartsestoresystem.service.PaymentMethodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -26,6 +27,7 @@ public class PaymentMethodController {
 
     private final PaymentMethodService paymentMethodService;
 
+    @PaymentMethodReadPermission
     @GetMapping()
     public ResponseEntity<List<PaymentMethodDTO>> getAllPaymentMethods() {
 
@@ -37,6 +39,7 @@ public class PaymentMethodController {
         return ResponseEntity.ok(paymentMethods);
     }
 
+    @PaymentMethodReadPermission
     @GetMapping(PAYMENT_METHOD_ID)
     public ResponseEntity<PaymentMethodDTO> getPaymentMethodById(@PathVariable("paymentMethodId") Long paymentMethodId) throws EntityNotFoundException {
 
@@ -45,6 +48,7 @@ public class PaymentMethodController {
 
     }
 
+    @PaymentMethodReadPermission
     @GetMapping("/payment_type")
     public ResponseEntity<PaymentMethodDTO> getPaymentMethodType(@RequestParam("payment_type") String paymentType) throws EntityNotFoundException {
 

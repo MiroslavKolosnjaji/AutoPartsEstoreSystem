@@ -122,6 +122,8 @@ public class BootStrapData implements CommandLineRunner {
         Authority updatePG = Authority.builder().permission("partGroup.update").build();
         Authority deletePG = Authority.builder().permission("partGroup.delete").build();
 
+        Authority readPaymentMethod = Authority.builder().permission("paymentMethod.read").build();
+
 
         authorityRepository.saveAll(List.of(createBrand, updateBrand, readBrand, deleteBrand,
                 createModel, updateModel, readModel,deleteModel,
@@ -130,7 +132,8 @@ public class BootStrapData implements CommandLineRunner {
                 createStore, updateStore, readStore, deleteStore,
                 createUser, updateUser, readUser, deleteUser,
                 createVehicle, updateVehicle, readVehicle, deleteVehicle,
-                createPG, updatePG, readPG, deletePG));
+                createPG, updatePG, readPG, deletePG,
+                readPaymentMethod));
 
 
 
@@ -141,7 +144,8 @@ public class BootStrapData implements CommandLineRunner {
                 createStore, updateStore, readStore, deleteStore,
                 createUser, updateUser, readUser, deleteUser,
                 createVehicle, updateVehicle, readVehicle, deleteVehicle,
-                createPG, updatePG, readPG, deletePG)).build();
+                createPG, updatePG, readPG, deletePG,
+                readPaymentMethod)).build();
 
         Role moderator = Role.builder().name(RoleName.ROLE_MODERATOR).authorities(Set.of(createBrand, readBrand, updateBrand,
                 createModel, updateModel, readModel,
@@ -150,7 +154,8 @@ public class BootStrapData implements CommandLineRunner {
                 createStore, updateStore, readStore,
                 createUser, updateUser, readUser, deleteUser,
                 createVehicle, updateVehicle, readVehicle, deleteVehicle,
-                createPG, updatePG, readPG, deletePG)).build();
+                createPG, updatePG, readPG, deletePG,
+                readPaymentMethod)).build();
 
         Role user = Role.builder().name(RoleName.ROLE_USER).authorities(Set.of(readBrand, readModel, readCity,
                 updateCustomer, deleteCustomer,

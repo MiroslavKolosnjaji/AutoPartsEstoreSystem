@@ -39,8 +39,8 @@ Key functionalities include advanced search capabilities, part grouping for refi
 - __JSON:__ Data interchange format for communication between the client and the server.
 
 ## Project Goals:
-The primary objective of this project is to create a fully functional server-side web application for purchasing automobile parts.
-It aims to provide users with a seamless experience for finding and buying parts based on specific vehicle details, processing payments securely, and generating invoices.
+The primary objective of this project is to build a comprehensive backend system within a monolithic architecture for an automobile parts purchasing application.
+This backend manages core functionalities like searching for parts based on vehicle specifics, securely processing payments, invoicing, and generating order confirmations.
 
 ### Project Phases:
 - Project setup and initialization

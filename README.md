@@ -7,6 +7,8 @@ AutoPartsEstoreSystem is a server-side web application in development, designed 
 Users can browse, search, and purchase parts based on vehicle make, model, and engine type. 
 Key functionalities include advanced search capabilities, part grouping for refined results, order management, secure payment processing, and invoice generation.
 
+**NOTE:** This project is developed as a personal learning project and is not ntended for production use. Certain security features, optimizations, and production-level safeguards may be limited or simulated.
+
 ## Key Features:
 
 - Advanced search system based on vehicle brand, model, and engine type
@@ -39,8 +41,9 @@ Key functionalities include advanced search capabilities, part grouping for refi
 - __JSON:__ Data interchange format for communication between the client and the server.
 
 ## Project Goals:
-The primary objective of this project is to build a comprehensive backend system within a monolithic architecture for an automobile parts purchasing application.
-This backend manages core functionalities like searching for parts based on vehicle specifics, securely processing payments, invoicing, and generating order confirmations.
+The primary objective of this project is to develop a comprehensive backend system within a monolithic architecture for an automobile parts purchasing application as a learning and portfolio project.
+The backend manages core functionalities, such as searching for parts based on vehicle specifics, securely processing payments, invoicing, and generating order confirmations, showcasing foundational skills in backend development.
+
 
 ### Project Phases:
 - Project setup and initialization

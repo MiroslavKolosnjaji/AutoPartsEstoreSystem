@@ -7,7 +7,7 @@ AutoPartsEstoreSystem is a server-side web application in development, designed 
 Users can browse, search, and purchase parts based on vehicle make, model, and engine type. 
 Key functionalities include advanced search capabilities, part grouping for refined results, order management, secure payment processing, and invoice generation.
 
-**NOTE:** This project is developed as a personal learning project and is not ntended for production use. Certain security features, optimizations, and production-level safeguards may be limited or simulated.
+**NOTE:** This project is developed as a personal learning project and is not intended for production use. Certain security features, optimizations, and production-level safeguards may be limited or simulated.
 
 ## Key Features:
 

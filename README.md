@@ -1,11 +1,15 @@
 [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/K6MEbnQdqEgQE7qSJFetp9/MKj6ds9vRoXpubQ1PBLwf5/tree/main.svg?style=svg&circle-token=CCIPRJ_YLXqPYUvSerJXQnVbHzXu9_0920b5813739ecef71fc05953932d4273dc226d2)](https://dl.circleci.com/status-badge/redirect/circleci/K6MEbnQdqEgQE7qSJFetp9/MKj6ds9vRoXpubQ1PBLwf5/tree/main)
 [![codecov](https://codecov.io/gh/MiroslavKolosnjaji/AutoPartsEstoreSystem/graph/badge.svg?token=0Z63EFNDGY)](https://codecov.io/gh/MiroslavKolosnjaji/AutoPartsEstoreSystem)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+![GitHub forks](https://img.shields.io/github/forks/MiroslavKolosnjaji/AutoPartsEstoreSystem)
+
 # AutoPartsEstoreSystem
 
 ## Description:
-AutoPartsEstoreSystem is a server-side web application in development, designed to serve as an online platform for ordering automobile parts.
-Users can browse, search, and purchase parts based on vehicle make, model, and engine type. 
-Key functionalities include advanced search capabilities, part grouping for refined results, order management, secure payment processing, and invoice generation.
+AutoPartsEstoreSystem is a server-side web application developed as a personal project for learning purposes. It allows users to browse, search, and simulate the purchase of automobile parts based on vehicle make, model, and engine type.
+The system includes key functionalities such as advanced search, part grouping, order management, and secure payment simulation via Stripe, as well as invoice generation.
+
+**NOTE:** This project is developed as a personal learning project and is not intended for production use. Certain security features, optimizations, and production-level safeguards may be limited or simulated.
 
 ## Key Features:
 
@@ -15,7 +19,7 @@ Key functionalities include advanced search capabilities, part grouping for refi
 - Secure payment processing with various payment methods
 - Invoice generation for order transactions
 - PDF invoice emailing to automatically send invoices to customers
-- User registration and login system (planned)
+- User registration and login system
 - Secure checkout process supporting various payment methods
 
 
@@ -23,7 +27,7 @@ Key functionalities include advanced search capabilities, part grouping for refi
 - __Spring Framework:__ Core Framework for building enterprise Java applications.
 - __Spring Boot DevTools:__ Tools for improving development efficiency with features like automatic restarts and live reload.
 - __Spring Boot Validation:__ Ensures that the data being processed adheres to specified rules and constraints.
-- __Spring Security: (planned)__ Provides authentication and authorization for Spring applications
+- __Spring Security:__ Provides authentication and authorization for Spring applications
 - __Spring Crypto:__ Provides utilities for cryptographic operations in Spring applications
 - __Spring Boot Test:__ Provides testing support for Spring Boot applications.
 - __Spring Security Test:__ Provides testing support for Spring Security authentication and authorization.
@@ -39,8 +43,9 @@ Key functionalities include advanced search capabilities, part grouping for refi
 - __JSON:__ Data interchange format for communication between the client and the server.
 
 ## Project Goals:
-The primary objective of this project is to create a fully functional server-side web application for purchasing automobile parts.
-It aims to provide users with a seamless experience for finding and buying parts based on specific vehicle details, processing payments securely, and generating invoices.
+The primary objective of this project is to develop a comprehensive backend system within a monolithic architecture for an automobile parts purchasing application as a learning and portfolio project.
+The backend manages core functionalities, such as searching for parts based on vehicle specifics, securely processing payments, invoicing, and generating order confirmations, showcasing foundational skills in backend development.
+
 
 ### Project Phases:
 - Project setup and initialization
@@ -52,3 +57,6 @@ It aims to provide users with a seamless experience for finding and buying parts
 - Testing, debugging, and optimization
 - Integration with CircleCI for continuous integration and automated testing
 - Deployment and final adjustments
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

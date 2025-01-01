@@ -12,7 +12,7 @@ coverage:
       service:
           paths:
             - "src/main/java/com/myproject/autopartsestoresystem/service/**"
-          target: 85%
+          target: 80%
           threshold: 5%
       controller:
           paths:

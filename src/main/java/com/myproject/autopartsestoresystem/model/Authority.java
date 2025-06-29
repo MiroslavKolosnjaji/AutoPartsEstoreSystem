@@ -1,5 +1,6 @@
 package com.myproject.autopartsestoresystem.model;
 
+import com.myproject.autopartsestoresystem.users.entity.Role;
 import jakarta.persistence.*;
 import lombok.*;
 

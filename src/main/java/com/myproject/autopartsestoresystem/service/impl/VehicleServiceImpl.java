@@ -8,7 +8,6 @@ import com.myproject.autopartsestoresystem.mapper.VehicleMapper;
 import com.myproject.autopartsestoresystem.model.Vehicle;
 import com.myproject.autopartsestoresystem.repository.VehicleRepository;
 import com.myproject.autopartsestoresystem.search.specification.VehicleSpecification;
-import com.myproject.autopartsestoresystem.service.RoleService;
 import com.myproject.autopartsestoresystem.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

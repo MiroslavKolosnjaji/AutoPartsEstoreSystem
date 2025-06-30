@@ -1,5 +1,7 @@
 package com.myproject.autopartsestoresystem.bootstrap;
 
+import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
+import com.myproject.autopartsestoresystem.customers.service.CustomerService;
 import com.myproject.autopartsestoresystem.dto.*;
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;

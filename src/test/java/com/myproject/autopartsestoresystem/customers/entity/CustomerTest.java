@@ -1,5 +1,6 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.customers.entity;
 
+import com.myproject.autopartsestoresystem.model.City;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

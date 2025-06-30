@@ -1,14 +1,11 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.CardDTO;
-import com.myproject.autopartsestoresystem.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.CardNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.CardMapper;
 import com.myproject.autopartsestoresystem.model.Card;
-import com.myproject.autopartsestoresystem.model.Customer;
 import com.myproject.autopartsestoresystem.repository.CardRepository;
-import com.myproject.autopartsestoresystem.repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

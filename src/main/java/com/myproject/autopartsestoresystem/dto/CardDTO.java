@@ -1,6 +1,5 @@
 package com.myproject.autopartsestoresystem.dto;
 
-import com.myproject.autopartsestoresystem.model.Customer;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.sql.Update;

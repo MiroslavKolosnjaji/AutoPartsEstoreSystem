@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.dto.CustomerDTO;
+import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderNotFoundException;
 import com.myproject.autopartsestoresystem.model.Part;

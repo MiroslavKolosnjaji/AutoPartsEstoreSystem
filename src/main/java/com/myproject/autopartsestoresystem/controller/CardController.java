@@ -3,8 +3,6 @@ package com.myproject.autopartsestoresystem.controller;
 import com.myproject.autopartsestoresystem.dto.CardDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.CardNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.service.CardService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,13 +1,13 @@
-package com.myproject.autopartsestoresystem.service.impl;
+package com.myproject.autopartsestoresystem.customers.service.impl;
 
 
-import com.myproject.autopartsestoresystem.dto.CustomerDTO;
+import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
+import com.myproject.autopartsestoresystem.customers.exception.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.model.City;
 import com.myproject.autopartsestoresystem.repository.CityRepository;
-import com.myproject.autopartsestoresystem.service.CustomerService;
+import com.myproject.autopartsestoresystem.customers.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

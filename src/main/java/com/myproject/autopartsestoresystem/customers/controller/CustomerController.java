@@ -1,15 +1,13 @@
-package com.myproject.autopartsestoresystem.controller;
+package com.myproject.autopartsestoresystem.customers.controller;
 
-import com.myproject.autopartsestoresystem.dto.CustomerDTO;
+import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.EmailAddressAlreadyExistsException;
 import com.myproject.autopartsestoresystem.security.permission.customer.CustomerCreatePermission;
 import com.myproject.autopartsestoresystem.security.permission.customer.CustomerDeletePermission;
 import com.myproject.autopartsestoresystem.security.permission.customer.CustomerReadPermission;
 import com.myproject.autopartsestoresystem.security.permission.customer.CustomerUpdatePermission;
-import com.myproject.autopartsestoresystem.service.CustomerService;
+import com.myproject.autopartsestoresystem.customers.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

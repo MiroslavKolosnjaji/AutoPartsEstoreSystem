@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.dto;
+package com.myproject.autopartsestoresystem.customers.dto;
 
 import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.model.City;

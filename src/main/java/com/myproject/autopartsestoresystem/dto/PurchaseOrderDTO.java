@@ -1,5 +1,6 @@
 package com.myproject.autopartsestoresystem.dto;
 
+import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.model.PaymentType;
 import com.myproject.autopartsestoresystem.model.PurchaseOrderItem;
 import com.myproject.autopartsestoresystem.model.PurchaseOrderStatus;

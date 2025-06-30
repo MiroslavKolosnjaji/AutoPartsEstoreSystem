@@ -1,6 +1,9 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.customers.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.myproject.autopartsestoresystem.model.Card;
+import com.myproject.autopartsestoresystem.model.City;
+import com.myproject.autopartsestoresystem.model.PurchaseOrder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

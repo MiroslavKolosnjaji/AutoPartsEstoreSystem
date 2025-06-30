@@ -1,6 +1,6 @@
-package com.myproject.autopartsestoresystem.repository;
+package com.myproject.autopartsestoresystem.customers.repository;
 
-import com.myproject.autopartsestoresystem.model.Customer;
+import com.myproject.autopartsestoresystem.customers.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

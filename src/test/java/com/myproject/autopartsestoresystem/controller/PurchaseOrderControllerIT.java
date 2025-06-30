@@ -1,27 +1,25 @@
 package com.myproject.autopartsestoresystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.dto.CustomerDTO;
+import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.dto.PartDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.PartMapper;
 import com.myproject.autopartsestoresystem.model.Part;
 import com.myproject.autopartsestoresystem.model.PurchaseOrderItem;
-import com.myproject.autopartsestoresystem.service.CustomerService;
+import com.myproject.autopartsestoresystem.customers.service.CustomerService;
 import com.myproject.autopartsestoresystem.service.PartService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author Miroslav Kološnjaji

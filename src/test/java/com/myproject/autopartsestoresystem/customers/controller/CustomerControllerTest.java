@@ -1,14 +1,12 @@
-package com.myproject.autopartsestoresystem.controller;
+package com.myproject.autopartsestoresystem.customers.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.myproject.autopartsestoresystem.dto.CustomerDTO;
-import com.myproject.autopartsestoresystem.exception.service.CustomerNotFoundException;
+import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
+import com.myproject.autopartsestoresystem.customers.exception.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.model.City;
-import com.myproject.autopartsestoresystem.model.Customer;
-import com.myproject.autopartsestoresystem.model.Payment;
-import com.myproject.autopartsestoresystem.service.CustomerService;
+import com.myproject.autopartsestoresystem.customers.service.CustomerService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,7 +26,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 /**
  * @author Miroslav Kološnjaji

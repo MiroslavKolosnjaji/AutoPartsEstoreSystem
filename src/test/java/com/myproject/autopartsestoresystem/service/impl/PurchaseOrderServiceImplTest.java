@@ -1,10 +1,10 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
-import com.myproject.autopartsestoresystem.dto.CustomerDTO;
+import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
+import com.myproject.autopartsestoresystem.customers.entity.Customer;
 import com.myproject.autopartsestoresystem.dto.PaymentDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderItemDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.PaymentProcessingException;
 import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderItemNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderNotFoundException;

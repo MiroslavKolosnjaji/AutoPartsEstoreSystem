@@ -5,7 +5,7 @@ import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExi
 import com.myproject.autopartsestoresystem.exception.service.CardNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.CardMapper;
 import com.myproject.autopartsestoresystem.model.Card;
-import com.myproject.autopartsestoresystem.model.Customer;
+import com.myproject.autopartsestoresystem.customers.entity.Customer;
 import com.myproject.autopartsestoresystem.repository.CardRepository;
 import com.myproject.autopartsestoresystem.service.CardService;
 import lombok.RequiredArgsConstructor;

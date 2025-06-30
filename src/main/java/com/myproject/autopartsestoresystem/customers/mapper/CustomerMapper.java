@@ -1,7 +1,7 @@
-package com.myproject.autopartsestoresystem.mapper;
+package com.myproject.autopartsestoresystem.customers.mapper;
 
-import com.myproject.autopartsestoresystem.dto.CustomerDTO;
-import com.myproject.autopartsestoresystem.model.Customer;
+import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
+import com.myproject.autopartsestoresystem.customers.entity.Customer;
 import org.mapstruct.Mapper;
 
 /**

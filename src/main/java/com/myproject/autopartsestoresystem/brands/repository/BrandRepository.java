@@ -1,6 +1,6 @@
-package com.myproject.autopartsestoresystem.repository;
+package com.myproject.autopartsestoresystem.brands.repository;
 
-import com.myproject.autopartsestoresystem.model.Brand;
+import com.myproject.autopartsestoresystem.brands.entity.Brand;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

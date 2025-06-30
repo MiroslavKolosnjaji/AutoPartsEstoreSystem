@@ -1,9 +1,9 @@
-package com.myproject.autopartsestoresystem.controller;
+package com.myproject.autopartsestoresystem.brands.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.dto.BrandDTO;
-import com.myproject.autopartsestoresystem.exception.service.BrandNotFoundException;
-import com.myproject.autopartsestoresystem.service.BrandService;
+import com.myproject.autopartsestoresystem.brands.dto.BrandDTO;
+import com.myproject.autopartsestoresystem.brands.exception.BrandNotFoundException;
+import com.myproject.autopartsestoresystem.brands.service.BrandService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

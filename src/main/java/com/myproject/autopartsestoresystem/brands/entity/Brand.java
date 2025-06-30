@@ -1,7 +1,7 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.brands.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.myproject.autopartsestoresystem.model.Model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

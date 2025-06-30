@@ -1,6 +1,5 @@
 package com.myproject.autopartsestoresystem.dto;
 
-import com.myproject.autopartsestoresystem.model.Brand;
 import com.myproject.autopartsestoresystem.model.Model;
 import com.myproject.autopartsestoresystem.model.Part;
 import jakarta.validation.constraints.NotBlank;

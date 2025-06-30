@@ -1,11 +1,14 @@
 package com.myproject.autopartsestoresystem.bootstrap;
 
+import com.myproject.autopartsestoresystem.brands.dto.BrandDTO;
+import com.myproject.autopartsestoresystem.brands.entity.Brand;
+import com.myproject.autopartsestoresystem.brands.service.BrandService;
 import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.customers.service.CustomerService;
 import com.myproject.autopartsestoresystem.dto.*;
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
-import com.myproject.autopartsestoresystem.mapper.BrandMapper;
+import com.myproject.autopartsestoresystem.brands.mapper.BrandMapper;
 import com.myproject.autopartsestoresystem.mapper.CityMapper;
 import com.myproject.autopartsestoresystem.mapper.ModelMapper;
 import com.myproject.autopartsestoresystem.mapper.PartMapper;

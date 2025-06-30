@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.dto;
+package com.myproject.autopartsestoresystem.brands.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

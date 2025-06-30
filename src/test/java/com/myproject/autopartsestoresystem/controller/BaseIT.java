@@ -9,7 +9,7 @@ import java.util.stream.Stream;
  */
 public abstract class BaseIT {
 
-    private static final String SOURCE_PATH = "com.myproject.autopartsestoresystem.controller.BrandControllerIT#";
+    private static final String SOURCE_PATH = "com.myproject.autopartsestoresystem.brands.controller.BrandControllerIT#";
     public static final String IDX_WITH_ARGS = "#{index} with [{arguments}]";
 
     public static final String GET_ADMIN_USER = SOURCE_PATH + "getStreamAdminUser";

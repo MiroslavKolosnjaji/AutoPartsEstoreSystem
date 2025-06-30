@@ -4,7 +4,7 @@ import com.myproject.autopartsestoresystem.dto.ModelDTO;
 import com.myproject.autopartsestoresystem.exception.service.ModelAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.service.ModelNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.ModelMapper;
-import com.myproject.autopartsestoresystem.model.Brand;
+import com.myproject.autopartsestoresystem.brands.entity.Brand;
 import com.myproject.autopartsestoresystem.model.Model;
 import com.myproject.autopartsestoresystem.model.ModelId;
 import com.myproject.autopartsestoresystem.repository.ModelRepository;

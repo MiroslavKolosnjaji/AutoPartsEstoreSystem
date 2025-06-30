@@ -3,7 +3,7 @@ package com.myproject.autopartsestoresystem.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.autopartsestoresystem.dto.ModelDTO;
 import com.myproject.autopartsestoresystem.exception.service.ModelNotFoundException;
-import com.myproject.autopartsestoresystem.model.Brand;
+import com.myproject.autopartsestoresystem.brands.entity.Brand;
 import com.myproject.autopartsestoresystem.model.ModelId;
 import com.myproject.autopartsestoresystem.service.ModelService;
 import org.junit.jupiter.api.BeforeEach;

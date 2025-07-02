@@ -1,9 +1,7 @@
 package com.myproject.autopartsestoresystem.dto;
 
-import com.myproject.autopartsestoresystem.model.Part;
 import com.myproject.autopartsestoresystem.model.PurchaseOrder;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.myproject.autopartsestoresystem.parts.dto.PartDTO;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

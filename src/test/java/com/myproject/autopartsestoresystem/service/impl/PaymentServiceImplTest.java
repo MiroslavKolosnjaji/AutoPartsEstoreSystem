@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
-import com.myproject.autopartsestoresystem.dto.PaymentDTO;
+import com.myproject.autopartsestoresystem.parts.dto.PaymentDTO;
 import com.myproject.autopartsestoresystem.exception.service.PaymentNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.PaymentProcessingException;
 import com.myproject.autopartsestoresystem.mapper.PaymentMapper;

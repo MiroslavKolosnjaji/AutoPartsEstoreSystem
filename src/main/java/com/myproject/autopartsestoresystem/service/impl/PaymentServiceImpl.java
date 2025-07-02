@@ -1,7 +1,6 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
-import com.myproject.autopartsestoresystem.dto.PaymentDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.parts.dto.PaymentDTO;
 import com.myproject.autopartsestoresystem.exception.service.PaymentNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.PaymentProcessingException;
 import com.myproject.autopartsestoresystem.mapper.PaymentMapper;
@@ -11,11 +10,8 @@ import com.myproject.autopartsestoresystem.repository.PaymentRepository;
 import com.myproject.autopartsestoresystem.service.PaymentService;
 import com.myproject.autopartsestoresystem.service.StripeService;
 import com.stripe.exception.StripeException;
-import com.stripe.model.Charge;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 

@@ -1,0 +1,72 @@
+package com.myproject.autopartsestoresystem.parts.service.impl;
+
+import com.myproject.autopartsestoresystem.parts.dto.PartGroupDTO;
+import com.myproject.autopartsestoresystem.parts.exception.PartGroupAlreadyExistsException;
+import com.myproject.autopartsestoresystem.parts.exception.PartGroupNotFoundException;
+import com.myproject.autopartsestoresystem.parts.mapper.PartGroupMapper;
+import com.myproject.autopartsestoresystem.parts.entity.PartGroup;
+import com.myproject.autopartsestoresystem.parts.repository.PartGroupRepository;
+import com.myproject.autopartsestoresystem.parts.service.PartGroupService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * @author Miroslav Kološnjaji
+ */
+@Service
+@RequiredArgsConstructor
+public class PartGroupServiceImpl implements PartGroupService {
+
+    private final PartGroupRepository partGroupRepository;
+    private final PartGroupMapper partGroupMapper;
+
+    @Override
+    public PartGroupDTO save(PartGroupDTO partGroupDTO) throws PartGroupAlreadyExistsException {
+
+        if (partGroupRepository.findByName(partGroupDTO.getName()).isPresent())
+            throw new PartGroupAlreadyExistsException("Part group already exists!");
+
+        PartGroup saved = partGroupRepository.save(partGroupMapper.partGroupDTOToPartGroup(partGroupDTO));
+
+        return partGroupMapper.partGroupToPartGroupDTO(saved);
+    }
+
+    @Override
+    public PartGroupDTO update(Long id, PartGroupDTO partGroupDTO) throws PartGroupNotFoundException {
+
+        PartGroup found = partGroupRepository.findById(id)
+                .orElseThrow(() -> new PartGroupNotFoundException("Part group not found"));
+
+        found.setName(partGroupDTO.getName());
+        found.setParts(partGroupDTO.getParts());
+
+        PartGroup updated = partGroupRepository.save(found);
+
+        return partGroupMapper.partGroupToPartGroupDTO(updated);
+    }
+
+    @Override
+    public List<PartGroupDTO> getAll() {
+        return partGroupRepository.findAll().stream().map(partGroupMapper::partGroupToPartGroupDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public PartGroupDTO getById(Long id) throws PartGroupNotFoundException {
+        PartGroup partGroup = partGroupRepository.findById(id)
+                .orElseThrow(() -> new PartGroupNotFoundException("Part group not found"));
+
+        return partGroupMapper.partGroupToPartGroupDTO(partGroup);
+    }
+
+    @Override
+    public void delete(Long id) throws PartGroupNotFoundException {
+
+        if (!partGroupRepository.existsById(id))
+            throw new PartGroupNotFoundException("Part group not found");
+
+        partGroupRepository.deleteById(id);
+    }
+}

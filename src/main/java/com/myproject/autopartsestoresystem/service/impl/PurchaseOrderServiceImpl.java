@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
-import com.myproject.autopartsestoresystem.dto.PaymentDTO;
+import com.myproject.autopartsestoresystem.parts.dto.PaymentDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.dto.PurchaseOrderItemDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;

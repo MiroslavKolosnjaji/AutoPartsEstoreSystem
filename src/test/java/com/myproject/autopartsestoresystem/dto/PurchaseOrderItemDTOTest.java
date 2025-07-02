@@ -1,8 +1,9 @@
 package com.myproject.autopartsestoresystem.dto;
 
 import com.myproject.autopartsestoresystem.model.Currency;
-import com.myproject.autopartsestoresystem.model.Price;
+import com.myproject.autopartsestoresystem.parts.entity.Price;
 import com.myproject.autopartsestoresystem.model.PurchaseOrder;
+import com.myproject.autopartsestoresystem.parts.dto.PartDTO;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

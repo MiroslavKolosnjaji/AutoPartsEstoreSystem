@@ -1,6 +1,7 @@
 package com.myproject.autopartsestoresystem.model;
 
 import com.myproject.autopartsestoresystem.models.entity.Model;
+import com.myproject.autopartsestoresystem.parts.entity.Part;
 import jakarta.persistence.*;
 import lombok.*;
 

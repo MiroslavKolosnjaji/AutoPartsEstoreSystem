@@ -1,0 +1,116 @@
+package com.myproject.autopartsestoresystem.parts.service.impl;
+
+import com.myproject.autopartsestoresystem.parts.dto.PriceDTO;
+import com.myproject.autopartsestoresystem.parts.exception.PriceNotFoundException;
+import com.myproject.autopartsestoresystem.parts.mapper.PriceMapper;
+import com.myproject.autopartsestoresystem.parts.entity.Price;
+import com.myproject.autopartsestoresystem.parts.entity.PriceId;
+import com.myproject.autopartsestoresystem.parts.repository.PriceRepository;
+import com.myproject.autopartsestoresystem.parts.service.PriceService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+/**
+ * @author Miroslav Kološnjaji
+ */
+@Service
+@RequiredArgsConstructor
+public class PriceServiceImpl implements PriceService {
+
+    private final PriceRepository priceRepository;
+    private final PriceMapper priceMapper;
+
+    @Override
+    public PriceDTO save(PriceDTO priceDTO) {
+
+        PriceId priceId = new PriceId(priceDTO.getId().getPartId(), generateNextPriceId(priceRepository.findMaxPriceId(priceDTO.getId().getPartId())));
+        priceDTO.setId(priceId);
+
+        if (priceDTO.getDateModified() == null)
+            priceDTO.setDateModified(LocalDateTime.now());
+
+        Price price = priceRepository.save(priceMapper.priceDTOToPrice(priceDTO));
+
+        return priceMapper.priceToPriceDTO(price);
+    }
+
+    @Override
+    public PriceDTO update(PriceId priceId, PriceDTO priceDTO) throws PriceNotFoundException {
+
+        PriceUpdateStatus updateStatus = getPriceUpdateStatus(priceId, priceDTO.getDateModified());
+
+
+        switch (updateStatus) {
+
+            case NEW_PRICE -> {
+                return save(priceDTO);
+            }
+
+            case UPDATE_EXISTING_PRICE -> {
+                return updateExistingPrice(priceId, priceDTO);
+            }
+
+            default -> {
+                return null;
+            }
+        }
+    }
+
+    @Override
+    public List<PriceDTO> getAll() {
+        throw new UnsupportedOperationException("Get all prices operation is not supported");
+    }
+
+    @Override
+    public PriceDTO getById(PriceId priceId) {
+        throw new UnsupportedOperationException("Get price by ID operation is not supported");
+    }
+
+    @Override
+    public List<PriceDTO> getAllPricesByPriceId(PriceId priceId) {
+        return priceRepository.getPricesById(priceId).stream().map(priceMapper::priceToPriceDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public void delete(PriceId priceId) {
+        throw new UnsupportedOperationException("Delete operation is not supported");
+    }
+
+    @Override
+    public Optional<PriceDTO> getPriceByPriceIdAndLastModifiedDate(PriceId priceId, LocalDateTime lastModifiedDate) throws PriceNotFoundException {
+
+        Price price = priceRepository.getPriceByIdAndDateModified(priceId, lastModifiedDate)
+                .orElseThrow(()-> new PriceNotFoundException("Price not found"));
+
+        return Optional.of(priceMapper.priceToPriceDTO(price));
+
+    }
+
+    private PriceUpdateStatus getPriceUpdateStatus(PriceId priceId, LocalDateTime lastModifiedDate) throws PriceNotFoundException {
+
+        Optional<PriceDTO> lastPrice = getPriceByPriceIdAndLastModifiedDate(priceId, lastModifiedDate);
+
+        if (lastPrice.isPresent())
+            return lastPrice.get().getId().equals(priceId) ? PriceUpdateStatus.UPDATE_EXISTING_PRICE : PriceUpdateStatus.NO_CHANGES;
+
+        return PriceUpdateStatus.NEW_PRICE;
+    }
+
+    private PriceDTO updateExistingPrice(PriceId priceId, PriceDTO priceDTO) throws PriceNotFoundException {
+
+        Price price = priceRepository.getPriceByIdAndDateModified(priceId, priceDTO.getDateModified())
+                .orElseThrow(() -> new PriceNotFoundException("Price not found for update"));
+
+        price.setPrice(priceDTO.getPrice());
+        price.setCurrency(priceDTO.getCurrency());
+
+        Price savedPrice = priceRepository.save(price);
+
+        return priceMapper.priceToPriceDTO(savedPrice);
+    }
+}

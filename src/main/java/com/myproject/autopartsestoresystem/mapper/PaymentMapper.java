@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.mapper;
 
-import com.myproject.autopartsestoresystem.dto.PaymentDTO;
+import com.myproject.autopartsestoresystem.parts.dto.PaymentDTO;
 import com.myproject.autopartsestoresystem.model.Payment;
 import org.mapstruct.Mapper;
 

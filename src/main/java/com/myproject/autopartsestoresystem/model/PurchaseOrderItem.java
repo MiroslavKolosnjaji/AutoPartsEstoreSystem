@@ -2,7 +2,7 @@ package com.myproject.autopartsestoresystem.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.myproject.autopartsestoresystem.parts.entity.Part;
 import jakarta.persistence.*;
 import lombok.*;
 

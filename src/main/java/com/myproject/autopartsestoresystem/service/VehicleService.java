@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.service;
 
-import com.myproject.autopartsestoresystem.dto.PartDTO;
+import com.myproject.autopartsestoresystem.parts.dto.PartDTO;
 import com.myproject.autopartsestoresystem.dto.VehicleDTO;
 
 import java.util.List;

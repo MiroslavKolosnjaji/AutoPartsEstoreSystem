@@ -4,6 +4,7 @@ import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.model.PaymentMethod;
 import com.myproject.autopartsestoresystem.model.PaymentStatus;
 import com.myproject.autopartsestoresystem.model.PurchaseOrder;
+import com.myproject.autopartsestoresystem.parts.dto.PaymentDTO;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -11,7 +12,6 @@ import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.core.parameters.P;
 
 import java.math.BigDecimal;
 import java.util.Set;

@@ -1,9 +1,9 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
-import com.myproject.autopartsestoresystem.dto.PartDTO;
+import com.myproject.autopartsestoresystem.parts.dto.PartDTO;
 import com.myproject.autopartsestoresystem.dto.VehicleDTO;
 import com.myproject.autopartsestoresystem.exception.service.VehicleNotFoundException;
-import com.myproject.autopartsestoresystem.mapper.PartMapper;
+import com.myproject.autopartsestoresystem.parts.mapper.PartMapper;
 import com.myproject.autopartsestoresystem.mapper.VehicleMapper;
 import com.myproject.autopartsestoresystem.model.Vehicle;
 import com.myproject.autopartsestoresystem.repository.VehicleRepository;

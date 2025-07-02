@@ -1,11 +1,10 @@
 package com.myproject.autopartsestoresystem.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.myproject.autopartsestoresystem.models.entity.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Miroslav Kološnjaji

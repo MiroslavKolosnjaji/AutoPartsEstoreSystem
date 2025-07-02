@@ -10,10 +10,14 @@ import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExi
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.brands.mapper.BrandMapper;
 import com.myproject.autopartsestoresystem.mapper.CityMapper;
-import com.myproject.autopartsestoresystem.mapper.ModelMapper;
+import com.myproject.autopartsestoresystem.models.entity.Model;
+import com.myproject.autopartsestoresystem.models.entity.ModelId;
+import com.myproject.autopartsestoresystem.models.mapper.ModelMapper;
 import com.myproject.autopartsestoresystem.mapper.PartMapper;
 import com.myproject.autopartsestoresystem.model.*;
 import com.myproject.autopartsestoresystem.model.Currency;
+import com.myproject.autopartsestoresystem.models.dto.ModelDTO;
+import com.myproject.autopartsestoresystem.models.service.ModelService;
 import com.myproject.autopartsestoresystem.repository.*;
 import com.myproject.autopartsestoresystem.service.*;
 import com.myproject.autopartsestoresystem.users.entity.Role;

@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.dto;
 
-import com.myproject.autopartsestoresystem.model.Model;
+import com.myproject.autopartsestoresystem.models.entity.Model;
 import com.myproject.autopartsestoresystem.model.Part;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

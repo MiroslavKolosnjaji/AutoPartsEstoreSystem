@@ -1,10 +1,8 @@
-package com.myproject.autopartsestoresystem.repository;
+package com.myproject.autopartsestoresystem.models.repository;
 
-import com.myproject.autopartsestoresystem.model.Model;
-import com.myproject.autopartsestoresystem.model.ModelId;
+import com.myproject.autopartsestoresystem.models.entity.Model;
+import com.myproject.autopartsestoresystem.models.entity.ModelId;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Optional;
 
 /**
  * @author Miroslav Kološnjaji

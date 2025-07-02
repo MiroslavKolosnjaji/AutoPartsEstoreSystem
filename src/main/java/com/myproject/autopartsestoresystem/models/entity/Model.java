@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.myproject.autopartsestoresystem.brands.entity.Brand;

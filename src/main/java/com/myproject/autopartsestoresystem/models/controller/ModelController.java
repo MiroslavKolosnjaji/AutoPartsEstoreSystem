@@ -1,16 +1,14 @@
-package com.myproject.autopartsestoresystem.controller;
+package com.myproject.autopartsestoresystem.models.controller;
 
-import com.myproject.autopartsestoresystem.dto.ModelDTO;
+import com.myproject.autopartsestoresystem.models.dto.ModelDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.ModelAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.service.ModelNotFoundException;
-import com.myproject.autopartsestoresystem.model.ModelId;
+import com.myproject.autopartsestoresystem.models.entity.ModelId;
 import com.myproject.autopartsestoresystem.security.permission.model.ModelCreatePermission;
 import com.myproject.autopartsestoresystem.security.permission.model.ModelDeletePermission;
 import com.myproject.autopartsestoresystem.security.permission.model.ModelReadPermission;
 import com.myproject.autopartsestoresystem.security.permission.model.ModelUpdatePermission;
-import com.myproject.autopartsestoresystem.service.ModelService;
+import com.myproject.autopartsestoresystem.models.service.ModelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

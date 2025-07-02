@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.models.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.sql.Update;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Miroslav Kološnjaji

@@ -1,11 +1,11 @@
-package com.myproject.autopartsestoresystem.controller;
+package com.myproject.autopartsestoresystem.models.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.dto.ModelDTO;
-import com.myproject.autopartsestoresystem.exception.service.ModelNotFoundException;
+import com.myproject.autopartsestoresystem.models.dto.ModelDTO;
+import com.myproject.autopartsestoresystem.models.exception.ModelNotFoundException;
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
-import com.myproject.autopartsestoresystem.model.ModelId;
-import com.myproject.autopartsestoresystem.service.ModelService;
+import com.myproject.autopartsestoresystem.models.entity.ModelId;
+import com.myproject.autopartsestoresystem.models.service.ModelService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

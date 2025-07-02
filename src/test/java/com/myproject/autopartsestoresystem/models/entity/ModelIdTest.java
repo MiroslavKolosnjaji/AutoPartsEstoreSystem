@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.models.entity;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

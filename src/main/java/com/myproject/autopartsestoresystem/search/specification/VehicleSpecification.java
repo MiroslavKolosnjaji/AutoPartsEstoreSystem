@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.search.specification;
 
-import com.myproject.autopartsestoresystem.model.Model;
+import com.myproject.autopartsestoresystem.models.entity.Model;
 import com.myproject.autopartsestoresystem.model.Vehicle;
 import jakarta.persistence.criteria.*;
 import lombok.AllArgsConstructor;

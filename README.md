@@ -46,17 +46,5 @@ The system includes key functionalities such as advanced search, part grouping, 
 The primary objective of this project is to develop a comprehensive backend system within a monolithic architecture for an automobile parts purchasing application as a learning and portfolio project.
 The backend manages core functionalities, such as searching for parts based on vehicle specifics, securely processing payments, invoicing, and generating order confirmations, showcasing foundational skills in backend development.
 
-
-### Project Phases:
-- Project setup and initialization
-- Database design and entity modeling
-- Implementation of CRUD operations for managing parts, brands, and models
-- Development of advanced search functionality based on vehicle specifications
-- Integration of order management, payment processing, and invoice generation
-- Implementation of user authentication and registration system
-- Testing, debugging, and optimization
-- Integration with CircleCI for continuous integration and automated testing
-- Deployment and final adjustments
-
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

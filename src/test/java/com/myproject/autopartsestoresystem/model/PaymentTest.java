@@ -1,5 +1,6 @@
 package com.myproject.autopartsestoresystem.model;
 
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrder;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

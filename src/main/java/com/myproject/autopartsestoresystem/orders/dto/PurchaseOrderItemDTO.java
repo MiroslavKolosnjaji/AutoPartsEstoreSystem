@@ -1,6 +1,6 @@
-package com.myproject.autopartsestoresystem.dto;
+package com.myproject.autopartsestoresystem.orders.dto;
 
-import com.myproject.autopartsestoresystem.model.PurchaseOrder;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrder;
 import com.myproject.autopartsestoresystem.parts.dto.PartDTO;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

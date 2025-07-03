@@ -1,7 +1,8 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.orders.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.myproject.autopartsestoresystem.customers.entity.Customer;
+import com.myproject.autopartsestoresystem.model.Payment;
 import jakarta.persistence.*;
 import lombok.*;
 

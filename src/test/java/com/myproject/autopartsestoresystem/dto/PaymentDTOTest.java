@@ -3,7 +3,7 @@ package com.myproject.autopartsestoresystem.dto;
 import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.model.PaymentMethod;
 import com.myproject.autopartsestoresystem.model.PaymentStatus;
-import com.myproject.autopartsestoresystem.model.PurchaseOrder;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrder;
 import com.myproject.autopartsestoresystem.parts.dto.PaymentDTO;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;

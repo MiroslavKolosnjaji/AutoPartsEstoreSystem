@@ -2,12 +2,13 @@ package com.myproject.autopartsestoresystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
-import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
-import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderNotFoundException;
+import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderDTO;
+import com.myproject.autopartsestoresystem.orders.exception.PurchaseOrderNotFoundException;
+import com.myproject.autopartsestoresystem.orders.controller.PurchaseOrderController;
 import com.myproject.autopartsestoresystem.parts.entity.Part;
-import com.myproject.autopartsestoresystem.model.PurchaseOrderItem;
-import com.myproject.autopartsestoresystem.model.PurchaseOrderStatus;
-import com.myproject.autopartsestoresystem.service.PurchaseOrderService;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderItem;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderStatus;
+import com.myproject.autopartsestoresystem.orders.service.PurchaseOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

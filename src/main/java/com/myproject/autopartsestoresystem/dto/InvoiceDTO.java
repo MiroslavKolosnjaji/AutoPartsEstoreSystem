@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.dto;
 
 import com.myproject.autopartsestoresystem.model.InvoiceItem;
-import com.myproject.autopartsestoresystem.model.PurchaseOrder;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrder;
 import com.myproject.autopartsestoresystem.model.Store;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

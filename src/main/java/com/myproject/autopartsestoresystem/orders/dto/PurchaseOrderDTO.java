@@ -1,9 +1,9 @@
-package com.myproject.autopartsestoresystem.dto;
+package com.myproject.autopartsestoresystem.orders.dto;
 
 import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.model.PaymentType;
-import com.myproject.autopartsestoresystem.model.PurchaseOrderItem;
-import com.myproject.autopartsestoresystem.model.PurchaseOrderStatus;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderItem;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderStatus;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;

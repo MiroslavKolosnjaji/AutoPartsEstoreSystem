@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.orders.entity;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,12 +1,9 @@
-package com.myproject.autopartsestoresystem.controller;
+package com.myproject.autopartsestoresystem.orders.controller;
 
-import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.PaymentProcessingException;
-import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderItemNotFoundException;
-import com.myproject.autopartsestoresystem.service.PurchaseOrderService;
+import com.myproject.autopartsestoresystem.orders.service.PurchaseOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

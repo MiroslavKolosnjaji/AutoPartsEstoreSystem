@@ -3,7 +3,7 @@ package com.myproject.autopartsestoresystem.parts.dto;
 import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.model.PaymentMethod;
 import com.myproject.autopartsestoresystem.model.PaymentStatus;
-import com.myproject.autopartsestoresystem.model.PurchaseOrder;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrder;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;

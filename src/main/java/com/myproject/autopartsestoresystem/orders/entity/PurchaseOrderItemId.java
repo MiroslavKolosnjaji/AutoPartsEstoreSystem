@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.orders.entity;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

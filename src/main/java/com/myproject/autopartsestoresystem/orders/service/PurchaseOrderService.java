@@ -1,10 +1,11 @@
-package com.myproject.autopartsestoresystem.service;
+package com.myproject.autopartsestoresystem.orders.service;
 
-import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
+import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.exception.service.PaymentProcessingException;
-import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderItemNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderNotFoundException;
-import com.myproject.autopartsestoresystem.model.PurchaseOrderStatus;
+import com.myproject.autopartsestoresystem.orders.exception.PurchaseOrderItemNotFoundException;
+import com.myproject.autopartsestoresystem.orders.exception.PurchaseOrderNotFoundException;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderStatus;
+import com.myproject.autopartsestoresystem.service.CrudService;
 
 import java.util.List;
 import java.util.Optional;

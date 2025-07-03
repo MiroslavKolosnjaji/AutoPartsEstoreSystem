@@ -1,20 +1,22 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.InvoiceDTO;
-import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
+import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.dto.StoreDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.InvoiceCreationException;
 import com.myproject.autopartsestoresystem.exception.service.InvoiceNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.InvoiceMapper;
-import com.myproject.autopartsestoresystem.mapper.PurchaseOrderMapper;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrder;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderItem;
+import com.myproject.autopartsestoresystem.orders.mapper.PurchaseOrderMapper;
 import com.myproject.autopartsestoresystem.mapper.StoreMapper;
 import com.myproject.autopartsestoresystem.model.*;
 import com.myproject.autopartsestoresystem.parts.entity.Part;
 import com.myproject.autopartsestoresystem.parts.entity.Price;
 import com.myproject.autopartsestoresystem.repository.InvoiceItemRepository;
 import com.myproject.autopartsestoresystem.repository.InvoiceRepository;
-import com.myproject.autopartsestoresystem.service.PurchaseOrderService;
+import com.myproject.autopartsestoresystem.orders.service.PurchaseOrderService;
 import com.myproject.autopartsestoresystem.service.StoreService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

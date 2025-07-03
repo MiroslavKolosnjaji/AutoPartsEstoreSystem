@@ -1,22 +1,20 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
 import com.myproject.autopartsestoresystem.dto.InvoiceDTO;
-import com.myproject.autopartsestoresystem.dto.PurchaseOrderDTO;
+import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.dto.StoreDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.InvoiceCreationException;
 import com.myproject.autopartsestoresystem.exception.service.InvoiceNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderNotFoundException;
 import com.myproject.autopartsestoresystem.mapper.InvoiceMapper;
-import com.myproject.autopartsestoresystem.mapper.PurchaseOrderMapper;
+import com.myproject.autopartsestoresystem.orders.mapper.PurchaseOrderMapper;
 import com.myproject.autopartsestoresystem.mapper.StoreMapper;
 import com.myproject.autopartsestoresystem.model.Invoice;
 import com.myproject.autopartsestoresystem.model.InvoiceItem;
 import com.myproject.autopartsestoresystem.repository.InvoiceItemRepository;
 import com.myproject.autopartsestoresystem.repository.InvoiceRepository;
-import com.myproject.autopartsestoresystem.repository.PurchaseOrderRepository;
 import com.myproject.autopartsestoresystem.service.InvoiceService;
-import com.myproject.autopartsestoresystem.service.PurchaseOrderService;
+import com.myproject.autopartsestoresystem.orders.service.PurchaseOrderService;
 import com.myproject.autopartsestoresystem.service.StoreService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
-package com.myproject.autopartsestoresystem.dto;
+package com.myproject.autopartsestoresystem.orders.dto;
 
 import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
-import com.myproject.autopartsestoresystem.model.PurchaseOrderStatus;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderStatus;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

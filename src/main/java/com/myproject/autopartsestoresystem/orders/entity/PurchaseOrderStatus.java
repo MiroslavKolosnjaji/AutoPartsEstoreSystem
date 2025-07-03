@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.orders.entity;
 
 /**
  * @author Miroslav Kološnjaji

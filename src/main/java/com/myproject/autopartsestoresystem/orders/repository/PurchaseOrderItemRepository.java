@@ -1,7 +1,7 @@
-package com.myproject.autopartsestoresystem.repository;
+package com.myproject.autopartsestoresystem.orders.repository;
 
-import com.myproject.autopartsestoresystem.model.PurchaseOrderItem;
-import com.myproject.autopartsestoresystem.model.PurchaseOrderItemId;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderItem;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderItemId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

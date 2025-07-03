@@ -1,12 +1,12 @@
-package com.myproject.autopartsestoresystem.service.impl;
+package com.myproject.autopartsestoresystem.orders.service.impl;
 
-import com.myproject.autopartsestoresystem.dto.PurchaseOrderItemDTO;
-import com.myproject.autopartsestoresystem.exception.service.PurchaseOrderItemNotFoundException;
-import com.myproject.autopartsestoresystem.mapper.PurchaseOrderItemMapper;
-import com.myproject.autopartsestoresystem.model.PurchaseOrderItem;
-import com.myproject.autopartsestoresystem.model.PurchaseOrderItemId;
-import com.myproject.autopartsestoresystem.repository.PurchaseOrderItemRepository;
-import com.myproject.autopartsestoresystem.service.PurchaseOrderItemService;
+import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderItemDTO;
+import com.myproject.autopartsestoresystem.orders.exception.PurchaseOrderItemNotFoundException;
+import com.myproject.autopartsestoresystem.orders.mapper.PurchaseOrderItemMapper;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderItem;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderItemId;
+import com.myproject.autopartsestoresystem.orders.repository.PurchaseOrderItemRepository;
+import com.myproject.autopartsestoresystem.orders.service.PurchaseOrderItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

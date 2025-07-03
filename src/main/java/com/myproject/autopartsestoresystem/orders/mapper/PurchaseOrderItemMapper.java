@@ -1,7 +1,7 @@
-package com.myproject.autopartsestoresystem.mapper;
+package com.myproject.autopartsestoresystem.orders.mapper;
 
-import com.myproject.autopartsestoresystem.dto.PurchaseOrderItemDTO;
-import com.myproject.autopartsestoresystem.model.PurchaseOrderItem;
+import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderItemDTO;
+import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderItem;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

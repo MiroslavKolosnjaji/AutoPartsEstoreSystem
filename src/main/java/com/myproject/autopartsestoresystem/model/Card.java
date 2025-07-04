@@ -2,6 +2,7 @@ package com.myproject.autopartsestoresystem.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.myproject.autopartsestoresystem.customers.entity.Customer;
+import com.myproject.autopartsestoresystem.payments.entity.Payment;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

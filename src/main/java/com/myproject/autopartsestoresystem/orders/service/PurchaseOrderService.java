@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.orders.service;
 
 import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderDTO;
-import com.myproject.autopartsestoresystem.exception.service.PaymentProcessingException;
+import com.myproject.autopartsestoresystem.payments.exception.PaymentProcessingException;
 import com.myproject.autopartsestoresystem.orders.exception.PurchaseOrderItemNotFoundException;
 import com.myproject.autopartsestoresystem.orders.exception.PurchaseOrderNotFoundException;
 import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderStatus;

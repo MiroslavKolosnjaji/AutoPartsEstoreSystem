@@ -2,7 +2,7 @@ package com.myproject.autopartsestoresystem.orders.controller;
 
 import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.PaymentProcessingException;
+import com.myproject.autopartsestoresystem.payments.exception.PaymentProcessingException;
 import com.myproject.autopartsestoresystem.orders.service.PurchaseOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

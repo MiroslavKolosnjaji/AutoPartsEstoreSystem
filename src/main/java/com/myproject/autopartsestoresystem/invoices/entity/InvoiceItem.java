@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.invoices.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

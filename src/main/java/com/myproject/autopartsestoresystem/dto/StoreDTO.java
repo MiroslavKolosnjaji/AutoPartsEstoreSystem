@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.dto;
 
 import com.myproject.autopartsestoresystem.model.City;
-import com.myproject.autopartsestoresystem.model.Invoice;
+import com.myproject.autopartsestoresystem.invoices.entity.Invoice;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

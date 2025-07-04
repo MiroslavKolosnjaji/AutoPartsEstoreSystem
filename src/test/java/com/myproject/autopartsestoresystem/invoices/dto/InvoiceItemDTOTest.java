@@ -1,6 +1,6 @@
-package com.myproject.autopartsestoresystem.dto;
+package com.myproject.autopartsestoresystem.invoices.dto;
 
-import com.myproject.autopartsestoresystem.model.Invoice;
+import com.myproject.autopartsestoresystem.invoices.entity.Invoice;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

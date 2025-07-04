@@ -1,5 +1,6 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.invoices.entity;
 
+import com.myproject.autopartsestoresystem.model.Store;
 import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
-package com.myproject.autopartsestoresystem.mapper;
+package com.myproject.autopartsestoresystem.invoices.mapper;
 
-import com.myproject.autopartsestoresystem.dto.InvoiceItemDTO;
-import com.myproject.autopartsestoresystem.model.InvoiceItem;
+import com.myproject.autopartsestoresystem.invoices.dto.InvoiceItemDTO;
+import com.myproject.autopartsestoresystem.invoices.entity.InvoiceItem;
 import org.mapstruct.Mapper;
 
 /**

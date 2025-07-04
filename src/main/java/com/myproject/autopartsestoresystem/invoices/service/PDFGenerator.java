@@ -1,8 +1,8 @@
-package com.myproject.autopartsestoresystem.service;
+package com.myproject.autopartsestoresystem.invoices.service;
 
-import com.myproject.autopartsestoresystem.dto.InvoiceDTO;
-import com.myproject.autopartsestoresystem.exception.service.InvoicePDFGenerationFailedException;
-import com.myproject.autopartsestoresystem.model.InvoiceItem;
+import com.myproject.autopartsestoresystem.invoices.dto.InvoiceDTO;
+import com.myproject.autopartsestoresystem.invoices.exception.InvoicePDFGenerationFailedException;
+import com.myproject.autopartsestoresystem.invoices.entity.InvoiceItem;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;

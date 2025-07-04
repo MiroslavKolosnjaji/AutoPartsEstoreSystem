@@ -1,34 +1,16 @@
-package com.myproject.autopartsestoresystem.service.impl;
+package com.myproject.autopartsestoresystem.invoices.service.impl;
 
-import com.myproject.autopartsestoresystem.dto.InvoiceDTO;
-import com.myproject.autopartsestoresystem.dto.InvoiceItemDTO;
-import com.myproject.autopartsestoresystem.exception.service.InvoiceNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.InvoicePDFGenerationFailedException;
-import com.myproject.autopartsestoresystem.model.InvoiceItem;
+import com.myproject.autopartsestoresystem.invoices.dto.InvoiceDTO;
+import com.myproject.autopartsestoresystem.invoices.exception.InvoiceNotFoundException;
+import com.myproject.autopartsestoresystem.invoices.exception.InvoicePDFGenerationFailedException;
 import com.myproject.autopartsestoresystem.service.EmailService;
-import com.myproject.autopartsestoresystem.service.InvoicePDFService;
-import com.myproject.autopartsestoresystem.service.InvoiceService;
-import com.myproject.autopartsestoresystem.service.PDFGenerator;
+import com.myproject.autopartsestoresystem.invoices.service.InvoicePDFService;
+import com.myproject.autopartsestoresystem.invoices.service.InvoiceService;
+import com.myproject.autopartsestoresystem.invoices.service.PDFGenerator;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
-
-import java.awt.*;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.List;
 
 /**
  * @author Miroslav Kološnjaji

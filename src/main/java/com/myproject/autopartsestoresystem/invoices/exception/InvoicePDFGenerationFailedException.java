@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.exception.service;
+package com.myproject.autopartsestoresystem.invoices.exception;
 
 /**
  * @author Miroslav Kološnjaji

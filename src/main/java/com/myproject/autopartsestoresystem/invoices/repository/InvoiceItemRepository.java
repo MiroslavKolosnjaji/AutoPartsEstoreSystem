@@ -1,6 +1,6 @@
-package com.myproject.autopartsestoresystem.repository;
+package com.myproject.autopartsestoresystem.invoices.repository;
 
-import com.myproject.autopartsestoresystem.model.InvoiceItem;
+import com.myproject.autopartsestoresystem.invoices.entity.InvoiceItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

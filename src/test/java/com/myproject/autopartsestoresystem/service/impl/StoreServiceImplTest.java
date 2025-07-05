@@ -1,11 +1,12 @@
 package com.myproject.autopartsestoresystem.service.impl;
 
-import com.myproject.autopartsestoresystem.dto.StoreDTO;
-import com.myproject.autopartsestoresystem.exception.service.StoreNotFoundException;
-import com.myproject.autopartsestoresystem.mapper.StoreMapper;
+import com.myproject.autopartsestoresystem.stores.dto.StoreDTO;
+import com.myproject.autopartsestoresystem.stores.exception.StoreNotFoundException;
+import com.myproject.autopartsestoresystem.stores.mapper.StoreMapper;
 import com.myproject.autopartsestoresystem.cities.entity.City;
-import com.myproject.autopartsestoresystem.model.Store;
-import com.myproject.autopartsestoresystem.repository.StoreRepository;
+import com.myproject.autopartsestoresystem.stores.entity.Store;
+import com.myproject.autopartsestoresystem.stores.repository.StoreRepository;
+import com.myproject.autopartsestoresystem.stores.service.impl.StoreServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,13 +1,12 @@
-package com.myproject.autopartsestoresystem.controller;
+package com.myproject.autopartsestoresystem.stores.controller;
 
-import com.myproject.autopartsestoresystem.dto.StoreDTO;
+import com.myproject.autopartsestoresystem.stores.dto.StoreDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
-import com.myproject.autopartsestoresystem.model.Store;
 import com.myproject.autopartsestoresystem.security.permission.store.StoreCreatePermission;
 import com.myproject.autopartsestoresystem.security.permission.store.StoreDeletePermission;
 import com.myproject.autopartsestoresystem.security.permission.store.StoreReadPermission;
 import com.myproject.autopartsestoresystem.security.permission.store.StoreUpdatePermission;
-import com.myproject.autopartsestoresystem.service.StoreService;
+import com.myproject.autopartsestoresystem.stores.service.StoreService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

@@ -33,6 +33,8 @@ import com.myproject.autopartsestoresystem.payments.entity.PaymentType;
 import com.myproject.autopartsestoresystem.payments.repository.PaymentMethodRepository;
 import com.myproject.autopartsestoresystem.repository.*;
 import com.myproject.autopartsestoresystem.service.*;
+import com.myproject.autopartsestoresystem.stores.dto.StoreDTO;
+import com.myproject.autopartsestoresystem.stores.service.StoreService;
 import com.myproject.autopartsestoresystem.users.entity.Role;
 import com.myproject.autopartsestoresystem.users.entity.RoleName;
 import com.myproject.autopartsestoresystem.users.entity.User;

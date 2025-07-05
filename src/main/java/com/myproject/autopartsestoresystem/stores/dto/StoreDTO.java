@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.dto;
+package com.myproject.autopartsestoresystem.stores.dto;
 
 import com.myproject.autopartsestoresystem.cities.entity.City;
 import com.myproject.autopartsestoresystem.invoices.entity.Invoice;

@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.exception.service;
+package com.myproject.autopartsestoresystem.stores.exception;
 
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 

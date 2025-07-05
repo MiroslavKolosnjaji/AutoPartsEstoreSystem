@@ -1,13 +1,11 @@
-package com.myproject.autopartsestoresystem.service.impl;
+package com.myproject.autopartsestoresystem.stores.service.impl;
 
-import com.myproject.autopartsestoresystem.dto.StoreDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.StoreNotFoundException;
-import com.myproject.autopartsestoresystem.mapper.StoreMapper;
-import com.myproject.autopartsestoresystem.model.Store;
-import com.myproject.autopartsestoresystem.repository.StoreRepository;
-import com.myproject.autopartsestoresystem.service.StoreService;
+import com.myproject.autopartsestoresystem.stores.dto.StoreDTO;
+import com.myproject.autopartsestoresystem.stores.exception.StoreNotFoundException;
+import com.myproject.autopartsestoresystem.stores.mapper.StoreMapper;
+import com.myproject.autopartsestoresystem.stores.entity.Store;
+import com.myproject.autopartsestoresystem.stores.repository.StoreRepository;
+import com.myproject.autopartsestoresystem.stores.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

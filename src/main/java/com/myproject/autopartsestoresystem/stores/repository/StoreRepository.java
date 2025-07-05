@@ -1,6 +1,6 @@
-package com.myproject.autopartsestoresystem.repository;
+package com.myproject.autopartsestoresystem.stores.repository;
 
-import com.myproject.autopartsestoresystem.model.Store;
+import com.myproject.autopartsestoresystem.stores.entity.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

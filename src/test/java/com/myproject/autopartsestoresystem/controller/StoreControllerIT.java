@@ -2,10 +2,11 @@ package com.myproject.autopartsestoresystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.autopartsestoresystem.cities.dto.CityDTO;
-import com.myproject.autopartsestoresystem.dto.StoreDTO;
+import com.myproject.autopartsestoresystem.stores.dto.StoreDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.cities.mapper.CityMapper;
 import com.myproject.autopartsestoresystem.cities.service.CityService;
+import com.myproject.autopartsestoresystem.stores.controller.StoreController;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;

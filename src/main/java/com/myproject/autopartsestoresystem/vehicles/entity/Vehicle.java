@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.vehicles.entity;
 
 import com.myproject.autopartsestoresystem.models.entity.Model;
 import com.myproject.autopartsestoresystem.parts.entity.Part;

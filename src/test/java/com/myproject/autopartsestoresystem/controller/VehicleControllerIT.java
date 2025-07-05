@@ -1,10 +1,11 @@
 package com.myproject.autopartsestoresystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.dto.VehicleDTO;
+import com.myproject.autopartsestoresystem.vehicles.dto.VehicleDTO;
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
 import com.myproject.autopartsestoresystem.models.entity.Model;
 import com.myproject.autopartsestoresystem.models.entity.ModelId;
+import com.myproject.autopartsestoresystem.vehicles.controller.VehicleController;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;

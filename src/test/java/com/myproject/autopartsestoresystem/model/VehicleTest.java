@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.model;
 
-import com.myproject.autopartsestoresystem.dto.VehicleDTO;
+import com.myproject.autopartsestoresystem.vehicles.entity.Vehicle;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

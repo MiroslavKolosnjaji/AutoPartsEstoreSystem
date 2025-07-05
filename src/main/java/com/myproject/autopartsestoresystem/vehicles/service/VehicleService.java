@@ -1,7 +1,8 @@
-package com.myproject.autopartsestoresystem.service;
+package com.myproject.autopartsestoresystem.vehicles.service;
 
 import com.myproject.autopartsestoresystem.parts.dto.PartDTO;
-import com.myproject.autopartsestoresystem.dto.VehicleDTO;
+import com.myproject.autopartsestoresystem.service.CrudService;
+import com.myproject.autopartsestoresystem.vehicles.dto.VehicleDTO;
 
 import java.util.List;
 

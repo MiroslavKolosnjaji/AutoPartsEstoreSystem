@@ -1,14 +1,14 @@
-package com.myproject.autopartsestoresystem.service.impl;
+package com.myproject.autopartsestoresystem.vehicles.service.impl;
 
 import com.myproject.autopartsestoresystem.parts.dto.PartDTO;
-import com.myproject.autopartsestoresystem.dto.VehicleDTO;
-import com.myproject.autopartsestoresystem.exception.service.VehicleNotFoundException;
+import com.myproject.autopartsestoresystem.vehicles.dto.VehicleDTO;
+import com.myproject.autopartsestoresystem.vehicles.exception.VehicleNotFoundException;
 import com.myproject.autopartsestoresystem.parts.mapper.PartMapper;
-import com.myproject.autopartsestoresystem.mapper.VehicleMapper;
-import com.myproject.autopartsestoresystem.model.Vehicle;
-import com.myproject.autopartsestoresystem.repository.VehicleRepository;
-import com.myproject.autopartsestoresystem.search.specification.VehicleSpecification;
-import com.myproject.autopartsestoresystem.service.VehicleService;
+import com.myproject.autopartsestoresystem.vehicles.mapper.VehicleMapper;
+import com.myproject.autopartsestoresystem.vehicles.entity.Vehicle;
+import com.myproject.autopartsestoresystem.vehicles.repository.VehicleRepository;
+import com.myproject.autopartsestoresystem.vehicles.search.specification.VehicleSpecification;
+import com.myproject.autopartsestoresystem.vehicles.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

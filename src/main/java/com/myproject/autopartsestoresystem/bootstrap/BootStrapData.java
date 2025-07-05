@@ -36,6 +36,8 @@ import com.myproject.autopartsestoresystem.users.entity.User;
 import com.myproject.autopartsestoresystem.users.repository.RoleRepository;
 import com.myproject.autopartsestoresystem.users.repository.UserRepository;
 import com.myproject.autopartsestoresystem.users.service.UserService;
+import com.myproject.autopartsestoresystem.vehicles.dto.VehicleDTO;
+import com.myproject.autopartsestoresystem.vehicles.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

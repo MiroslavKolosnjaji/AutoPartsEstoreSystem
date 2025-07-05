@@ -11,7 +11,7 @@ import com.myproject.autopartsestoresystem.payments.exception.PaymentProcessingE
 import com.myproject.autopartsestoresystem.payments.mapper.PaymentMapper;
 import com.myproject.autopartsestoresystem.model.*;
 import com.myproject.autopartsestoresystem.payments.repository.PaymentRepository;
-import com.myproject.autopartsestoresystem.service.StripeService;
+import com.myproject.autopartsestoresystem.payments.service.StripeService;
 import com.stripe.exception.CardException;
 import com.stripe.model.Charge;
 import org.junit.jupiter.api.BeforeEach;

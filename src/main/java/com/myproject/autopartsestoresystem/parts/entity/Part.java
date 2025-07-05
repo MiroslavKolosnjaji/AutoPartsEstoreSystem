@@ -2,7 +2,7 @@ package com.myproject.autopartsestoresystem.parts.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderItem;
-import com.myproject.autopartsestoresystem.model.Vehicle;
+import com.myproject.autopartsestoresystem.vehicles.entity.Vehicle;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

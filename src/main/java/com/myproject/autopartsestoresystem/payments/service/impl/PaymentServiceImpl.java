@@ -8,7 +8,7 @@ import com.myproject.autopartsestoresystem.payments.entity.Payment;
 import com.myproject.autopartsestoresystem.payments.entity.PaymentStatus;
 import com.myproject.autopartsestoresystem.payments.repository.PaymentRepository;
 import com.myproject.autopartsestoresystem.payments.service.PaymentService;
-import com.myproject.autopartsestoresystem.service.StripeService;
+import com.myproject.autopartsestoresystem.payments.service.StripeService;
 import com.stripe.exception.StripeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

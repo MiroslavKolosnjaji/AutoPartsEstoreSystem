@@ -5,6 +5,7 @@ import com.myproject.autopartsestoresystem.parts.entity.PartGroup;
 import com.myproject.autopartsestoresystem.parts.entity.PartGroupType;
 import com.myproject.autopartsestoresystem.parts.entity.Price;
 import com.myproject.autopartsestoresystem.parts.entity.PriceId;
+import com.myproject.autopartsestoresystem.vehicles.entity.Vehicle;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

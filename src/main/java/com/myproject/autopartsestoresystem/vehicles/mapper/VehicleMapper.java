@@ -1,7 +1,7 @@
-package com.myproject.autopartsestoresystem.mapper;
+package com.myproject.autopartsestoresystem.vehicles.mapper;
 
-import com.myproject.autopartsestoresystem.dto.VehicleDTO;
-import com.myproject.autopartsestoresystem.model.Vehicle;
+import com.myproject.autopartsestoresystem.vehicles.dto.VehicleDTO;
+import com.myproject.autopartsestoresystem.vehicles.entity.Vehicle;
 import org.mapstruct.Mapper;
 
 /**

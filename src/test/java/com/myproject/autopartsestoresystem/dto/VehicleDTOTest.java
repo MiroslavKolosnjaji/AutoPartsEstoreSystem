@@ -3,6 +3,7 @@ package com.myproject.autopartsestoresystem.dto;
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
 import com.myproject.autopartsestoresystem.models.entity.Model;
 import com.myproject.autopartsestoresystem.models.entity.ModelId;
+import com.myproject.autopartsestoresystem.vehicles.dto.VehicleDTO;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

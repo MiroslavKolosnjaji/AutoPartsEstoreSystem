@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.dto;
+package com.myproject.autopartsestoresystem.vehicles.dto;
 
 import com.myproject.autopartsestoresystem.models.entity.Model;
 import com.myproject.autopartsestoresystem.parts.entity.Part;

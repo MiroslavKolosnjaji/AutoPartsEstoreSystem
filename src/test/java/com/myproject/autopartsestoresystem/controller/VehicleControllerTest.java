@@ -1,12 +1,13 @@
 package com.myproject.autopartsestoresystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.dto.VehicleDTO;
-import com.myproject.autopartsestoresystem.exception.service.VehicleNotFoundException;
+import com.myproject.autopartsestoresystem.vehicles.dto.VehicleDTO;
+import com.myproject.autopartsestoresystem.vehicles.exception.VehicleNotFoundException;
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
 import com.myproject.autopartsestoresystem.models.entity.Model;
 import com.myproject.autopartsestoresystem.models.entity.ModelId;
-import com.myproject.autopartsestoresystem.service.VehicleService;
+import com.myproject.autopartsestoresystem.vehicles.service.VehicleService;
+import com.myproject.autopartsestoresystem.vehicles.controller.VehicleController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;

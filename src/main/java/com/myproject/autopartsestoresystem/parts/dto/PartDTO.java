@@ -2,7 +2,7 @@ package com.myproject.autopartsestoresystem.parts.dto;
 
 import com.myproject.autopartsestoresystem.parts.entity.PartGroup;
 import com.myproject.autopartsestoresystem.parts.entity.Price;
-import com.myproject.autopartsestoresystem.model.Vehicle;
+import com.myproject.autopartsestoresystem.vehicles.entity.Vehicle;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

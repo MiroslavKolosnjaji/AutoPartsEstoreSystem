@@ -1,6 +1,6 @@
-package com.myproject.autopartsestoresystem.service.impl;
+package com.myproject.autopartsestoresystem.payments.service.impl;
 
-import com.myproject.autopartsestoresystem.service.StripeService;
+import com.myproject.autopartsestoresystem.payments.service.StripeService;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;

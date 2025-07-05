@@ -6,7 +6,7 @@
 # AutoPartsEstoreSystem
 
 ## Description:
-AutoPartsEstoreSystem is a server-side web application developed as a personal project for learning purposes. It allows users to browse, search, and simulate the purchase of automobile parts based on vehicle make, model, and engine type.
+AutoPartsEstoreSystem is a server-side software system developed as a personal project for learning purposes. It allows users to browse, search, and simulate the purchase of automobile parts based on vehicle make, model, and engine type.
 The system includes key functionalities such as advanced search, part grouping, order management, and secure payment simulation via Stripe, as well as invoice generation.
 
 **NOTE:** This project is developed as a personal learning project and is not intended for production use. Certain security features, optimizations, and production-level safeguards may be limited or simulated.
@@ -45,18 +45,6 @@ The system includes key functionalities such as advanced search, part grouping, 
 ## Project Goals:
 The primary objective of this project is to develop a comprehensive backend system within a monolithic architecture for an automobile parts purchasing application as a learning and portfolio project.
 The backend manages core functionalities, such as searching for parts based on vehicle specifics, securely processing payments, invoicing, and generating order confirmations, showcasing foundational skills in backend development.
-
-
-### Project Phases:
-- Project setup and initialization
-- Database design and entity modeling
-- Implementation of CRUD operations for managing parts, brands, and models
-- Development of advanced search functionality based on vehicle specifications
-- Integration of order management, payment processing, and invoice generation
-- Implementation of user authentication and registration system
-- Testing, debugging, and optimization
-- Integration with CircleCI for continuous integration and automated testing
-- Deployment and final adjustments
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

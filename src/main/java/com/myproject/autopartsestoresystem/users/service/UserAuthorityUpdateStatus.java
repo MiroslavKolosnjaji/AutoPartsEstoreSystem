@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.service;
+package com.myproject.autopartsestoresystem.users.service;
 
 /**
  * @author Miroslav Kološnjaji

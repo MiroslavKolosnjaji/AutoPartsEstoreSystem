@@ -1,5 +1,7 @@
 package com.myproject.autopartsestoresystem.bootstrap;
 
+import com.myproject.autopartsestoresystem.authorities.entity.Authority;
+import com.myproject.autopartsestoresystem.authorities.repository.AuthorityRepository;
 import com.myproject.autopartsestoresystem.brands.dto.BrandDTO;
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
 import com.myproject.autopartsestoresystem.brands.service.BrandService;
@@ -21,7 +23,6 @@ import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderItem;
 import com.myproject.autopartsestoresystem.orders.service.PurchaseOrderService;
 import com.myproject.autopartsestoresystem.parts.entity.*;
 import com.myproject.autopartsestoresystem.parts.mapper.PartMapper;
-import com.myproject.autopartsestoresystem.model.*;
 import com.myproject.autopartsestoresystem.model.Currency;
 import com.myproject.autopartsestoresystem.models.dto.ModelDTO;
 import com.myproject.autopartsestoresystem.models.service.ModelService;
@@ -31,7 +32,6 @@ import com.myproject.autopartsestoresystem.parts.service.PartService;
 import com.myproject.autopartsestoresystem.payments.entity.PaymentMethod;
 import com.myproject.autopartsestoresystem.payments.entity.PaymentType;
 import com.myproject.autopartsestoresystem.payments.repository.PaymentMethodRepository;
-import com.myproject.autopartsestoresystem.repository.*;
 import com.myproject.autopartsestoresystem.service.*;
 import com.myproject.autopartsestoresystem.stores.dto.StoreDTO;
 import com.myproject.autopartsestoresystem.stores.service.StoreService;

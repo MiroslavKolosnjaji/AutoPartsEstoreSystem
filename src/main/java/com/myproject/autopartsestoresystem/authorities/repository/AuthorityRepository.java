@@ -1,6 +1,6 @@
-package com.myproject.autopartsestoresystem.repository;
+package com.myproject.autopartsestoresystem.authorities.repository;
 
-import com.myproject.autopartsestoresystem.model.Authority;
+import com.myproject.autopartsestoresystem.authorities.entity.Authority;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

@@ -13,7 +13,7 @@ import com.myproject.autopartsestoresystem.users.entity.RoleName;
 import com.myproject.autopartsestoresystem.users.entity.User;
 import com.myproject.autopartsestoresystem.users.repository.UserRepository;
 import com.myproject.autopartsestoresystem.users.service.RoleService;
-import com.myproject.autopartsestoresystem.service.UserAuthorityUpdateStatus;
+import com.myproject.autopartsestoresystem.users.service.UserAuthorityUpdateStatus;
 import com.myproject.autopartsestoresystem.users.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.dto;
+package com.myproject.autopartsestoresystem.authorities.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

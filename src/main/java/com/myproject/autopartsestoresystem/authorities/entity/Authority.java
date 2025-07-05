@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.authorities.entity;
 
 import com.myproject.autopartsestoresystem.users.entity.Role;
 import jakarta.persistence.*;

@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.users.entity;
 
-import com.myproject.autopartsestoresystem.model.Authority;
+import com.myproject.autopartsestoresystem.authorities.entity.Authority;
 import jakarta.persistence.*;
 import lombok.*;
 

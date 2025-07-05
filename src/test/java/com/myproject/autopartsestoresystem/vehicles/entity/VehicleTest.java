@@ -1,6 +1,5 @@
-package com.myproject.autopartsestoresystem.model;
+package com.myproject.autopartsestoresystem.vehicles.entity;
 
-import com.myproject.autopartsestoresystem.vehicles.entity.Vehicle;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

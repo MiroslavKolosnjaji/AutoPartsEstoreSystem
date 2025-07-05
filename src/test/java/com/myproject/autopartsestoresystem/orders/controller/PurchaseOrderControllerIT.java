@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.controller;
+package com.myproject.autopartsestoresystem.orders.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;

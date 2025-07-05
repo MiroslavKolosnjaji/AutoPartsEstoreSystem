@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.service.impl;
+package com.myproject.autopartsestoresystem.vehicles.service.impl;
 
 import com.myproject.autopartsestoresystem.vehicles.dto.VehicleDTO;
 import com.myproject.autopartsestoresystem.vehicles.exception.VehicleNotFoundException;
@@ -8,7 +8,6 @@ import com.myproject.autopartsestoresystem.models.entity.Model;
 import com.myproject.autopartsestoresystem.models.entity.ModelId;
 import com.myproject.autopartsestoresystem.vehicles.entity.Vehicle;
 import com.myproject.autopartsestoresystem.vehicles.repository.VehicleRepository;
-import com.myproject.autopartsestoresystem.vehicles.service.impl.VehicleServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

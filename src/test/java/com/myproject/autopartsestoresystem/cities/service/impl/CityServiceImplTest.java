@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.service.impl;
+package com.myproject.autopartsestoresystem.cities.service.impl;
 
 import com.myproject.autopartsestoresystem.cities.dto.CityDTO;
 import com.myproject.autopartsestoresystem.cities.exception.CityAlreadyExistsException;

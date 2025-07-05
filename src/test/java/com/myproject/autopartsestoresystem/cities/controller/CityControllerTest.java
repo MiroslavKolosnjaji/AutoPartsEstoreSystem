@@ -1,7 +1,6 @@
-package com.myproject.autopartsestoresystem.controller;
+package com.myproject.autopartsestoresystem.cities.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.cities.controller.CityController;
 import com.myproject.autopartsestoresystem.cities.dto.CityDTO;
 import com.myproject.autopartsestoresystem.cities.exception.CityNotFoundException;
 import com.myproject.autopartsestoresystem.cities.service.CityService;

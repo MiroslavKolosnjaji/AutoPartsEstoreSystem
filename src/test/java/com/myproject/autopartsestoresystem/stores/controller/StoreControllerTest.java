@@ -1,11 +1,10 @@
-package com.myproject.autopartsestoresystem.controller;
+package com.myproject.autopartsestoresystem.stores.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.autopartsestoresystem.stores.dto.StoreDTO;
 import com.myproject.autopartsestoresystem.stores.exception.StoreNotFoundException;
 import com.myproject.autopartsestoresystem.cities.entity.City;
 import com.myproject.autopartsestoresystem.stores.service.StoreService;
-import com.myproject.autopartsestoresystem.stores.controller.StoreController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

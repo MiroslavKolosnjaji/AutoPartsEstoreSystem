@@ -1,6 +1,5 @@
-package com.myproject.autopartsestoresystem.dto;
+package com.myproject.autopartsestoresystem.cities.dto;
 
-import com.myproject.autopartsestoresystem.cities.dto.CityDTO;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

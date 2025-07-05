@@ -1,12 +1,12 @@
-package com.myproject.autopartsestoresystem.service.impl;
+package com.myproject.autopartsestoresystem.cities.service.impl;
 
-import com.myproject.autopartsestoresystem.dto.CityDTO;
-import com.myproject.autopartsestoresystem.exception.service.CityAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.service.CityNotFoundException;
-import com.myproject.autopartsestoresystem.mapper.CityMapper;
-import com.myproject.autopartsestoresystem.model.City;
-import com.myproject.autopartsestoresystem.repository.CityRepository;
-import com.myproject.autopartsestoresystem.service.CityService;
+import com.myproject.autopartsestoresystem.cities.dto.CityDTO;
+import com.myproject.autopartsestoresystem.cities.exception.CityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.cities.exception.CityNotFoundException;
+import com.myproject.autopartsestoresystem.cities.mapper.CityMapper;
+import com.myproject.autopartsestoresystem.cities.entity.City;
+import com.myproject.autopartsestoresystem.cities.repository.CityRepository;
+import com.myproject.autopartsestoresystem.cities.service.CityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

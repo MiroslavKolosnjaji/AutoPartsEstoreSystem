@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.customers.dto;
 
 import com.myproject.autopartsestoresystem.model.Card;
-import com.myproject.autopartsestoresystem.model.City;
+import com.myproject.autopartsestoresystem.cities.entity.City;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

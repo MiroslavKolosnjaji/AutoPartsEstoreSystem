@@ -3,7 +3,7 @@ package com.myproject.autopartsestoresystem.customers.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.autopartsestoresystem.controller.BaseIT;
 import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
-import com.myproject.autopartsestoresystem.model.City;
+import com.myproject.autopartsestoresystem.cities.entity.City;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;

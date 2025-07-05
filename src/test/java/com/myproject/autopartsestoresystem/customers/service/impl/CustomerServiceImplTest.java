@@ -8,7 +8,7 @@ import com.myproject.autopartsestoresystem.exception.service.EmailAddressAlready
 import com.myproject.autopartsestoresystem.mapper.CardMapper;
 import com.myproject.autopartsestoresystem.customers.mapper.CustomerMapper;
 import com.myproject.autopartsestoresystem.model.Card;
-import com.myproject.autopartsestoresystem.model.City;
+import com.myproject.autopartsestoresystem.cities.entity.City;
 import com.myproject.autopartsestoresystem.customers.entity.Customer;
 import com.myproject.autopartsestoresystem.customers.repository.CustomerRepository;
 import com.myproject.autopartsestoresystem.service.CardService;

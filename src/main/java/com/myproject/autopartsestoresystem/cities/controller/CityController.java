@@ -1,15 +1,13 @@
-package com.myproject.autopartsestoresystem.controller;
+package com.myproject.autopartsestoresystem.cities.controller;
 
-import com.myproject.autopartsestoresystem.dto.CityDTO;
+import com.myproject.autopartsestoresystem.cities.dto.CityDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.CityAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.service.CityNotFoundException;
 import com.myproject.autopartsestoresystem.security.permission.city.CityCreatePermission;
 import com.myproject.autopartsestoresystem.security.permission.city.CityDeletePermission;
 import com.myproject.autopartsestoresystem.security.permission.city.CityReadPermission;
 import com.myproject.autopartsestoresystem.security.permission.city.CityUpdatePermission;
-import com.myproject.autopartsestoresystem.service.CityService;
+import com.myproject.autopartsestoresystem.cities.service.CityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

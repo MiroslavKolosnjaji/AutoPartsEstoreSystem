@@ -1,5 +1,6 @@
 package com.myproject.autopartsestoresystem.model;
 
+import com.myproject.autopartsestoresystem.cities.entity.City;
 import com.myproject.autopartsestoresystem.invoices.entity.Invoice;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

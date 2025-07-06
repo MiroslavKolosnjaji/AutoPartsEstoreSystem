@@ -5,7 +5,7 @@ import com.myproject.autopartsestoresystem.payments.exception.PaymentProcessingE
 import com.myproject.autopartsestoresystem.orders.exception.PurchaseOrderItemNotFoundException;
 import com.myproject.autopartsestoresystem.orders.exception.PurchaseOrderNotFoundException;
 import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderStatus;
-import com.myproject.autopartsestoresystem.service.CrudService;
+import com.myproject.autopartsestoresystem.common.service.CrudService;
 
 import java.util.List;
 import java.util.Optional;

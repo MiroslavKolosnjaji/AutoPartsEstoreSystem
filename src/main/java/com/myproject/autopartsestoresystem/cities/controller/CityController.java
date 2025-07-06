@@ -1,8 +1,8 @@
 package com.myproject.autopartsestoresystem.cities.controller;
 
 import com.myproject.autopartsestoresystem.cities.dto.CityDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.security.permission.city.CityCreatePermission;
 import com.myproject.autopartsestoresystem.security.permission.city.CityDeletePermission;
 import com.myproject.autopartsestoresystem.security.permission.city.CityReadPermission;

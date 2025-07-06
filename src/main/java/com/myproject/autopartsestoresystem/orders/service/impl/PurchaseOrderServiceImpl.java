@@ -9,7 +9,7 @@ import com.myproject.autopartsestoresystem.orders.service.PurchaseOrderService;
 import com.myproject.autopartsestoresystem.parts.dto.PaymentDTO;
 import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderItemDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.payments.entity.PaymentMethod;
 import com.myproject.autopartsestoresystem.payments.entity.PaymentStatus;
 import com.myproject.autopartsestoresystem.payments.exception.PaymentProcessingException;

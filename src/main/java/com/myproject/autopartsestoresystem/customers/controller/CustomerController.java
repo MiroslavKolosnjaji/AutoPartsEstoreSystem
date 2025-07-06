@@ -1,8 +1,8 @@
 package com.myproject.autopartsestoresystem.customers.controller;
 
 import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.security.permission.customer.CustomerCreatePermission;
 import com.myproject.autopartsestoresystem.security.permission.customer.CustomerDeletePermission;
 import com.myproject.autopartsestoresystem.security.permission.customer.CustomerReadPermission;

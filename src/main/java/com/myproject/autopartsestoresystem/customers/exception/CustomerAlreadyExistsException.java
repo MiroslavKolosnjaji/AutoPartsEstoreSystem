@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.customers.exception;
 
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
 
 /**
  * @author Miroslav Kološnjaji

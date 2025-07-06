@@ -2,8 +2,8 @@ package com.myproject.autopartsestoresystem.customers.service.impl;
 
 
 import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.customers.exception.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.cities.entity.City;
 import com.myproject.autopartsestoresystem.cities.repository.CityRepository;

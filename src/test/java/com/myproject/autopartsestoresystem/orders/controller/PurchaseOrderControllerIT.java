@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.parts.dto.PartDTO;
 import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.parts.mapper.PartMapper;
 import com.myproject.autopartsestoresystem.parts.entity.Part;
 import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderItem;

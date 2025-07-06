@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.exception.controller;
+package com.myproject.autopartsestoresystem.common.exception.controller;
 
 /**
  * @author Miroslav Kološnjaji

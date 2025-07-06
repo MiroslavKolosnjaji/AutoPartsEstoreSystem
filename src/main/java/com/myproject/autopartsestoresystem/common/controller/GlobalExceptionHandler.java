@@ -1,7 +1,7 @@
-package com.myproject.autopartsestoresystem.controller.global;
+package com.myproject.autopartsestoresystem.common.controller;
 
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

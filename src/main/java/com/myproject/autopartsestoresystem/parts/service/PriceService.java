@@ -4,7 +4,7 @@ import com.myproject.autopartsestoresystem.parts.dto.PriceDTO;
 
 import com.myproject.autopartsestoresystem.parts.exception.PriceNotFoundException;
 import com.myproject.autopartsestoresystem.parts.entity.PriceId;
-import com.myproject.autopartsestoresystem.service.CrudService;
+import com.myproject.autopartsestoresystem.common.service.CrudService;
 
 import java.time.LocalDateTime;
 import java.util.List;

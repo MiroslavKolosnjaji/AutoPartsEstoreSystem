@@ -1,7 +1,7 @@
-package com.myproject.autopartsestoresystem.service;
+package com.myproject.autopartsestoresystem.common.service;
 
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 
 import java.util.List;
 

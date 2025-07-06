@@ -2,7 +2,7 @@ package com.myproject.autopartsestoresystem.parts.service;
 
 import com.myproject.autopartsestoresystem.parts.dto.PartDTO;
 import com.myproject.autopartsestoresystem.parts.exception.PartNotFoundException;
-import com.myproject.autopartsestoresystem.service.CrudService;
+import com.myproject.autopartsestoresystem.common.service.CrudService;
 
 import java.util.List;
 

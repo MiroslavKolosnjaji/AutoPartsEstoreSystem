@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.parts.exception;
 
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 
 /**
  * @author Miroslav Kološnjaji

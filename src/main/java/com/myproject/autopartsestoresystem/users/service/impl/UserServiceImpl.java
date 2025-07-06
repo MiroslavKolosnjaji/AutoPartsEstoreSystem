@@ -2,7 +2,7 @@ package com.myproject.autopartsestoresystem.users.service.impl;
 
 import com.myproject.autopartsestoresystem.users.dto.RoleDTO;
 import com.myproject.autopartsestoresystem.users.dto.UserDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.users.exception.RoleNotFoundException;
 import com.myproject.autopartsestoresystem.users.exception.UserNotFoundException;
 import com.myproject.autopartsestoresystem.users.exception.UsernameAlreadyExistsException;

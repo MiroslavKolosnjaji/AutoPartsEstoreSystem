@@ -1,8 +1,8 @@
 package com.myproject.autopartsestoresystem.parts.controller;
 
 import com.myproject.autopartsestoresystem.parts.dto.PartDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.security.permission.part.PartCreatePermission;
 import com.myproject.autopartsestoresystem.security.permission.part.PartDeletePermission;
 import com.myproject.autopartsestoresystem.security.permission.part.PartReadPermission;

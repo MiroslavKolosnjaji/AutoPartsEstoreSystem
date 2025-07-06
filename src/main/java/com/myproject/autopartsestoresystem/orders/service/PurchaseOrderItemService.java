@@ -3,7 +3,7 @@ package com.myproject.autopartsestoresystem.orders.service;
 import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderItemDTO;
 import com.myproject.autopartsestoresystem.orders.exception.PurchaseOrderItemNotFoundException;
 import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderItemId;
-import com.myproject.autopartsestoresystem.service.CrudService;
+import com.myproject.autopartsestoresystem.common.service.CrudService;
 
 import java.util.List;
 

@@ -10,8 +10,8 @@ import com.myproject.autopartsestoresystem.cities.entity.City;
 import com.myproject.autopartsestoresystem.cities.service.CityService;
 import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.customers.service.CustomerService;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.brands.mapper.BrandMapper;
 import com.myproject.autopartsestoresystem.cities.mapper.CityMapper;
 import com.myproject.autopartsestoresystem.models.entity.Model;
@@ -31,7 +31,6 @@ import com.myproject.autopartsestoresystem.parts.service.PartService;
 import com.myproject.autopartsestoresystem.payments.entity.PaymentMethod;
 import com.myproject.autopartsestoresystem.payments.entity.PaymentType;
 import com.myproject.autopartsestoresystem.payments.repository.PaymentMethodRepository;
-import com.myproject.autopartsestoresystem.service.*;
 import com.myproject.autopartsestoresystem.stores.dto.StoreDTO;
 import com.myproject.autopartsestoresystem.stores.service.StoreService;
 import com.myproject.autopartsestoresystem.users.entity.Role;
@@ -50,7 +49,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 

@@ -1,8 +1,8 @@
 package com.myproject.autopartsestoresystem.brands.controller;
 
 import com.myproject.autopartsestoresystem.brands.dto.BrandDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.security.permission.brand.BrandCreatePermission;
 import com.myproject.autopartsestoresystem.security.permission.brand.BrandDeletePermission;
 import com.myproject.autopartsestoresystem.security.permission.brand.BrandReadPermission;

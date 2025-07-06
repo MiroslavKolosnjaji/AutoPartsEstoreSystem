@@ -2,7 +2,7 @@ package com.myproject.autopartsestoresystem.payments.service;
 
 import com.myproject.autopartsestoresystem.parts.dto.PaymentDTO;
 import com.myproject.autopartsestoresystem.payments.exception.PaymentProcessingException;
-import com.myproject.autopartsestoresystem.service.CrudService;
+import com.myproject.autopartsestoresystem.common.service.CrudService;
 
 /**
  * @author Miroslav Kološnjaji

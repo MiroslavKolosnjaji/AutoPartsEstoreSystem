@@ -2,7 +2,7 @@ package com.myproject.autopartsestoresystem.parts.service.impl;
 
 import com.myproject.autopartsestoresystem.parts.dto.PartDTO;
 import com.myproject.autopartsestoresystem.parts.dto.PriceDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.parts.entity.*;
 import com.myproject.autopartsestoresystem.parts.exception.PartNotFoundException;
 import com.myproject.autopartsestoresystem.parts.mapper.PartMapper;

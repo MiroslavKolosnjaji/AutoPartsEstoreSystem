@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.brands.service;
 
 import com.myproject.autopartsestoresystem.brands.dto.BrandDTO;
-import com.myproject.autopartsestoresystem.service.CrudService;
+import com.myproject.autopartsestoresystem.common.service.CrudService;
 
 /**
  * @author Miroslav Kološnjaji

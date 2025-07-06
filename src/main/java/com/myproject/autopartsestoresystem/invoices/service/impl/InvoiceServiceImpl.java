@@ -3,7 +3,7 @@ package com.myproject.autopartsestoresystem.invoices.service.impl;
 import com.myproject.autopartsestoresystem.invoices.dto.InvoiceDTO;
 import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.stores.dto.StoreDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.invoices.exception.InvoiceCreationException;
 import com.myproject.autopartsestoresystem.invoices.exception.InvoiceNotFoundException;
 import com.myproject.autopartsestoresystem.invoices.mapper.InvoiceMapper;

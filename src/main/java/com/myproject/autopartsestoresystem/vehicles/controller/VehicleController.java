@@ -1,8 +1,8 @@
 package com.myproject.autopartsestoresystem.vehicles.controller;
 
 import com.myproject.autopartsestoresystem.vehicles.dto.VehicleDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.security.permission.vehicle.VehicleCreatePermission;
 import com.myproject.autopartsestoresystem.security.permission.vehicle.VehicleDeletePermission;
 import com.myproject.autopartsestoresystem.security.permission.vehicle.VehicleReadPermission;

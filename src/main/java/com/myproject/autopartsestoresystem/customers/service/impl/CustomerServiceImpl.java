@@ -1,9 +1,9 @@
 package com.myproject.autopartsestoresystem.customers.service.impl;
 
 import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.customers.exception.CustomerNotFoundException;
-import com.myproject.autopartsestoresystem.exception.service.EmailAddressAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.service.EmailAddressAlreadyExistsException;
 import com.myproject.autopartsestoresystem.customers.mapper.CustomerMapper;
 import com.myproject.autopartsestoresystem.customers.entity.Customer;
 import com.myproject.autopartsestoresystem.customers.repository.CustomerRepository;

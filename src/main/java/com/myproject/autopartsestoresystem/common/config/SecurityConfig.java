@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.config;
+package com.myproject.autopartsestoresystem.common.config;
 
 import com.myproject.autopartsestoresystem.users.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

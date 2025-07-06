@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.stores.controller;
 
 import com.myproject.autopartsestoresystem.stores.dto.StoreDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.security.permission.store.StoreCreatePermission;
 import com.myproject.autopartsestoresystem.security.permission.store.StoreDeletePermission;
 import com.myproject.autopartsestoresystem.security.permission.store.StoreReadPermission;

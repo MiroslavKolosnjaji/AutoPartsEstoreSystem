@@ -1,8 +1,8 @@
 package com.myproject.autopartsestoresystem.models.controller;
 
 import com.myproject.autopartsestoresystem.models.dto.ModelDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.models.entity.ModelId;
 import com.myproject.autopartsestoresystem.security.permission.model.ModelCreatePermission;
 import com.myproject.autopartsestoresystem.security.permission.model.ModelDeletePermission;

@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.config;
+package com.myproject.autopartsestoresystem.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

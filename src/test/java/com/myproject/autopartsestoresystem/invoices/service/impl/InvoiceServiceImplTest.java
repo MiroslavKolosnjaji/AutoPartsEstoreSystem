@@ -6,7 +6,7 @@ import com.myproject.autopartsestoresystem.invoices.entity.InvoiceItem;
 import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.parts.entity.Currency;
 import com.myproject.autopartsestoresystem.stores.dto.StoreDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.invoices.exception.InvoiceCreationException;
 import com.myproject.autopartsestoresystem.invoices.exception.InvoiceNotFoundException;
 import com.myproject.autopartsestoresystem.invoices.mapper.InvoiceMapper;

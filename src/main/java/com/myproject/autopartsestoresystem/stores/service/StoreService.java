@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.stores.service;
 
-import com.myproject.autopartsestoresystem.service.CrudService;
+import com.myproject.autopartsestoresystem.common.service.CrudService;
 import com.myproject.autopartsestoresystem.stores.dto.StoreDTO;
 
 /**

@@ -1,8 +1,8 @@
 package com.myproject.autopartsestoresystem.users.controller;
 
 import com.myproject.autopartsestoresystem.users.dto.UserDTO;
-import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
-import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityAlreadyExistsException;
+import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.security.permission.user.*;
 import com.myproject.autopartsestoresystem.users.service.UserService;
 import lombok.RequiredArgsConstructor;

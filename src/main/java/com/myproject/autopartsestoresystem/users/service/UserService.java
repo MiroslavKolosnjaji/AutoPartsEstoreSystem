@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.users.service;
 
-import com.myproject.autopartsestoresystem.service.CrudService;
+import com.myproject.autopartsestoresystem.common.service.CrudService;
 import com.myproject.autopartsestoresystem.users.dto.UserDTO;
 import com.myproject.autopartsestoresystem.users.exception.RoleNotFoundException;
 import com.myproject.autopartsestoresystem.users.exception.UsernameAlreadyExistsException;

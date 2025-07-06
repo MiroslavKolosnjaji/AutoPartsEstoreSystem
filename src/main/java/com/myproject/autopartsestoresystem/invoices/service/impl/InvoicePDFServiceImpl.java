@@ -3,7 +3,7 @@ package com.myproject.autopartsestoresystem.invoices.service.impl;
 import com.myproject.autopartsestoresystem.invoices.dto.InvoiceDTO;
 import com.myproject.autopartsestoresystem.invoices.exception.InvoiceNotFoundException;
 import com.myproject.autopartsestoresystem.invoices.exception.InvoicePDFGenerationFailedException;
-import com.myproject.autopartsestoresystem.service.EmailService;
+import com.myproject.autopartsestoresystem.notifications.service.EmailService;
 import com.myproject.autopartsestoresystem.invoices.service.InvoicePDFService;
 import com.myproject.autopartsestoresystem.invoices.service.InvoiceService;
 import com.myproject.autopartsestoresystem.invoices.service.PDFGenerator;

@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.service;
+package com.myproject.autopartsestoresystem.notifications.service;
 
 import jakarta.mail.MessagingException;
 import org.springframework.core.io.ByteArrayResource;

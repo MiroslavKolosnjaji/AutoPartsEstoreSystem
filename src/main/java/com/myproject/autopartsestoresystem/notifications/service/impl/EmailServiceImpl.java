@@ -1,6 +1,6 @@
-package com.myproject.autopartsestoresystem.service.impl;
+package com.myproject.autopartsestoresystem.notifications.service.impl;
 
-import com.myproject.autopartsestoresystem.service.EmailService;
+import com.myproject.autopartsestoresystem.notifications.service.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;

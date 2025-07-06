@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.config;
+package com.myproject.autopartsestoresystem.notifications.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

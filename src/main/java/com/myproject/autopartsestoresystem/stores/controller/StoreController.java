@@ -2,10 +2,10 @@ package com.myproject.autopartsestoresystem.stores.controller;
 
 import com.myproject.autopartsestoresystem.stores.dto.StoreDTO;
 import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
-import com.myproject.autopartsestoresystem.security.permission.store.StoreCreatePermission;
-import com.myproject.autopartsestoresystem.security.permission.store.StoreDeletePermission;
-import com.myproject.autopartsestoresystem.security.permission.store.StoreReadPermission;
-import com.myproject.autopartsestoresystem.security.permission.store.StoreUpdatePermission;
+import com.myproject.autopartsestoresystem.stores.security.permission.StoreCreatePermission;
+import com.myproject.autopartsestoresystem.stores.security.permission.StoreDeletePermission;
+import com.myproject.autopartsestoresystem.stores.security.permission.StoreReadPermission;
+import com.myproject.autopartsestoresystem.stores.security.permission.StoreUpdatePermission;
 import com.myproject.autopartsestoresystem.stores.service.StoreService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

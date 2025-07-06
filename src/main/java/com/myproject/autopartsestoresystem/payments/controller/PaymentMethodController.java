@@ -2,7 +2,7 @@ package com.myproject.autopartsestoresystem.payments.controller;
 
 import com.myproject.autopartsestoresystem.payments.dto.PaymentMethodDTO;
 import com.myproject.autopartsestoresystem.common.exception.controller.EntityNotFoundException;
-import com.myproject.autopartsestoresystem.security.permission.paymentmethod.PaymentMethodReadPermission;
+import com.myproject.autopartsestoresystem.payments.security.PaymentMethodReadPermission;
 import com.myproject.autopartsestoresystem.payments.service.PaymentMethodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

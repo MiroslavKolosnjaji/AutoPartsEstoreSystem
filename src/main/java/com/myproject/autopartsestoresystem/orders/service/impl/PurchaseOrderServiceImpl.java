@@ -101,18 +101,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         PaymentDTO paymentDTO = PaymentDTO.builder()
                 .paymentMethod(PaymentMethod.builder().paymentType(purchaseOrderDTO.getPaymentType()).build())
-                .card(null)
                 .amount(savedPurchaseOrder.getTotalAmount())
                 .status(PaymentStatus.PROCESSING)
                 .build();
 
-
-        if (purchaseOrderDTO.getCustomer().getCards() != null && !purchaseOrderDTO.getCustomer().getCards().isEmpty()) {
-            paymentDTO.setCard(purchaseOrderDTO.getCustomer().getCards().get(0));
-            paymentService.save(purchaseOrderDTO.getPaymentToken(), paymentDTO);
-        } else {
-            paymentService.save(paymentDTO);
-        }
+        paymentService.save(paymentDTO);
 
         savedPurchaseOrder.setStatus(PurchaseOrderStatus.COMPLETED);
 

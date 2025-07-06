@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.parts.dto;
 
-import com.myproject.autopartsestoresystem.model.*;
+import com.myproject.autopartsestoresystem.parts.entity.Currency;
 import com.myproject.autopartsestoresystem.parts.entity.PartGroup;
 import com.myproject.autopartsestoresystem.parts.entity.PartGroupType;
 import com.myproject.autopartsestoresystem.parts.entity.Price;

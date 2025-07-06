@@ -6,7 +6,6 @@ import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExi
 import com.myproject.autopartsestoresystem.parts.entity.*;
 import com.myproject.autopartsestoresystem.parts.exception.PartNotFoundException;
 import com.myproject.autopartsestoresystem.parts.mapper.PartMapper;
-import com.myproject.autopartsestoresystem.model.*;
 import com.myproject.autopartsestoresystem.parts.repository.PartRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -9,7 +9,6 @@ import com.myproject.autopartsestoresystem.payments.entity.PaymentType;
 import com.myproject.autopartsestoresystem.payments.exception.PaymentNotFoundException;
 import com.myproject.autopartsestoresystem.payments.exception.PaymentProcessingException;
 import com.myproject.autopartsestoresystem.payments.mapper.PaymentMapper;
-import com.myproject.autopartsestoresystem.model.*;
 import com.myproject.autopartsestoresystem.payments.repository.PaymentRepository;
 import com.myproject.autopartsestoresystem.payments.service.StripeService;
 import com.stripe.exception.CardException;
@@ -59,7 +58,6 @@ class PaymentServiceImplTest {
                 .id(1L)
                 .status(PaymentStatus.AWAITING_PAYMENT)
                 .paymentMethod(PaymentMethod.builder().id(1L).paymentType(PaymentType.CREDIT_CARD).build())
-                .card(Card.builder().build())
                 .amount(new BigDecimal("120.00"))
                 .purchaseOrder(PurchaseOrder.builder().totalAmount(new BigDecimal("120.00")).build())
                 .build();
@@ -68,7 +66,6 @@ class PaymentServiceImplTest {
                 .id(1L)
                 .status(PaymentStatus.AWAITING_PAYMENT)
                 .paymentMethod(PaymentMethod.builder().id(1L).paymentType(PaymentType.CREDIT_CARD).build())
-                .card(Card.builder().build())
                 .amount(new BigDecimal("120.00"))
                 .purchaseOrder(PurchaseOrder.builder().totalAmount(new BigDecimal("120.00")).build())
                 .build();
@@ -96,7 +93,6 @@ class PaymentServiceImplTest {
         assertAll("PaymentDTO field validation",
                 () -> assertEquals(paymentDTO.getStatus(), savedDTO.getStatus(), "PaymentDTO status mismatch"),
                 () -> assertEquals(paymentDTO.getPaymentMethod(), savedDTO.getPaymentMethod(), "PaymentDTO payment method mismatch"),
-                () -> assertEquals(paymentDTO.getCard(), savedDTO.getCard(), "PaymentDTO card mismatch"),
                 () -> assertEquals(paymentDTO.getAmount(), savedDTO.getAmount(), "PaymentDTO amount mismatch"),
                 () -> assertEquals(paymentDTO.getPurchaseOrder(), savedDTO.getPurchaseOrder(), "PaymentDTO purchase order mismatch"));
 

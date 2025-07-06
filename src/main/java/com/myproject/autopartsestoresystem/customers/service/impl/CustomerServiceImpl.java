@@ -1,15 +1,12 @@
 package com.myproject.autopartsestoresystem.customers.service.impl;
 
-import com.myproject.autopartsestoresystem.dto.CardDTO;
 import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.customers.exception.CustomerNotFoundException;
 import com.myproject.autopartsestoresystem.exception.service.EmailAddressAlreadyExistsException;
-import com.myproject.autopartsestoresystem.mapper.CardMapper;
 import com.myproject.autopartsestoresystem.customers.mapper.CustomerMapper;
 import com.myproject.autopartsestoresystem.customers.entity.Customer;
 import com.myproject.autopartsestoresystem.customers.repository.CustomerRepository;
-import com.myproject.autopartsestoresystem.service.CardService;
 import com.myproject.autopartsestoresystem.customers.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,8 +23,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
-    private final CardService cardService;
-    private final CardMapper cardMapper;
 
 
     @Override
@@ -37,13 +32,6 @@ public class CustomerServiceImpl implements CustomerService {
             throw new EmailAddressAlreadyExistsException("Email address already exists");
 
         Customer saved = customerRepository.save(customerMapper.customerDTOToCustomer(customerDTO));
-
-        if (customerDTO.getCards() == null || customerDTO.getCards().isEmpty())
-            return customerMapper.customerToCustomerDTO(saved);
-
-        CardDTO customerCard = cardMapper.cardToCardDTO(customerDTO.getCards().get(0));
-
-        cardService.save(customerCard);
 
         return customerMapper.customerToCustomerDTO(saved);
     }

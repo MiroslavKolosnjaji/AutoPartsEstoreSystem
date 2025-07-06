@@ -10,7 +10,6 @@ import com.myproject.autopartsestoresystem.cities.entity.City;
 import com.myproject.autopartsestoresystem.cities.service.CityService;
 import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.customers.service.CustomerService;
-import com.myproject.autopartsestoresystem.dto.*;
 import com.myproject.autopartsestoresystem.exception.controller.EntityAlreadyExistsException;
 import com.myproject.autopartsestoresystem.exception.controller.EntityNotFoundException;
 import com.myproject.autopartsestoresystem.brands.mapper.BrandMapper;
@@ -22,8 +21,8 @@ import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderItem;
 import com.myproject.autopartsestoresystem.orders.service.PurchaseOrderService;
 import com.myproject.autopartsestoresystem.parts.entity.*;
+import com.myproject.autopartsestoresystem.parts.entity.Currency;
 import com.myproject.autopartsestoresystem.parts.mapper.PartMapper;
-import com.myproject.autopartsestoresystem.model.Currency;
 import com.myproject.autopartsestoresystem.models.dto.ModelDTO;
 import com.myproject.autopartsestoresystem.models.service.ModelService;
 import com.myproject.autopartsestoresystem.parts.dto.PartDTO;
@@ -79,7 +78,6 @@ public class BootStrapData implements CommandLineRunner {
     private final PartMapper partMapper;
 
     private final VehicleService vehicleService;
-    private final CardService cardService;
     private final PaymentMethodRepository paymentMethodRepository;
     private final PurchaseOrderService purchaseOrderService;
     private final UserService userService;
@@ -108,7 +106,6 @@ public class BootStrapData implements CommandLineRunner {
         loadCityData();
         loadStoreData();
         loadCustomerData();
-        loadCardData();
 //        loadPurchaseOrderData();
     }
 
@@ -292,25 +289,6 @@ public class BootStrapData implements CommandLineRunner {
                 .build();
 
         purchaseOrderService.save(purchaseOrderDTO);
-    }
-
-
-
-    private void loadCardData() throws EntityNotFoundException, EntityAlreadyExistsException {
-
-        CustomerDTO customer = customerService.getById(1L);
-
-
-        CardDTO card = CardDTO.builder()
-                .id(1L)
-                .cardHolder("John Smith")
-                .cardNumber(textEncryptor.encrypt("5169562420690104"))
-                .expiryDate(LocalDate.of(2025,12, 1))
-                .cvv("123")
-                .customerId(customer.getId())
-                .build();
-
-        cardService.save(card);
     }
 
     private void loadVehicleData() throws EntityNotFoundException, EntityAlreadyExistsException {

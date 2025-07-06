@@ -1,6 +1,5 @@
 package com.myproject.autopartsestoresystem.parts.entity;
 
-import com.myproject.autopartsestoresystem.model.Currency;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

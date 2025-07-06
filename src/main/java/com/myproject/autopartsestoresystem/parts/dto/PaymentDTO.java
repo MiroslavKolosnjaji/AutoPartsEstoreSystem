@@ -1,6 +1,5 @@
 package com.myproject.autopartsestoresystem.parts.dto;
 
-import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.payments.entity.PaymentMethod;
 import com.myproject.autopartsestoresystem.payments.entity.PaymentStatus;
 import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrder;
@@ -31,9 +30,6 @@ public class PaymentDTO {
 
     @NotNull(message = "Payment status cannot be null")
     private PaymentStatus status;
-
-    @NotNull(message = "Credit card cannot be null")
-    private Card card;
 
     @NotNull(message = "Purchase Order cannot be null")
     private PurchaseOrder purchaseOrder;

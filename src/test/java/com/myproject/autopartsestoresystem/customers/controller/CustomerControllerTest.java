@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.customers.exception.CustomerNotFoundException;
-import com.myproject.autopartsestoresystem.model.Card;
+
 import com.myproject.autopartsestoresystem.cities.entity.City;
 import com.myproject.autopartsestoresystem.customers.service.CustomerService;
 import org.junit.jupiter.api.*;
@@ -53,15 +53,6 @@ class CustomerControllerTest {
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
-       Card card = Card.builder()
-               .cvv("123")
-               .cardNumber("4000056655665556")
-               .expiryDate(LocalDate.of(2035,12,1))
-               .customer(null)
-               .cardHolder("Test Card Holder")
-               .build();
-
-
         customerDTO = CustomerDTO.builder()
                 .firstName("John")
                 .lastName("Doe")
@@ -69,7 +60,6 @@ class CustomerControllerTest {
                 .email("john@doe.com")
                 .phone("+381324123565")
                 .city(new City(1L, "Palo Alto", "94306"))
-                .cards(List.of(card))
                 .build();
 
         customerDTOExpected = CustomerDTO.builder()
@@ -79,7 +69,6 @@ class CustomerControllerTest {
                 .email("john@doe.com")
                 .phone("+381324123565")
                 .city(new City(1L, "Palo Alto", "94306"))
-                .cards(List.of(card))
                 .build();
     }
 
@@ -107,7 +96,6 @@ class CustomerControllerTest {
                 () -> assertEquals(customerDTO.getAddress(), savedDTO.getAddress(), "Address doesn't match"),
                 () -> assertEquals(customerDTO.getEmail(), savedDTO.getEmail(), "Email address doesn't match"),
                 () -> assertEquals(customerDTO.getPhone(), savedDTO.getPhone(), "Phone number doesn't match"),
-                () -> assertEquals(customerDTO.getCards(), savedDTO.getCards(), "Customer cards doesn't match"),
                 () -> assertEquals(customerDTO.getCity(), savedDTO.getCity(), "City doesn't match"));
 
         verify(customerService).save(any(CustomerDTO.class));

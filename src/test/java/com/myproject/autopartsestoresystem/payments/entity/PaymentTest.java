@@ -1,6 +1,5 @@
 package com.myproject.autopartsestoresystem.payments.entity;
 
-import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrder;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +17,6 @@ class PaymentTest {
 
        Payment payment1 = Payment.builder()
                 .id(1L)
-                .card(Card.builder().build())
                 .paymentMethod(PaymentMethod.builder().build())
                 .purchaseOrder(PurchaseOrder.builder().build())
                 .status(PaymentStatus.PROCESSING)
@@ -27,7 +25,6 @@ class PaymentTest {
 
         Payment payment2 = Payment.builder()
                 .id(1L)
-                .card(Card.builder().build())
                 .paymentMethod(PaymentMethod.builder().build())
                 .purchaseOrder(PurchaseOrder.builder().build())
                 .status(PaymentStatus.PROCESSING)
@@ -39,7 +36,6 @@ class PaymentTest {
 
         assertAll("Payment fields validation",
                 () -> assertEquals(payment1.getId(), payment2.getId(), "Payment ID mismatch"),
-                () -> assertEquals(payment1.getCard(), payment2.getCard(), "Payment Card mismatch"),
                 () -> assertEquals(payment1.getPaymentMethod(), payment2.getPaymentMethod(), "Payment method mismatch"),
                 () -> assertEquals(payment1.getPurchaseOrder(), payment2.getPurchaseOrder(), "Payment purchaseOrder mismatch"),
                 () -> assertEquals(payment1.getStatus(), payment2.getStatus(), "Payment status mismatch"),

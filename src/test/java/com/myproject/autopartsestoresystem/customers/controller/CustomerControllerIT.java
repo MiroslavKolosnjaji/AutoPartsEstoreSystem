@@ -52,7 +52,6 @@ class CustomerControllerIT extends BaseIT {
                 .andExpect(jsonPath("$.address").value(customerDTO.getAddress()))
                 .andExpect(jsonPath("$.email").value(customerDTO.getEmail()))
                 .andExpect(jsonPath("$.phone").value(customerDTO.getPhone()))
-                .andExpect(jsonPath("$.cards").value(customerDTO.getCards()))
                 .andExpect(jsonPath("$.city.id").value(customerDTO.getCity().getId()))
                 .andExpect(jsonPath("$.city.name").value(customerDTO.getCity().getName()))
                 .andExpect(jsonPath("$.city.zipCode").value(customerDTO.getCity().getZipCode()));
@@ -259,7 +258,6 @@ class CustomerControllerIT extends BaseIT {
                 .email("john@doe.com")
                 .phone("+381324123565")
                 .city(new City(1L, "Palo Alto", "94306"))
-                .cards(null)
                 .build();
     }
 }

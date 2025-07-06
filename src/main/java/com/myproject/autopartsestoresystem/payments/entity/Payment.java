@@ -1,6 +1,5 @@
 package com.myproject.autopartsestoresystem.payments.entity;
 
-import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,10 +27,6 @@ public class Payment {
     private BigDecimal amount;
 
     private PaymentStatus status;
-
-    @ManyToOne
-    @JoinColumn(name = "card_id")
-    private Card card;
 
     @OneToOne
     @JoinColumn(name = "purchase_order_id", nullable = false)

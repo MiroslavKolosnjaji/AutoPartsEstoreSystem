@@ -1,7 +1,6 @@
 package com.myproject.autopartsestoresystem.customers.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.cities.entity.City;
 import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrder;
 import jakarta.persistence.*;
@@ -34,10 +33,6 @@ public class Customer {
     private String address;
     private String email;
     private String phone;
-
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Card> cards;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PurchaseOrder> purchaseOrders;

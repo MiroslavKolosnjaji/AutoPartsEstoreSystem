@@ -1,6 +1,5 @@
 package com.myproject.autopartsestoresystem.customers.dto;
 
-import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.cities.entity.City;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -36,7 +35,6 @@ class CustomerDTOTest {
                 .email("john@doe.com")
                 .phone("+381324123565")
                 .city(new City(1L, "Palo Alto", "94306"))
-                .cards(List.of(Card.builder().build()))
                 .build();
     }
 
@@ -343,7 +341,6 @@ class CustomerDTOTest {
                 .email("john@doe.com")
                 .phone("+381324123565")
                 .city(new City(1L, "Palo Alto", "94306"))
-                .cards(customerDTO.getCards())
                 .build();
 
         //when

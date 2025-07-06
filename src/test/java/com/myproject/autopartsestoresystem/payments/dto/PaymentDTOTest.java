@@ -1,6 +1,5 @@
 package com.myproject.autopartsestoresystem.payments.dto;
 
-import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.payments.entity.PaymentMethod;
 import com.myproject.autopartsestoresystem.payments.entity.PaymentStatus;
 import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrder;
@@ -38,7 +37,6 @@ class PaymentDTOTest {
     void setUp() {
         paymentDTO = PaymentDTO.builder()
                 .id(1L)
-                .card(Card.builder().build())
                 .paymentMethod(PaymentMethod.builder().build())
                 .purchaseOrder(PurchaseOrder.builder().build())
                 .status(PaymentStatus.PROCESSING)
@@ -46,35 +44,6 @@ class PaymentDTOTest {
                 .build();
     }
 
-    @DisplayName("Card - Valid Input")
-    @Test
-    void testCardValidation_whenValidInputProvided_thenCorrect() {
-
-        //given
-        paymentDTO.setCard(Card.builder().build());
-
-        //when
-        violations = validator.validate(paymentDTO);
-
-        //then
-        assertTrue(violations.isEmpty(), "Validation should pass for valid Card");
-    }
-
-    @DisplayName("Card - Invalid Input")
-    @Test
-    void testCard_whenInputIsNull_thenValidationFailed() {
-
-        //given
-        paymentDTO.setCard(null);
-
-        //when
-        violations = validator.validate(paymentDTO);
-
-        //then
-        assertFalse(violations.isEmpty(), "Validation should fail for Card that is NULL");
-        violation = violations.iterator().next();
-        assertEquals("Credit card cannot be null", violation.getMessage());
-    }
 
     @DisplayName("PaymentMethod - Valid Input")
     @Test
@@ -201,7 +170,6 @@ class PaymentDTOTest {
 
         PaymentDTO paymentDTO2 = PaymentDTO.builder()
                 .id(1L)
-                .card(Card.builder().build())
                 .paymentMethod(PaymentMethod.builder().build())
                 .purchaseOrder(PurchaseOrder.builder().build())
                 .status(PaymentStatus.PROCESSING)

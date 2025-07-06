@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.orders.dto;
 
-import com.myproject.autopartsestoresystem.model.Currency;
+import com.myproject.autopartsestoresystem.parts.entity.Currency;
 import com.myproject.autopartsestoresystem.parts.entity.Price;
 import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrder;
 import com.myproject.autopartsestoresystem.parts.dto.PartDTO;

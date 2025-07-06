@@ -7,7 +7,7 @@ import com.myproject.autopartsestoresystem.parts.dto.PartDTO;
 import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderItemDTO;
 import com.myproject.autopartsestoresystem.orders.exception.PurchaseOrderItemNotFoundException;
 import com.myproject.autopartsestoresystem.orders.mapper.PurchaseOrderItemMapper;
-import com.myproject.autopartsestoresystem.model.Currency;
+import com.myproject.autopartsestoresystem.parts.entity.Currency;
 import com.myproject.autopartsestoresystem.parts.entity.Part;
 import com.myproject.autopartsestoresystem.parts.entity.Price;
 import com.myproject.autopartsestoresystem.orders.repository.PurchaseOrderItemRepository;

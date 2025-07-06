@@ -8,6 +8,7 @@ import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderStatus;
 import com.myproject.autopartsestoresystem.parts.dto.PaymentDTO;
 import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderItemDTO;
+import com.myproject.autopartsestoresystem.parts.entity.Currency;
 import com.myproject.autopartsestoresystem.payments.entity.PaymentMethod;
 import com.myproject.autopartsestoresystem.payments.entity.PaymentStatus;
 import com.myproject.autopartsestoresystem.payments.exception.PaymentProcessingException;
@@ -15,7 +16,6 @@ import com.myproject.autopartsestoresystem.orders.exception.PurchaseOrderItemNot
 import com.myproject.autopartsestoresystem.orders.exception.PurchaseOrderNotFoundException;
 import com.myproject.autopartsestoresystem.orders.mapper.PurchaseOrderItemMapper;
 import com.myproject.autopartsestoresystem.orders.mapper.PurchaseOrderMapper;
-import com.myproject.autopartsestoresystem.model.Currency;
 import com.myproject.autopartsestoresystem.parts.entity.Part;
 import com.myproject.autopartsestoresystem.parts.entity.Price;
 import com.myproject.autopartsestoresystem.orders.repository.PurchaseOrderRepository;
@@ -123,7 +123,6 @@ class PurchaseOrderServiceImplTest {
         List<PurchaseOrderItemDTO> purchaseOrderItems = List.of(purchaseOrderItemDTO);
         PaymentDTO paymentDTO = PaymentDTO.builder()
                 .paymentMethod(PaymentMethod.builder().paymentType(purchaseOrderDTO.getPaymentType()).build())
-                .card(null)
                 .amount(purchaseOrder.getTotalAmount())
                 .status(PaymentStatus.PROCESSING)
                 .build();

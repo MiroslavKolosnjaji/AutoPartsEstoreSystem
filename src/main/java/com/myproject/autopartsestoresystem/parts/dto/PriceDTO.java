@@ -1,6 +1,6 @@
 package com.myproject.autopartsestoresystem.parts.dto;
 
-import com.myproject.autopartsestoresystem.model.Currency;
+import com.myproject.autopartsestoresystem.parts.entity.Currency;
 import com.myproject.autopartsestoresystem.parts.entity.PriceId;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;

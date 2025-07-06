@@ -71,7 +71,6 @@ public class PaymentServiceImpl implements PaymentService {
                 .orElseThrow(() -> new PaymentNotFoundException("Payment not found"));
 
         payment.setPurchaseOrder(paymentDTO.getPurchaseOrder());
-        payment.setCard(paymentDTO.getCard());
         payment.setAmount(paymentDTO.getAmount());
         payment.setPaymentMethod(paymentDTO.getPaymentMethod());
         payment.setStatus(PaymentStatus.AWAITING_PAYMENT);

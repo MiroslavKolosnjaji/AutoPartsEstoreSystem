@@ -3,7 +3,7 @@ package com.myproject.autopartsestoresystem.parts.service.impl;
 import com.myproject.autopartsestoresystem.parts.dto.PriceDTO;
 import com.myproject.autopartsestoresystem.parts.exception.PriceNotFoundException;
 import com.myproject.autopartsestoresystem.parts.mapper.PriceMapper;
-import com.myproject.autopartsestoresystem.model.Currency;
+import com.myproject.autopartsestoresystem.parts.entity.Currency;
 import com.myproject.autopartsestoresystem.parts.entity.Price;
 import com.myproject.autopartsestoresystem.parts.entity.PriceId;
 import com.myproject.autopartsestoresystem.parts.repository.PriceRepository;

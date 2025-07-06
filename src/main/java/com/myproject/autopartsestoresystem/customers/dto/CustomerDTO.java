@@ -1,6 +1,5 @@
 package com.myproject.autopartsestoresystem.customers.dto;
 
-import com.myproject.autopartsestoresystem.model.Card;
 import com.myproject.autopartsestoresystem.cities.entity.City;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -41,8 +40,6 @@ public class CustomerDTO {
     @NotNull(message = "Phone number cannot be null")
     @Pattern(regexp = "\\+?[0-9]+", message = "Invalid phone number format")
     private String phone;
-
-    private List<Card> cards;
 
     @NotNull(message = "City cannot be null")
     private City city;

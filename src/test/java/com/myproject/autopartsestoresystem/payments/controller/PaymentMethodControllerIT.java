@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.payments.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.controller.BaseIT;
+import com.myproject.autopartsestoresystem.util.BaseIT;
 import com.myproject.autopartsestoresystem.payments.dto.PaymentMethodDTO;
 import com.myproject.autopartsestoresystem.payments.entity.PaymentType;
 import org.junit.jupiter.api.*;

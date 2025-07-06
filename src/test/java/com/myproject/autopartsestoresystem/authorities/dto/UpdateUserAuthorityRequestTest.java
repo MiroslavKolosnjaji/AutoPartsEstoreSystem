@@ -1,6 +1,5 @@
-package com.myproject.autopartsestoresystem.dto;
+package com.myproject.autopartsestoresystem.authorities.dto;
 
-import com.myproject.autopartsestoresystem.authorities.dto.UpdateUserAuthorityRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

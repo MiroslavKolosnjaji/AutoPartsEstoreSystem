@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.vehicles.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.controller.BaseIT;
+import com.myproject.autopartsestoresystem.util.BaseIT;
 import com.myproject.autopartsestoresystem.vehicles.dto.VehicleDTO;
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
 import com.myproject.autopartsestoresystem.models.entity.Model;

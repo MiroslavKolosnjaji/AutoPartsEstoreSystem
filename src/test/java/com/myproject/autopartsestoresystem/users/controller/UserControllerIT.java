@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.users.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.controller.BaseIT;
+import com.myproject.autopartsestoresystem.util.BaseIT;
 import com.myproject.autopartsestoresystem.users.dto.UserDTO;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;

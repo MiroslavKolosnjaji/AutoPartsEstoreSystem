@@ -1,4 +1,4 @@
-package com.myproject.autopartsestoresystem.controller;
+package com.myproject.autopartsestoresystem.util;
 
 import org.junit.jupiter.params.provider.Arguments;
 

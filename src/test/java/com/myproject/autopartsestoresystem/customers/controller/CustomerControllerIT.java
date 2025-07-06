@@ -1,7 +1,7 @@
 package com.myproject.autopartsestoresystem.customers.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myproject.autopartsestoresystem.controller.BaseIT;
+import com.myproject.autopartsestoresystem.util.BaseIT;
 import com.myproject.autopartsestoresystem.customers.dto.CustomerDTO;
 import com.myproject.autopartsestoresystem.cities.entity.City;
 import org.junit.jupiter.api.*;

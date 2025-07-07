@@ -42,7 +42,7 @@ class BrandServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        brandDTO = BrandDTO.builder().id(1L).name("AUDI").build();
+        brandDTO = BrandDTO.builder().id(1).name("AUDI").build();
     }
 
     @DisplayName("Save Brand")
@@ -91,19 +91,19 @@ class BrandServiceImplTest {
 
         //given
         Brand brand = mock(Brand.class);
-        when(brandRepository.findById(anyLong())).thenReturn(Optional.of(brand));
+        when(brandRepository.findById(anyInt())).thenReturn(Optional.of(brand));
         when(brandMapper.brandToBrandDTO(brand)).thenReturn(brandDTO);
 
         when(brandRepository.save(brand)).thenReturn(brand);
 
         //when
-        BrandDTO updatedDTO = brandService.update(anyLong(), brandDTO);
+        BrandDTO updatedDTO = brandService.update(anyInt(), brandDTO);
 
         //then
         assertNotNull(updatedDTO);
         assertEquals(brandDTO, updatedDTO);
 
-        verify(brandRepository).findById(anyLong());
+        verify(brandRepository).findById(anyInt());
         verify(brandMapper).brandToBrandDTO(brand);
         verify(brandRepository).save(brand);
     }
@@ -113,10 +113,10 @@ class BrandServiceImplTest {
     void testUpdateBrand_whenBrandIdNotFound_throwsBrandNotFoundExistsException() {
 
         //given
-        when(brandRepository.findById(anyLong())).thenReturn(Optional.empty());
+        when(brandRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         //when
-        Executable executable = () -> brandService.update(anyLong(), brandDTO);
+        Executable executable = () -> brandService.update(anyInt(), brandDTO);
 
         //then
         assertThrows(BrandNotFoundException.class, executable, "Exception mismatch");
@@ -145,7 +145,7 @@ class BrandServiceImplTest {
 
         //given
         Brand brand = mock(Brand.class);
-        when(brandRepository.findById(anyLong())).thenReturn(Optional.of(brand));
+        when(brandRepository.findById(anyInt())).thenReturn(Optional.of(brand));
         when(brandMapper.brandToBrandDTO(brand)).thenReturn(brandDTO);
 
         //when
@@ -155,7 +155,7 @@ class BrandServiceImplTest {
         assertNotNull(foundDTO);
         assertEquals(brandDTO, foundDTO);
 
-        verify(brandRepository).findById(anyLong());
+        verify(brandRepository).findById(anyInt());
         verify(brandMapper).brandToBrandDTO(brand);
     }
 
@@ -164,7 +164,7 @@ class BrandServiceImplTest {
     void testGetBrandById_whenInvalidIdProvided_throwsBrandNotFoundException() {
 
         //given
-        when(brandRepository.findById(anyLong())).thenReturn(Optional.empty());
+        when(brandRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         //when
         Executable executable = () -> brandService.getById(brandDTO.getId());
@@ -178,22 +178,22 @@ class BrandServiceImplTest {
     void testDeleteBrandById_whenValidIdProvided_thenCorrect() throws BrandNotFoundException {
 
         //given
-        when(brandRepository.existsById(anyLong())).thenReturn(true);
-        doNothing().when(brandRepository).deleteById(anyLong());
+        when(brandRepository.existsById(anyInt())).thenReturn(true);
+        doNothing().when(brandRepository).deleteById(anyInt());
 
         //when
         brandService.delete(brandDTO.getId());
 
         //then
-        verify(brandRepository).deleteById(anyLong());
-        verify(brandRepository).existsById(anyLong());
+        verify(brandRepository).deleteById(anyInt());
+        verify(brandRepository).existsById(anyInt());
     }
 
     @Test
     void testDeleteBrandById_whenIvalidIdProvided_throwsBrandNotFoundException() {
 
         //given
-        when(brandRepository.existsById(anyLong())).thenReturn(false);
+        when(brandRepository.existsById(anyInt())).thenReturn(false);
 
         //when
         Executable executable = () -> brandService.delete(brandDTO.getId());

@@ -34,7 +34,7 @@ class ModelDTOTest {
     void setUp() {
         modelDTO = ModelDTO.builder()
                 .id(new ModelId(1L, "330"))
-                .brand(new Brand(1L, "BMW", null))
+                .brand(new Brand(1, "BMW", null))
                 .build();
     }
 
@@ -92,7 +92,7 @@ class ModelDTOTest {
         //given
         ModelDTO modelDTO2 = ModelDTO.builder()
                 .id(new ModelId(1L, "330"))
-                .brand(new Brand(1L, "BMW", null))
+                .brand(new Brand(1, "BMW", null))
                 .build();
 
         boolean isEqual = modelDTO2.equals(modelDTO);

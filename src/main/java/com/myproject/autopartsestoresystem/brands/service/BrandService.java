@@ -6,5 +6,5 @@ import com.myproject.autopartsestoresystem.common.service.CrudService;
 /**
  * @author Miroslav Kološnjaji
  */
-public interface BrandService extends CrudService<BrandDTO, Long> {
+public interface BrandService extends CrudService<BrandDTO, Integer> {
 }

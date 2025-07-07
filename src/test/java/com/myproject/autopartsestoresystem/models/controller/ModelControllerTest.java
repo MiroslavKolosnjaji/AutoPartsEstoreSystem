@@ -48,7 +48,7 @@ class ModelControllerTest {
     void setUp() {
         objectMapper = new ObjectMapper();
 
-        modelDTO = ModelDTO.builder().id(new ModelId(1L, "330")).brand(new Brand(1L, "BMW", null)).build();
+        modelDTO = ModelDTO.builder().id(new ModelId(1L, "330")).brand(new Brand(1, "BMW", null)).build();
     }
 
 
@@ -102,7 +102,7 @@ class ModelControllerTest {
 
         //given
         modelDTO.setId(new ModelId(2L, "A7"));
-        modelDTO.setBrand(new Brand(2L, "AUDI", null));
+        modelDTO.setBrand(new Brand(2, "AUDI", null));
 
         when(modelService.update(any(ModelId.class), any(ModelDTO.class))).thenReturn(modelDTO);
 
@@ -254,6 +254,6 @@ class ModelControllerTest {
     }
 
     private List<ModelDTO> getModels(){
-        return List.of(modelDTO, ModelDTO.builder().id(new ModelId(2L,"A8")).brand(new Brand(2L, "AUDI", null)).build());
+        return List.of(modelDTO, ModelDTO.builder().id(new ModelId(2L,"A8")).brand(new Brand(2, "AUDI", null)).build());
     }
 }

@@ -48,7 +48,7 @@ public class BrandController {
 
     @BrandUpdatePermission
     @PutMapping(BRAND_ID)
-    public ResponseEntity<BrandDTO> updateBrand(@PathVariable("brand_id") Long brandId, @Validated @RequestBody BrandDTO brandDTO) throws EntityNotFoundException {
+    public ResponseEntity<BrandDTO> updateBrand(@PathVariable("brand_id") Integer brandId, @Validated @RequestBody BrandDTO brandDTO) throws EntityNotFoundException {
 
         brandService.update(brandId, brandDTO);
         return new ResponseEntity<>(brandDTO, HttpStatus.NO_CONTENT);
@@ -69,7 +69,7 @@ public class BrandController {
 
     @BrandReadPermission
     @GetMapping(BRAND_ID)
-    public ResponseEntity<BrandDTO> getBrand(@PathVariable("brand_id") Long brandId) throws EntityNotFoundException {
+    public ResponseEntity<BrandDTO> getBrand(@PathVariable("brand_id") Integer brandId) throws EntityNotFoundException {
 
         BrandDTO brandDTO = brandService.getById(brandId);
         return new ResponseEntity<>(brandDTO, HttpStatus.OK);
@@ -78,7 +78,7 @@ public class BrandController {
 
     @BrandDeletePermission
     @DeleteMapping(BRAND_ID)
-    public ResponseEntity<Void> deleteBrand(@PathVariable("brand_id") Long brandId) throws EntityNotFoundException {
+    public ResponseEntity<Void> deleteBrand(@PathVariable("brand_id") Integer brandId) throws EntityNotFoundException {
 
         brandService.delete(brandId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

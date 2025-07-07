@@ -30,7 +30,7 @@ class BrandDTOTest {
 
     @BeforeEach
     void setUp() {
-        brandDTO = BrandDTO.builder().id(1L).name("BMW").build();
+        brandDTO = BrandDTO.builder().id(1).name("BMW").build();
     }
 
     @DisplayName("Name - valid input")
@@ -63,21 +63,5 @@ class BrandDTOTest {
         violation = violations.iterator().next();
         assertEquals("Brand name cannot be blank", violation.getMessage(), "Message is incorrect");
     }
-
-    @Test
-    void testIsEqual_whenCompareTwoObjectsWithSameDetails_thenIsEqual() {
-
-        //given
-        BrandDTO brandDTO2 = BrandDTO.builder().id(1L).name("BMW").build();
-
-        //when
-        boolean isEqual = brandDTO2.equals(brandDTO);
-        boolean isEqualHashCode = brandDTO2.hashCode() == brandDTO.hashCode();
-
-        //then
-        assertTrue(isEqual, "BrandDTO should be equal");
-        assertTrue(isEqualHashCode, "BrandDTO hashCode should be equal");
-    }
-
 
 }

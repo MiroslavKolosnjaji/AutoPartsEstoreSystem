@@ -96,9 +96,9 @@ class BrandControllerTest {
     void testUpdateBrand_whenValidBrandDetailsProvided_returns204StatusCode() throws Exception {
 
         //given
-        brandDTO.setId(1L);
+        brandDTO.setId(1);
         brandDTO.setName("Rolls-Royce");
-        when(brandService.update(any(Long.class), any(BrandDTO.class))).thenReturn(brandDTO);
+        when(brandService.update(any(Integer.class), any(BrandDTO.class))).thenReturn(brandDTO);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.put(BrandController.BRAND_URI_WITH_ID, brandDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -110,7 +110,7 @@ class BrandControllerTest {
 
         //then
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 204 expected");
-        verify(brandService).update(any(Long.class), any(BrandDTO.class));
+        verify(brandService).update(any(Integer.class), any(BrandDTO.class));
     }
 
     @DisplayName("Update Brand With Invalid Brand Details Provided - Returns Status 400")
@@ -118,7 +118,7 @@ class BrandControllerTest {
     void testUpdateBrand_whenInvalidBrandDetailsProvided_returns400StatusCode() throws Exception {
 
         //given
-        brandDTO.setId(1L);
+        brandDTO.setId(1);
         brandDTO.setName("");
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.put(BrandController.BRAND_URI_WITH_ID, brandDTO.getId())
@@ -158,8 +158,8 @@ class BrandControllerTest {
     void testGetBrand_whenValidIdProvided_returnsBrandDtoWithId1() throws Exception {
 
         //given
-        brandDTO.setId(1L);
-        when(brandService.getById(anyLong())).thenReturn(brandDTO);
+        brandDTO.setId(1);
+        when(brandService.getById(anyInt())).thenReturn(brandDTO);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(BrandController.BRAND_URI_WITH_ID, brandDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -175,7 +175,7 @@ class BrandControllerTest {
                 () -> assertEquals(brandDTO.getId(), getBrandDTO.getId(), "Brand id doesn't match"),
                 () -> assertEquals(brandDTO.getName(), getBrandDTO.getName(), "Brand name doesn't match"));
 
-        verify(brandService).getById(anyLong());
+        verify(brandService).getById(anyInt());
     }
 
     @DisplayName("Get Brand When Invalid ID Provided - Returns 404 Status Code ")
@@ -184,7 +184,7 @@ class BrandControllerTest {
 
         //given
         Long id = 100L;
-        when(brandService.getById(anyLong())).thenThrow(BrandNotFoundException.class);
+        when(brandService.getById(anyInt())).thenThrow(BrandNotFoundException.class);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(BrandController.BRAND_URI_WITH_ID, id)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -195,14 +195,14 @@ class BrandControllerTest {
 
         //then
         assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 404 expected");
-        verify(brandService).getById(anyLong());
+        verify(brandService).getById(anyInt());
     }
 
     @Test
     void testDeleteBrand_whenValidIdProvided_returns204StatusCode() throws Exception {
 
         //given
-        Long id = 1L;
+        Integer id = 1;
         doNothing().when(brandService).delete(id);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(BrandController.BRAND_URI_WITH_ID, id)
@@ -221,7 +221,7 @@ class BrandControllerTest {
     void testDeleteBrand_whenInvalidIdProvided_throwsBrandDoesntExistsExceptionAndReturns404StatusCode() throws Exception {
 
         //given
-        Long invalidId = 100L;
+        Integer invalidId = 100;
         doThrow(BrandNotFoundException.class).when(brandService).delete(invalidId);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(BrandController.BRAND_URI_WITH_ID, invalidId)
@@ -238,6 +238,6 @@ class BrandControllerTest {
     }
 
     private List<BrandDTO> getBrands() {
-        return Arrays.asList(brandDTO, BrandDTO.builder().id(2L).name("BMW").build() );
+        return Arrays.asList(brandDTO, BrandDTO.builder().id(2).name("BMW").build() );
     }
 }

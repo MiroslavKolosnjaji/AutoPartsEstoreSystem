@@ -40,7 +40,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     @Transactional
-    public BrandDTO update(Long id, BrandDTO brandDTO) throws BrandNotFoundException {
+    public BrandDTO update(Integer id, BrandDTO brandDTO) throws BrandNotFoundException {
 
         Brand brand = brandRepository.findById(id).orElseThrow(BrandNotFoundException::new);
 
@@ -59,7 +59,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     @Transactional(readOnly = true)
-    public BrandDTO getById(Long id) throws BrandNotFoundException {
+    public BrandDTO getById(Integer id) throws BrandNotFoundException {
 
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(BrandNotFoundException::new);
@@ -69,7 +69,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     @Transactional
-    public void delete(Long id) throws BrandNotFoundException {
+    public void delete(Integer id) throws BrandNotFoundException {
 
         if(!brandRepository.existsById(id))
             throw new BrandNotFoundException("Brand does not exist");

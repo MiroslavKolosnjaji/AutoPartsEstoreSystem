@@ -9,8 +9,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -24,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BrandControllerIT extends BaseIT {
+
 
     @Autowired
     MockMvc mockMvc;
@@ -95,7 +101,7 @@ class BrandControllerIT extends BaseIT {
     @MethodSource(GET_ADMIN_USER)
     void testUpdateBrand_whenValidDetailsProvided_returns204StatusCode(String user, String password) throws Exception {
         BrandDTO brandDTO = getBrandDTO();
-        brandDTO.setId(4L);
+        brandDTO.setId(4);
         brandDTO.setName("test");
 
         mockMvc.perform(put(BrandController.BRAND_URI_WITH_ID, brandDTO.getId())
@@ -111,7 +117,7 @@ class BrandControllerIT extends BaseIT {
     void testUpdateBrand_withUserRole_returns403StatusCode(String user, String password) throws Exception {
 
         BrandDTO brandDTO = getBrandDTO();
-        brandDTO.setId(4L);
+        brandDTO.setId(4);
         brandDTO.setName("TEST");
 
         mockMvc.perform(put(BrandController.BRAND_URI_WITH_ID, brandDTO.getId())

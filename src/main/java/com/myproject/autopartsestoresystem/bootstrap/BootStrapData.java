@@ -376,28 +376,28 @@ public class BootStrapData implements CommandLineRunner {
     private void loadModelData() throws EntityNotFoundException, EntityAlreadyExistsException {
 
 
-        BrandDTO bmwDTO = brandService.getById(1L);
-        Brand bmw = brandMapper.brandDTOToBrand(bmwDTO);
-
-        ModelDTO model1 = ModelDTO.builder()
-                .id(new ModelId(bmw.getId(), "316"))
-                .brand(bmw)
-                .build();
-
-        ModelDTO model2 = ModelDTO.builder()
-                .id(new ModelId(bmw.getId(), "318"))
-                .brand(bmw)
-                .build();
-
-        ModelDTO model3 = ModelDTO.builder()
-                .id(new ModelId(bmw.getId(), "320"))
-                .brand(bmw)
-                .build();
-
-
-        modelService.save(model1);
-        modelService.save(model2);
-        modelService.save(model3);
+//        BrandDTO bmwDTO = brandService.getById(1);
+//        Brand bmw = brandMapper.brandDTOToBrand(bmwDTO);
+//
+//        ModelDTO model1 = ModelDTO.builder()
+//                .id(new ModelId(bmw.getId(), "316"))
+//                .brand(bmw)
+//                .build();
+//
+//        ModelDTO model2 = ModelDTO.builder()
+//                .id(new ModelId(bmw.getId(), "318"))
+//                .brand(bmw)
+//                .build();
+//
+//        ModelDTO model3 = ModelDTO.builder()
+//                .id(new ModelId(bmw.getId(), "320"))
+//                .brand(bmw)
+//                .build();
+//
+//
+//        modelService.save(model1);
+//        modelService.save(model2);
+//        modelService.save(model3);
     }
 
     private void loadBrandData() throws EntityAlreadyExistsException {

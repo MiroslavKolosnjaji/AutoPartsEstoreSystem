@@ -224,6 +224,6 @@ class ModelControllerIT extends BaseIT {
     }
 
     private ModelDTO getTestModelDTO() {
-        return ModelDTO.builder().id(new ModelId(1L, "330")).brand(Brand.builder().id(1L).name("BMW").build()).build();
+        return ModelDTO.builder().id(new ModelId(1L, "330")).brand(Brand.builder().id(1).name("BMW").build()).build();
     }
 }

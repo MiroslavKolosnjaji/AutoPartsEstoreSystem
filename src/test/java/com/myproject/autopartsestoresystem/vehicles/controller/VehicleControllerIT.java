@@ -44,7 +44,7 @@ class VehicleControllerIT extends BaseIT {
 
         Model model = Model.builder()
                 .id(new ModelId(1L, "318"))
-                .brand(Brand.builder().id(1L).name("BMW").models(new HashSet<>()).build())
+                .brand(Brand.builder().id(1).name("BMW").models(new HashSet<>()).build())
                 .build();
 
 

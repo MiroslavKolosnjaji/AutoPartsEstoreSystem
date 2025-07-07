@@ -11,17 +11,16 @@ class BrandTest {
 
     @Test
     void testAllFields_isEqual_thenCorrect() {
-
         //given
         Brand brand1 = Brand.builder()
-                .id(1L)
+                .id(1)
                 .name("BMW")
                 .models(null)
                 .build();
 
 
         Brand brand2 = Brand.builder()
-                .id(1L)
+                .id(1)
                 .name("BMW")
                 .models(null)
                 .build();

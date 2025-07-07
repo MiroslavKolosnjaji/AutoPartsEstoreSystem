@@ -44,7 +44,7 @@ class ModelServiceImplTest {
     void setUp() {
         modelDTO = ModelDTO.builder()
                 .id(new ModelId(1L, "330"))
-                .brand(new Brand(1L, "BMW", null))
+                .brand(new Brand(1, "BMW", null))
                 .build();
     }
 
@@ -93,7 +93,7 @@ class ModelServiceImplTest {
 
         //given
         ModelId modelId = new ModelId(1L, "335");
-        Model model = Model.builder().id(modelId).brand(new Brand(1L, "BMW", null)).build();
+        Model model = Model.builder().id(modelId).brand(new Brand(1, "BMW", null)).build();
         when(modelRepository.findById(modelId)).thenReturn(Optional.of(model));
         when(modelMapper.modelToModelDTO(model)).thenReturn(modelDTO);
 

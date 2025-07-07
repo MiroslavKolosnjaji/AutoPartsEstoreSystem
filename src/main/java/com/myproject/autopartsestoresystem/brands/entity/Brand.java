@@ -27,9 +27,9 @@ public class Brand {
     @Column(name = "id")
     private Integer id;
 
+    @Column(name = "name")
     private String name;
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
     private Set<Model> models;
 }

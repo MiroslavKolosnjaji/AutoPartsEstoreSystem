@@ -14,12 +14,14 @@ class ModelTest {
     void testAllFields_isEqual_thenCorrect() {
 
         Model model1 = Model.builder()
-                .id(new ModelId(1L,"318"))
+                .id(1)
+                .name("318")
                 .brand(Brand.builder().build())
                 .build();
 
         Model model2 = Model.builder()
-                .id(new ModelId(1L,"318"))
+                .id(1)
+                .name("318")
                 .brand(Brand.builder().build())
                 .build();
 

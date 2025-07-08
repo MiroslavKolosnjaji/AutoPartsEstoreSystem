@@ -3,7 +3,6 @@ package com.myproject.autopartsestoresystem.bootstrap;
 import com.myproject.autopartsestoresystem.authorities.entity.Authority;
 import com.myproject.autopartsestoresystem.authorities.repository.AuthorityRepository;
 import com.myproject.autopartsestoresystem.brands.dto.BrandDTO;
-import com.myproject.autopartsestoresystem.brands.entity.Brand;
 import com.myproject.autopartsestoresystem.brands.service.BrandService;
 import com.myproject.autopartsestoresystem.cities.dto.CityDTO;
 import com.myproject.autopartsestoresystem.cities.entity.City;
@@ -15,7 +14,6 @@ import com.myproject.autopartsestoresystem.common.exception.controller.EntityNot
 import com.myproject.autopartsestoresystem.brands.mapper.BrandMapper;
 import com.myproject.autopartsestoresystem.cities.mapper.CityMapper;
 import com.myproject.autopartsestoresystem.models.entity.Model;
-import com.myproject.autopartsestoresystem.models.entity.ModelId;
 import com.myproject.autopartsestoresystem.models.mapper.ModelMapper;
 import com.myproject.autopartsestoresystem.orders.dto.PurchaseOrderDTO;
 import com.myproject.autopartsestoresystem.orders.entity.PurchaseOrderItem;
@@ -291,8 +289,8 @@ public class BootStrapData implements CommandLineRunner {
 
     private void loadVehicleData() throws EntityNotFoundException, EntityAlreadyExistsException {
 
-        ModelDTO modelDTO = modelService.getById(new ModelId(1L, "316"));
-        Model model = modelMapper.modelDtoToModel(modelDTO);
+        ModelDTO modelDTO = modelService.getById(1);
+        Model model = modelMapper.toEntity(modelDTO);
 
         List<PartDTO> partDTOList = partService.getAll();
         List<Part> parts = new ArrayList<>();

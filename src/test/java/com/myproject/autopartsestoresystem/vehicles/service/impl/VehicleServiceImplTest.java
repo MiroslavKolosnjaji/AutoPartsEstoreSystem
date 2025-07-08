@@ -5,7 +5,6 @@ import com.myproject.autopartsestoresystem.vehicles.exception.VehicleNotFoundExc
 import com.myproject.autopartsestoresystem.vehicles.mapper.VehicleMapper;
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
 import com.myproject.autopartsestoresystem.models.entity.Model;
-import com.myproject.autopartsestoresystem.models.entity.ModelId;
 import com.myproject.autopartsestoresystem.vehicles.entity.Vehicle;
 import com.myproject.autopartsestoresystem.vehicles.repository.VehicleRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +44,8 @@ class VehicleServiceImplTest {
     @BeforeEach
     void setUp() {
         Model model = Model.builder()
-                .id(new ModelId(1L, "318"))
+                .id(1)
+                .name("318")
                 .brand(Brand.builder().id(1).name("BMW").models(new HashSet<>()).build())
                 .build();
 

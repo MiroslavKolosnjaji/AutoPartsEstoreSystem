@@ -2,7 +2,6 @@ package com.myproject.autopartsestoresystem.vehicles.dto;
 
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
 import com.myproject.autopartsestoresystem.models.entity.Model;
-import com.myproject.autopartsestoresystem.models.entity.ModelId;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -38,7 +37,8 @@ class VehicleDTOTest {
     @BeforeEach
     void setUp() {
         Model model = Model.builder()
-                .id(new ModelId(1L, "318"))
+                .id(1)
+                .name("318")
                 .brand(Brand.builder().id(1).name("BMW").models(new HashSet<>()).build())
                 .build();
 
@@ -77,7 +77,7 @@ class VehicleDTOTest {
         assertFalse(violations.isEmpty(), "Validation should fail for empty engine type");
 
         violation = violations.iterator().next();
-        assertEquals(violation.getMessage(), "Engine type cannot be blank");
+        assertEquals("Engine type cannot be blank", violation.getMessage());
     }
 
     @Test
@@ -93,7 +93,7 @@ class VehicleDTOTest {
         assertFalse(violations.isEmpty(), "Validation should fail for engine type that is NULL");
 
         violation = violations.iterator().next();
-        assertEquals(violation.getMessage(), "Engine type cannot be blank");
+        assertEquals("Engine type cannot be blank", violation.getMessage());
     }
 
 
@@ -111,7 +111,7 @@ class VehicleDTOTest {
         assertFalse(violations.isEmpty(), "Validation should fail for valid engine type");
 
         violation = violations.iterator().next();
-        assertEquals(violation.getMessage(), "Engine type description cannot be longer than 120 characters");
+        assertEquals("Engine type description cannot be longer than 120 characters", violation.getMessage());
     }
 
     @Test
@@ -140,7 +140,7 @@ class VehicleDTOTest {
         assertFalse(violations.isEmpty(), "Validation should fail for empty series");
 
         violation = violations.iterator().next();
-        assertEquals(violation.getMessage(), "Series cannot be blank");
+        assertEquals("Series cannot be blank", violation.getMessage());
     }
 
     @Test
@@ -156,7 +156,7 @@ class VehicleDTOTest {
         assertFalse(violations.isEmpty(), "Validation should fail for series that is NULL");
 
         violation = violations.iterator().next();
-        assertEquals(violation.getMessage(), "Series cannot be blank");
+        assertEquals("Series cannot be blank", violation.getMessage());
     }
 
     @Test
@@ -185,7 +185,7 @@ class VehicleDTOTest {
         assertFalse(violations.isEmpty(), "Validation should fail for model that is NULL");
 
         violation = violations.iterator().next();
-        assertEquals(violation.getMessage(), "Model cannot be null");
+        assertEquals("Model cannot be null", violation.getMessage());
     }
 
 
@@ -215,7 +215,7 @@ class VehicleDTOTest {
         assertFalse(violations.isEmpty(), "Validation should fail for part that is NULL");
 
         violation = violations.iterator().next();
-        assertEquals(violation.getMessage(), "Part list cannot be null");
+        assertEquals("Part list cannot be null", violation.getMessage());
     }
 
     @Test

@@ -5,7 +5,6 @@ import com.myproject.autopartsestoresystem.util.BaseIT;
 import com.myproject.autopartsestoresystem.vehicles.dto.VehicleDTO;
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
 import com.myproject.autopartsestoresystem.models.entity.Model;
-import com.myproject.autopartsestoresystem.models.entity.ModelId;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -43,7 +42,8 @@ class VehicleControllerIT extends BaseIT {
     void setUp() {
 
         Model model = Model.builder()
-                .id(new ModelId(1L, "318"))
+                .id(1)
+                .name("318")
                 .brand(Brand.builder().id(1).name("BMW").models(new HashSet<>()).build())
                 .build();
 

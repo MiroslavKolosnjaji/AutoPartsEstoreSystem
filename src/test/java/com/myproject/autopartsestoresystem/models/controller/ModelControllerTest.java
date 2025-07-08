@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.autopartsestoresystem.models.dto.ModelDTO;
 import com.myproject.autopartsestoresystem.models.exception.ModelNotFoundException;
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
-import com.myproject.autopartsestoresystem.models.entity.ModelId;
 import com.myproject.autopartsestoresystem.models.service.ModelService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -48,7 +47,7 @@ class ModelControllerTest {
     void setUp() {
         objectMapper = new ObjectMapper();
 
-        modelDTO = ModelDTO.builder().id(new ModelId(1L, "330")).brand(new Brand(1, "BMW", null)).build();
+        modelDTO = ModelDTO.builder().id(1).name("330").brand(new Brand(1, "BMW", null)).build();
     }
 
 
@@ -70,9 +69,9 @@ class ModelControllerTest {
         ModelDTO savedDTO = objectMapper.readValue(response, ModelDTO.class);
 
         assertAll("Saved Model Validation",
-                () -> assertEquals(modelDTO.getId().getId(), savedDTO.getId().getId(), "Id doesn't match"),
-                () -> assertEquals(modelDTO.getId().getName(), savedDTO.getId().getName(), "Name doesn't match"),
-                () -> assertEquals(savedDTO.getBrand(), modelDTO.getBrand(), "Brand doesn't match"));
+                () -> assertEquals(modelDTO.getId(), savedDTO.getId(), "Id doesn't match"),
+                () -> assertEquals(modelDTO.getName(), savedDTO.getName(), "Name doesn't match"),
+                () -> assertEquals(modelDTO.getBrand(), savedDTO.getBrand(), "Brand doesn't match"));
 
         verify(modelService).save(any(ModelDTO.class));
     }
@@ -82,7 +81,8 @@ class ModelControllerTest {
     void testCreateModel_whenModelNameIsNotProvided_returns400StatusCode() throws Exception {
 
         //given
-        modelDTO.setId(new ModelId(1L, ""));
+        modelDTO.setId(1);
+        modelDTO.setName("");
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post(ModelController.MODEL_URI)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -101,12 +101,13 @@ class ModelControllerTest {
     void testUpdateModel_whenValidModelDetailsProvided_Returns204StatusCode() throws Exception {
 
         //given
-        modelDTO.setId(new ModelId(2L, "A7"));
+        modelDTO.setId(2);
+        modelDTO.setName("A7");
         modelDTO.setBrand(new Brand(2, "AUDI", null));
 
-        when(modelService.update(any(ModelId.class), any(ModelDTO.class))).thenReturn(modelDTO);
+        when(modelService.update(any(Integer.class), any(ModelDTO.class))).thenReturn(modelDTO);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.put(ModelController.MODEL_URI_WITH_ID, modelDTO.getId().getId(), modelDTO.getId().getName())
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.put(ModelController.MODEL_URI_WITH_ID, modelDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(modelDTO));
@@ -116,7 +117,7 @@ class ModelControllerTest {
 
         //then
         assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 204 expected");
-        verify(modelService).update(any(ModelId.class), any(ModelDTO.class));
+        verify(modelService).update(any(Integer.class), any(ModelDTO.class));
     }
 
     @DisplayName("Update Model When Invalid Model Details Provided - Returns Status 400")
@@ -124,10 +125,11 @@ class ModelControllerTest {
     void testUpdateModel_whenInvalidModelDetailsProvided_returns400StatusCode() throws Exception {
 
         //given
-        modelDTO.setId(new ModelId(1L, "330"));
+        modelDTO.setId(1);
+        modelDTO.setName("330");
         modelDTO.setBrand(null);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.put(ModelController.MODEL_URI_WITH_ID, modelDTO.getId().getId(), modelDTO.getId().getName())
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.put(ModelController.MODEL_URI_WITH_ID, modelDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(modelDTO));
@@ -166,10 +168,11 @@ class ModelControllerTest {
     void testGetModel_whenValidIdProvided_returnsModelDTOWithID1() throws Exception {
 
         //given
-        modelDTO.setId(new ModelId(1L, "330"));
-        when(modelService.getById(any(ModelId.class))).thenReturn(modelDTO);
+        modelDTO.setId(1);
+        modelDTO.setName("330");
+        when(modelService.getById(any(Integer.class))).thenReturn(modelDTO);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(ModelController.MODEL_URI_WITH_ID, modelDTO.getId().getId(), modelDTO.getId().getName())
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(ModelController.MODEL_URI_WITH_ID, modelDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(modelDTO));
@@ -181,11 +184,11 @@ class ModelControllerTest {
 
         //then
         assertAll("Get Model By ID Validation",
-                () -> assertEquals(modelDTO.getId().getId(), foundDTO.getId().getId(), "Id doesn't match"),
-                () -> assertEquals(modelDTO.getId().getName(), foundDTO.getId().getName(), "Name doesn't match"),
+                () -> assertEquals(modelDTO.getId(), foundDTO.getId(), "Id doesn't match"),
+                () -> assertEquals(modelDTO.getName(), foundDTO.getName(), "Name doesn't match"),
                 () -> assertEquals(modelDTO.getBrand(), foundDTO.getBrand(), "Brand doesn't match"));
 
-        verify(modelService).getById(any(ModelId.class));
+        verify(modelService).getById(any(Integer.class));
 
     }
 
@@ -194,10 +197,11 @@ class ModelControllerTest {
     void testGetModel_whenInvalidIdProvided_returns404StatusCode() throws Exception {
 
         //given
-        modelDTO.setId(new ModelId(15L, "XC"));
-        when(modelService.getById(any(ModelId.class))).thenThrow(ModelNotFoundException.class);
+        modelDTO.setId(15);
+        modelDTO.setName("XC");
+        when(modelService.getById(any(Integer.class))).thenThrow(ModelNotFoundException.class);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(ModelController.MODEL_URI_WITH_ID, modelDTO.getId().getId(), modelDTO.getId().getName())
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(ModelController.MODEL_URI_WITH_ID, modelDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
 
@@ -206,7 +210,7 @@ class ModelControllerTest {
 
         //then
         assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus(), "Incorrect status code returned, status code 404 expected");
-        verify(modelService).getById(any(ModelId.class));
+        verify(modelService).getById(any(Integer.class));
     }
 
     @DisplayName("Delete Model")
@@ -214,10 +218,11 @@ class ModelControllerTest {
     void testDeleteModel_whenValidIDProvided_returns204StatusCode() throws Exception {
 
         //given
-        modelDTO.setId(new ModelId(1L, "330"));
+        modelDTO.setId(1);
+        modelDTO.setName("330");
         doNothing().when(modelService).delete(modelDTO.getId());
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(ModelController.MODEL_URI_WITH_ID, modelDTO.getId().getId(), modelDTO.getId().getName())
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(ModelController.MODEL_URI_WITH_ID, modelDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
 
@@ -229,16 +234,17 @@ class ModelControllerTest {
         verify(modelService).delete(modelDTO.getId());
     }
 
-    @DisplayName("Delete Model When Ivalid ID Provided - Returns 404 Status Code")
+    @DisplayName("Delete Model When Invalid ID Provided - Returns 404 Status Code")
     @Test
     void testDeleteCity_whenInvalidIdProvided_returns404StatusCode() throws Exception {
 
         //given
         final String MESSAGE = "Model not found";
-        modelDTO.setId(new ModelId(15L, "330"));
+        modelDTO.setId(15);
+        modelDTO.setName("330");
         doThrow(new ModelNotFoundException(MESSAGE)).when(modelService).delete(modelDTO.getId());
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(ModelController.MODEL_URI_WITH_ID, modelDTO.getId().getId(), modelDTO.getId().getName())
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(ModelController.MODEL_URI_WITH_ID, modelDTO.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
 
@@ -253,7 +259,7 @@ class ModelControllerTest {
         verify(modelService).delete(modelDTO.getId());
     }
 
-    private List<ModelDTO> getModels(){
-        return List.of(modelDTO, ModelDTO.builder().id(new ModelId(2L,"A8")).brand(new Brand(2, "AUDI", null)).build());
+    private List<ModelDTO> getModels() {
+        return List.of(modelDTO, ModelDTO.builder().id(2).name("A8").brand(new Brand(2, "AUDI", null)).build());
     }
 }

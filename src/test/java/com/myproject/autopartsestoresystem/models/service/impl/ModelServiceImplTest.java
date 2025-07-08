@@ -6,7 +6,6 @@ import com.myproject.autopartsestoresystem.models.exception.ModelNotFoundExcepti
 import com.myproject.autopartsestoresystem.models.mapper.ModelMapper;
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
 import com.myproject.autopartsestoresystem.models.entity.Model;
-import com.myproject.autopartsestoresystem.models.entity.ModelId;
 import com.myproject.autopartsestoresystem.models.repository.ModelRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -43,7 +42,8 @@ class ModelServiceImplTest {
     @BeforeEach
     void setUp() {
         modelDTO = ModelDTO.builder()
-                .id(new ModelId(1L, "330"))
+                .id(1)
+                .name("330")
                 .brand(new Brand(1, "BMW", null))
                 .build();
     }
@@ -54,8 +54,8 @@ class ModelServiceImplTest {
 
         //given
         Model model = mock(Model.class);
-        when(modelMapper.modelDtoToModel(modelDTO)).thenReturn(model);
-        when(modelMapper.modelToModelDTO(model)).thenReturn(modelDTO);
+        when(modelMapper.toEntity(modelDTO)).thenReturn(model);
+        when(modelMapper.toDto(model)).thenReturn(modelDTO);
 
         when(modelRepository.save(model)).thenReturn(model);
 
@@ -66,8 +66,8 @@ class ModelServiceImplTest {
         assertNotNull(savedDTO);
         assertEquals(modelDTO, savedDTO);
 
-        verify(modelMapper).modelDtoToModel(modelDTO);
-        verify(modelMapper).modelToModelDTO(model);
+        verify(modelMapper).toEntity(modelDTO);
+        verify(modelMapper).toDto(model);
         verify(modelRepository).save(model);
     }
 
@@ -77,14 +77,14 @@ class ModelServiceImplTest {
 
         //when
         Model model = mock(Model.class);
-        when(modelRepository.findById(any(ModelId.class))).thenReturn(Optional.of(model));
+        when(modelRepository.findById(any(Integer.class))).thenReturn(Optional.of(model));
 
         //when
         Executable executable = () -> modelService.save(modelDTO);
 
         //then
         assertThrows(ModelAlreadyExistsException.class, executable, "Exception not match");
-        verify(modelRepository).findById(any(ModelId.class));
+        verify(modelRepository).findById(any(Integer.class));
     }
 
     @DisplayName("Update Model")
@@ -92,22 +92,23 @@ class ModelServiceImplTest {
     void testUpdateModel_whenValidDetailsProvided_returnUpdatedDTO() throws ModelNotFoundException {
 
         //given
-        ModelId modelId = new ModelId(1L, "335");
-        Model model = Model.builder().id(modelId).brand(new Brand(1, "BMW", null)).build();
-        when(modelRepository.findById(modelId)).thenReturn(Optional.of(model));
-        when(modelMapper.modelToModelDTO(model)).thenReturn(modelDTO);
+        Integer id = 1;
+        Model model = Model.builder().id(id).brand(new Brand(1, "BMW", null)).build();
+        when(modelRepository.findById(id)).thenReturn(Optional.of(model));
+        when(modelMapper.toEntity(modelDTO)).thenReturn(model);
+        when(modelMapper.toDto(model)).thenReturn(modelDTO);
 
         when(modelRepository.save(model)).thenReturn(model);
 
         //when
-        ModelDTO updatedDTO = modelService.update(modelId, modelDTO);
+        ModelDTO updatedDTO = modelService.update(id, modelDTO);
 
         //then
         assertNotNull(updatedDTO, "Updated model should not be null");
         assertEquals(modelDTO, updatedDTO);
 
-        verify(modelRepository).findById(any(ModelId.class));
-        verify(modelMapper).modelToModelDTO(model);
+        verify(modelRepository).findById(any(Integer.class));
+        verify(modelMapper).toDto(model);
         verify(modelRepository).save(model);
     }
 
@@ -116,14 +117,14 @@ class ModelServiceImplTest {
     void testUpdateModel_whenInvalidIdProvided_throwsModelNotFoundException() {
 
         //given
-        ModelId modelId = new ModelId(1L, null);
-        when(modelRepository.findById(modelId)).thenReturn(Optional.empty());
+        Integer id = 1;
+        when(modelRepository.findById(id)).thenReturn(Optional.empty());
 
         //when
-        Executable executable = () -> modelService.update(modelId, modelDTO);
+        Executable executable = () -> modelService.update(id, modelDTO);
 
         assertThrows(ModelNotFoundException.class, executable, "Exception not match");
-        verify(modelRepository).findById(modelId);
+        verify(modelRepository).findById(id);
     }
 
     @DisplayName("Get All Models")
@@ -150,18 +151,19 @@ class ModelServiceImplTest {
 
         //given
         Model model = mock(Model.class);
-        when(modelRepository.findById(new ModelId(1L, "330"))).thenReturn(Optional.of(model));
-        when(modelMapper.modelToModelDTO(model)).thenReturn(modelDTO);
+        Integer id = 1;
+        when(modelRepository.findById(id)).thenReturn(Optional.of(model));
+        when(modelMapper.toDto(model)).thenReturn(modelDTO);
 
         //when
-        ModelDTO foundDTO = modelService.getById(new ModelId(1L, "330"));
+        ModelDTO foundDTO = modelService.getById(id);
 
         //then
         assertNotNull(foundDTO);
         assertEquals(modelDTO, foundDTO);
 
-        verify(modelRepository).findById(any(ModelId.class));
-        verify(modelMapper).modelToModelDTO(model);
+        verify(modelRepository).findById(any(Integer.class));
+        verify(modelMapper).toDto(model);
     }
 
     @DisplayName("Get Model By ID Failed - Invalid ID Provided")
@@ -169,13 +171,15 @@ class ModelServiceImplTest {
     void testGetModelById_whenInvalidIdProvided_throwsModelNotFoundException() {
 
         //given
-        when(modelRepository.findById(new ModelId(1L, "330"))).thenReturn(Optional.empty());
+        Integer id = 1;
+        when(modelRepository.findById(id)).thenReturn(Optional.empty());
 
         //when
-        Executable executable = () -> modelService.getById(new ModelId(1L, "330"));
+        Executable executable = () -> modelService.getById(id);
 
         //then
         assertThrows(ModelNotFoundException.class, executable, "Exception not match");
+        verify(modelRepository).findById(id);
     }
 
     @DisplayName("Delete Model By ID")
@@ -183,16 +187,16 @@ class ModelServiceImplTest {
     void testDeleteModelById_whenValidIdProvided_thenCorrect() throws ModelNotFoundException {
 
         //given
-        ModelId modelId = new ModelId(1L, "330");
-        when(modelRepository.existsById(modelId)).thenReturn(true);
-        doNothing().when(modelRepository).deleteById(modelId);
+        Integer id = 1;
+        when(modelRepository.existsById(id)).thenReturn(true);
+        doNothing().when(modelRepository).deleteById(id);
 
         //when
-        modelService.delete(modelId);
+        modelService.delete(id);
 
         //then
-        verify(modelRepository).existsById(modelId);
-        verify(modelRepository).deleteById(modelId);
+        verify(modelRepository).existsById(id);
+        verify(modelRepository).deleteById(id);
     }
 
     @DisplayName("Delete Model By ID Failed - Invalid ID Provided")
@@ -200,12 +204,14 @@ class ModelServiceImplTest {
     void testDeleteModelById_whenInvalidIdProvided_thenCorrect() {
 
         //given
-        when(modelRepository.existsById(new ModelId(1L, "330"))).thenReturn(false);
+        Integer id = 1;
+        when(modelRepository.existsById(id)).thenReturn(false);
 
         //when
-        Executable executable = () -> modelService.delete(new ModelId(1L, "330"));
+        Executable executable = () -> modelService.delete(id);
 
         //then
         assertThrows(ModelNotFoundException.class, executable, "Exception not match");
+        verify(modelRepository).existsById(id);
     }
 }

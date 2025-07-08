@@ -5,7 +5,6 @@ import com.myproject.autopartsestoresystem.vehicles.dto.VehicleDTO;
 import com.myproject.autopartsestoresystem.vehicles.exception.VehicleNotFoundException;
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
 import com.myproject.autopartsestoresystem.models.entity.Model;
-import com.myproject.autopartsestoresystem.models.entity.ModelId;
 import com.myproject.autopartsestoresystem.vehicles.service.VehicleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -54,7 +53,8 @@ class VehicleControllerTest {
         objectMapper = new ObjectMapper();
 
         Model model = Model.builder()
-                .id(new ModelId(1L, "318"))
+                .id(1)
+                .name("318")
                 .brand(Brand.builder().id(1).name("BMW").models(new HashSet<>()).build())
                 .build();
 

@@ -3,10 +3,7 @@ package com.myproject.autopartsestoresystem.models.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Objects;
 
@@ -18,28 +15,20 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "model")
+@Table(name = "models")
 public class Model {
 
-    @EmbeddedId
-    private ModelId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
+
+    @Column(name = "name")
+    private String name;
 
     @ManyToOne
-    @MapsId("id")
     @JoinColumn(name = "brand_id")
-    @JsonBackReference
+    @ToString.Exclude
     private Brand brand;
 
-    @Override
-    public final boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Model model)) return false;
-
-        return Objects.equals(id, model.id) && Objects.equals(brand, model.brand);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
 }

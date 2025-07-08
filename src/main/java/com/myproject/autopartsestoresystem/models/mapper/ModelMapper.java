@@ -10,6 +10,6 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface ModelMapper {
 
-    ModelDTO modelToModelDTO(Model model);
-    Model modelDtoToModel(ModelDTO modelDTO);
+    ModelDTO toDto(Model model);
+    Model toEntity(ModelDTO modelDTO);
 }

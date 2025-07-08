@@ -5,7 +5,6 @@ import com.myproject.autopartsestoresystem.models.exception.ModelAlreadyExistsEx
 import com.myproject.autopartsestoresystem.models.exception.ModelNotFoundException;
 import com.myproject.autopartsestoresystem.models.mapper.ModelMapper;
 import com.myproject.autopartsestoresystem.models.entity.Model;
-import com.myproject.autopartsestoresystem.models.entity.ModelId;
 import com.myproject.autopartsestoresystem.models.repository.ModelRepository;
 import com.myproject.autopartsestoresystem.models.service.ModelService;
 import lombok.RequiredArgsConstructor;
@@ -31,39 +30,37 @@ public class ModelServiceImpl implements ModelService {
         if (modelRepository.findById(modelDTO.getId()).isPresent())
             throw new ModelAlreadyExistsException("Model already exists");
 
-        Model saved = modelRepository.save(modelMapper.modelDtoToModel(modelDTO));
+        Model saved = modelRepository.save(modelMapper.toEntity(modelDTO));
 
-        return modelMapper.modelToModelDTO(saved);
+        return modelMapper.toDto(saved);
     }
 
 
     @Override
-    public ModelDTO update(ModelId id, ModelDTO modelDTO) throws ModelNotFoundException {
+    public ModelDTO update(Integer id, ModelDTO modelDTO) throws ModelNotFoundException {
 
-        Model model = modelRepository.findById(id)
+        modelRepository.findById(id)
                 .orElseThrow(() -> new ModelNotFoundException("Model not found"));
 
-        model.getId().setName(modelDTO.getId().getName());
+        Model updatedModel = modelRepository.save(modelMapper.toEntity(modelDTO));
 
-        modelRepository.save(model);
-
-        return modelMapper.modelToModelDTO(model);
+        return modelMapper.toDto(updatedModel);
     }
 
     @Override
     public List<ModelDTO> getAll() {
-        return modelRepository.findAll().stream().map(modelMapper::modelToModelDTO).collect(Collectors.toList());
+        return modelRepository.findAll().stream().map(modelMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
-    public ModelDTO getById(ModelId id) throws ModelNotFoundException {
+    public ModelDTO getById(Integer id) throws ModelNotFoundException {
         Model model = modelRepository.findById(id).orElseThrow(() -> new ModelNotFoundException("Model not found"));
-        return modelMapper.modelToModelDTO(model);
+        return modelMapper.toDto(model);
     }
 
     @Override
     @Transactional
-    public void delete(ModelId id) throws ModelNotFoundException {
+    public void delete(Integer id) throws ModelNotFoundException {
 
         if (!modelRepository.existsById(id))
             throw new ModelNotFoundException("Model not found");

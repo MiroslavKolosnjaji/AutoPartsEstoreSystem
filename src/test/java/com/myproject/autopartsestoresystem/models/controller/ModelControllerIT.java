@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.autopartsestoresystem.util.BaseIT;
 import com.myproject.autopartsestoresystem.models.dto.ModelDTO;
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
-import com.myproject.autopartsestoresystem.models.entity.ModelId;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -49,7 +48,7 @@ class ModelControllerIT extends BaseIT {
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", ModelController.MODEL_URI + "/" + 1 + "/" + "330"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id.name").value(modelDTO.getId().getName()));
+                .andExpect(jsonPath("$.id").value(modelDTO.getId()));
 
     }
 
@@ -74,7 +73,7 @@ class ModelControllerIT extends BaseIT {
     void testCreateModel_withUserRole_returns403StatusCode(String user, String password) throws Exception {
 
         ModelDTO modelDTO = getTestModelDTO();
-                modelDTO.getId().setName("350");
+        modelDTO.setName("350");
 
         mockMvc.perform(post(ModelController.MODEL_URI)
                         .with(httpBasic(user, password))
@@ -99,10 +98,11 @@ class ModelControllerIT extends BaseIT {
     void testUpdateModel_whenValidDetailsProvided_returns204StatusCode(String user, String password) throws Exception {
 
         ModelDTO modelDTO = getTestModelDTO();
-        modelDTO.setId(new ModelId(1L, "316"));
+        modelDTO.setId(1);
+        modelDTO.setName("316");
         modelDTO.getBrand().setName("AUDI");
 
-        mockMvc.perform(put(ModelController.MODEL_URI_WITH_ID, 1L, modelDTO.getId().getName())
+        mockMvc.perform(put(ModelController.MODEL_URI_WITH_ID, 1L, modelDTO.getName())
                         .with(httpBasic(user, password))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(modelDTO)))
@@ -117,7 +117,7 @@ class ModelControllerIT extends BaseIT {
 
         ModelDTO modelDTO = getTestModelDTO();
 
-        mockMvc.perform(put(ModelController.MODEL_URI_WITH_ID, 1L, modelDTO.getId().getName())
+        mockMvc.perform(put(ModelController.MODEL_URI_WITH_ID, 1L, modelDTO.getName())
                         .with(httpBasic(user, password))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(modelDTO)))
@@ -224,6 +224,6 @@ class ModelControllerIT extends BaseIT {
     }
 
     private ModelDTO getTestModelDTO() {
-        return ModelDTO.builder().id(new ModelId(1L, "330")).brand(Brand.builder().id(1).name("BMW").build()).build();
+        return ModelDTO.builder().id(1).name("330").brand(Brand.builder().id(1).name("BMW").build()).build();
     }
 }

@@ -1,7 +1,6 @@
 package com.myproject.autopartsestoresystem.models.dto;
 
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
-import com.myproject.autopartsestoresystem.models.entity.ModelId;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -33,7 +32,8 @@ class ModelDTOTest {
     @BeforeEach
     void setUp() {
         modelDTO = ModelDTO.builder()
-                .id(new ModelId(1L, "330"))
+                .id(1)
+                .name("330")
                 .brand(new Brand(1, "BMW", null))
                 .build();
     }
@@ -59,7 +59,7 @@ class ModelDTOTest {
 
         //then
         violation = violations.iterator().next();
-        assertEquals("Model id can't be null", violation.getMessage());
+        assertEquals("Id is required", violation.getMessage());
     }
 
     @Test
@@ -83,22 +83,6 @@ class ModelDTOTest {
 
         //then
         violation = violations.iterator().next();
-        assertEquals("Brand can't be null", violation.getMessage());
-    }
-
-    @Test
-    void testIsEqual_whenCompareTwoObjectsWIthSameDetails_thenIsEqual() {
-
-        //given
-        ModelDTO modelDTO2 = ModelDTO.builder()
-                .id(new ModelId(1L, "330"))
-                .brand(new Brand(1, "BMW", null))
-                .build();
-
-        boolean isEqual = modelDTO2.equals(modelDTO);
-        boolean isEqualHashCode = modelDTO2.hashCode() == modelDTO.hashCode();
-
-        assertTrue(isEqual, "ModelDTO should be equal");
-        assertTrue(isEqualHashCode, "ModelDTO hashCode should be equal");
+        assertEquals("Brand is required", violation.getMessage());
     }
 }

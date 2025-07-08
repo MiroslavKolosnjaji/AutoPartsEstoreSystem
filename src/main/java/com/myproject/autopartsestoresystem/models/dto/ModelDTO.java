@@ -1,28 +1,28 @@
 package com.myproject.autopartsestoresystem.models.dto;
 
 import com.myproject.autopartsestoresystem.brands.entity.Brand;
-import com.myproject.autopartsestoresystem.models.entity.ModelId;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * @author Miroslav Kološnjaji
  */
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ModelDTO {
 
-    @Valid
-    @NotNull(message = "Model id can't be null")
-    private ModelId id;
+    @NotNull(message = "Id is required")
+    private Integer id;
 
-    @NotNull(message = "Brand can't be null")
+    @NotBlank(message = "Name is required")
+    private String name;
+
+    @NotNull(message = "Brand is required")
     private Brand brand;
 
 

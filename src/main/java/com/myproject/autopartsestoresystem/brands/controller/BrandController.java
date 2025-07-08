@@ -21,13 +21,13 @@ import java.util.List;
  * @author Miroslav Kološnjaji
  */
 @RestController
-@RequestMapping("/api/brand")
+@RequestMapping("/api/brands")
 @RequiredArgsConstructor
 public class BrandController {
 
 
-    public static final String BRAND_URI = "/api/brand";
-    public static final String BRAND_ID = "/{brand_id}";
+    public static final String BRAND_URI = "/api/brands";
+    public static final String BRAND_ID = "/{id}";
     public static final String BRAND_URI_WITH_ID = BRAND_URI + BRAND_ID;
 
     private final BrandService brandService;
@@ -48,9 +48,9 @@ public class BrandController {
 
     @BrandUpdatePermission
     @PutMapping(BRAND_ID)
-    public ResponseEntity<BrandDTO> updateBrand(@PathVariable("brand_id") Integer brandId, @Validated @RequestBody BrandDTO brandDTO) throws EntityNotFoundException {
+    public ResponseEntity<BrandDTO> updateBrand(@PathVariable("id") Integer id, @Validated @RequestBody BrandDTO brandDTO) throws EntityNotFoundException {
 
-        brandService.update(brandId, brandDTO);
+        brandService.update(id, brandDTO);
         return new ResponseEntity<>(brandDTO, HttpStatus.NO_CONTENT);
 
     }
@@ -69,18 +69,18 @@ public class BrandController {
 
     @BrandReadPermission
     @GetMapping(BRAND_ID)
-    public ResponseEntity<BrandDTO> getBrand(@PathVariable("brand_id") Integer brandId) throws EntityNotFoundException {
+    public ResponseEntity<BrandDTO> getBrand(@PathVariable("id") Integer id) throws EntityNotFoundException {
 
-        BrandDTO brandDTO = brandService.getById(brandId);
+        BrandDTO brandDTO = brandService.getById(id);
         return new ResponseEntity<>(brandDTO, HttpStatus.OK);
 
     }
 
     @BrandDeletePermission
     @DeleteMapping(BRAND_ID)
-    public ResponseEntity<Void> deleteBrand(@PathVariable("brand_id") Integer brandId) throws EntityNotFoundException {
+    public ResponseEntity<Void> deleteBrand(@PathVariable("id") Integer id) throws EntityNotFoundException {
 
-        brandService.delete(brandId);
+        brandService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
